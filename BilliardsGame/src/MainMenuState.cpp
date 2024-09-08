@@ -1,26 +1,28 @@
 #include "MainMenuState.h"
-#include "Game.h"
 #include "PlayState.h"
+#include "Game.h"
 
 MainMenuState::MainMenuState()
-	: mInput{0}
 {
 }
 
 void MainMenuState::HandleInput(Game& game)
 {
-	std::cin >> mInput;
-	switch (mInput)
+	sf::Event event;
+	while (game.GetWindow().pollEvent(event))
 	{
-	case 1:
-		game.GetStateStack().PushState(std::make_shared<PlayState>());
-		break;
-	case 2:
-		game.GetStateStack().ClearStates();
-		break;
-	default:
-		std::cout << "			Invalid input\n";
-		break;
+		if (event.type == sf::Event::Closed)
+		{
+			game.GetWindow().close();
+		}
+		if (mStartButton.HandleEvent(event))
+		{
+			game.GetStateStack().PushState(std::make_unique<PlayState>());
+		}
+		if (mExitButton.HandleEvent(event))
+		{
+			game.GetWindow().close();
+		}
 	}
 }
 
@@ -30,22 +32,29 @@ void MainMenuState::Update(Game& game, float deltaTime)
 
 void MainMenuState::Draw(Game& game)
 {
-	std::cout << "\033[34m"
-		<< " __| |____________________________________________| |__\n"
-		<< "(__   ____________________________________________   __)\n"
-		<< "   | |                      *                     | |\n"
-		<< "   | |                   *  *  *                  | |\n"
-		<< "   | |       ||       * BILLIARDS *      ||       | |\n"
-		<< "   | |============================================| |\n"
-		<< "   | |                                            | |\n"
-		<< "   | |                                            | |\n"
-		<< "   | |                * Start: 1                  | |\n"
-		<< "   | |                *  Quit: 2                  | |\n"
-		<< "   | |                                            | |\n"
-		<< "   | |                                            | |\n"
-		<< " __| |____________________________________________| |__\n"
-		<< "(__   ____________________________________________   __)\n"
-		<< "   | |                                            | |\n"
-		<< "\033[0m"
-		<< "			Input: ";
+	game.GetWindow().clear(sf::Color::White);
+	BackgroundSetup(game);
+	GUISetup(game);
+	game.GetWindow().display();
+}
+
+void MainMenuState::GUISetup(Game& game)
+{
+	mStartButton.SetTexture("assets/graphics/buttons.png"); mStartButton.SetTextureRect(0, 0, 600, 200);
+	mExitButton.SetTexture("assets/graphics/buttons.png"); mExitButton.SetTextureRect(1218, 624, 600, 200);
+	
+	mStartButton.SetPosition(sf::Vector2f{ game.GetWindowSize().x / 2.f - mStartButton.GetBounds().width / 2.f, game.GetWindowSize().y / 2.f - 200});
+	mExitButton.SetPosition(sf::Vector2f{ game.GetWindowSize().x / 2.f - mExitButton.GetBounds().width / 2.f, game.GetWindowSize().y / 2.f + 8});
+	mStartButton.Draw(game.GetWindow());
+	mExitButton.Draw(game.GetWindow());
+}
+
+void MainMenuState::BackgroundSetup(Game& game)
+{
+	auto mBackgroundTexture = game.GetTextureManager().GetTexture("assets/graphics/table.png");
+	mBackground.setTexture(*mBackgroundTexture);
+	float scaleX = static_cast<float>(game.GetWindowSize().x) / mBackground.getTexture()->getSize().x;
+	float scaleY = static_cast<float>(game.GetWindowSize().y) / mBackground.getTexture()->getSize().y;
+	mBackground.setScale(scaleX, scaleY);
+	game.GetWindow().draw(mBackground);
 }

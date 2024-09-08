@@ -157,18 +157,22 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="include\Button.h" />
     <ClInclude Include="include\Game.h" />
     <ClInclude Include="include\State.h" />
     <ClInclude Include="include\StateStack.h" />
     <ClInclude Include="include\MainMenuState.h" />
     <ClInclude Include="include\PlayState.h" />
+    <ClInclude Include="include\TextureManager.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\Button.cpp" />
     <ClCompile Include="src\PlayState.cpp" />
     <ClCompile Include="src\MainMenuState.cpp" />
     <ClCompile Include="src\Game.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\StateStack.cpp" />
+    <ClCompile Include="src\TextureManager.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

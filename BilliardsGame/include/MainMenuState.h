@@ -1,5 +1,6 @@
 #pragma once
 #include "State.h"
+#include "Button.h"
 
 class MainMenuState : public State
 {
@@ -11,6 +12,10 @@ public:
 	virtual void				Draw(Game& game) override;
 
 private:
-	int							mInput;
+	void						GUISetup(Game& game);
+	void						BackgroundSetup(Game& game);
+	sf::Sprite					mBackground;
+	Button						mStartButton;
+	Button						mExitButton;
 };
 

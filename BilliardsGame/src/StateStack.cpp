@@ -1,8 +1,8 @@
 #include "StateStack.h"
 
-void StateStack::PushState(std::shared_ptr<State> state)
+void StateStack::PushState(std::unique_ptr<State> state)
 {
-	mStates.push_back(state);
+	mStates.push_back(std::move(state));
 }
 
 void StateStack::PopState()
@@ -15,10 +15,15 @@ void StateStack::ClearStates()
 	mStates.clear();
 }
 
-std::shared_ptr<State> StateStack::GetCurrentState()
+State* StateStack::GetCurrentState()
 {
-	if (!mStates.empty()) { return mStates.back(); }
+	if (!mStates.empty()) { return mStates.back().get(); }
 	return nullptr;
+}
+
+void StateStack::HandleInput(Game& game)
+{
+	if (!mStates.empty()) { mStates.back()->HandleInput(game); }
 }
 
 void StateStack::Update(Game& game, float deltaTime)

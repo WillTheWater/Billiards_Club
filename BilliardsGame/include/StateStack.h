@@ -6,13 +6,14 @@
 class StateStack
 {
 public:
-	void						PushState(std::shared_ptr<State> state);
+	void						PushState(std::unique_ptr<State> state);
 	void						PopState();
 	void						ClearStates();
-	std::shared_ptr<State>		GetCurrentState();
+	State*						GetCurrentState();
+	void						HandleInput(Game& game);
 	void						Update(Game& game, float deltaTime);
 	void						Draw(Game& game);
 
 private:
-	std::vector<std::shared_ptr<State>> mStates;
+	std::vector<std::unique_ptr<State>> mStates;
 };
