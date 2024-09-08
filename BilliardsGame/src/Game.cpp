@@ -1,6 +1,7 @@
 #include "Game.h"
 #include "MainMenuState.h"
 #include "PlayState.h"
+#include <iomanip>
 
 Game::Game()
     : mWindow(sf::VideoMode(1920, 1080), "Billiards", sf::Style::Close)
@@ -14,7 +15,7 @@ Game::Game()
 
 void Game::Run()
 {
-    while (mStateStack.GetCurrentState() != nullptr)
+    while (mWindow.isOpen() && mStateStack.GetCurrentState() != nullptr)
     {
         Tick();
         mStateStack.GetCurrentState()->HandleInput(*this);
