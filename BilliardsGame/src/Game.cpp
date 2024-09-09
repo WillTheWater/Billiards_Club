@@ -4,7 +4,7 @@
 #include <iomanip>
 
 Game::Game()
-    : mWindow(sf::VideoMode(1920, 1080), "Billiards", sf::Style::Close)
+    : mWindow(sf::VideoMode(1600, 900), "Billiards", sf::Style::Close)
     , mDeltaTime{ 0.0f }
 {
     mWindow.setFramerateLimit(120);

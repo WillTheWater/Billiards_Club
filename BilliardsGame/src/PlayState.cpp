@@ -58,8 +58,7 @@ void PlayState::BackgroundSetup(Game& game)
 {
 	auto mBackgroundTexture = game.GetTextureManager().GetTexture("assets/graphics/table.png");
 	mBackground.setTexture(*mBackgroundTexture);
-	float scaleX = static_cast<float>(game.GetWindowSize().x) / mBackground.getTexture()->getSize().x;
-	float scaleY = static_cast<float>(game.GetWindowSize().y) / mBackground.getTexture()->getSize().y;
-	mBackground.setScale(scaleX, scaleY);
+	mBackground.setOrigin(sf::Vector2f{ mBackground.getGlobalBounds().width / 2.f, mBackground.getGlobalBounds().height / 2.f });
+	mBackground.setPosition(sf::Vector2f{ game.GetWindowSize().x / 2.f,game.GetWindowSize().y / 2.f });
 	game.GetWindow().draw(mBackground);
 }
