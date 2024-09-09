@@ -17,8 +17,6 @@ public:
 	const double getMass() const; 
 	const bool isVisible() const;
 	const double getRadius() const;
-	const double getWidth() const;
-	const double getHeight() const; 
 	sf::CircleShape& getCircle();
 
 	void setPosition(const Vec2& position);
@@ -27,8 +25,6 @@ public:
 	void setMass(const double mass);
 	void setVisiblity(bool visibility);
 	void setRadius(const double radius) ;
-	void setWidth (const double width );
-	void setHeight (const double height);
 	void setVelMagnitude(const double magnitude);
 
 	void updatePosition(double deltaTime);
@@ -44,8 +40,6 @@ private:
 	Vec2 m_acceleration;
 	double m_mass;
 	double m_radius;
-	double m_width;
-	double m_height;
 	bool m_visible;
 	sf::CircleShape m_circle;
 	BallId m_id;

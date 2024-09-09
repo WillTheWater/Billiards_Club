@@ -9,7 +9,6 @@ Ball::Ball(BallId id, double radius, Vec2 pos = (0, 0), Vec2 vel = (0, 0), Vec2 
 	,m_visible{true}
 	,m_radius{radius}
 {
-
 }
 
 const Vec2 Ball::getPosition() const {
