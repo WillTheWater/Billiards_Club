@@ -4,13 +4,13 @@
 #include <iomanip>
 
 Game::Game()
-    : mWindow(sf::VideoMode(1920, 1080), "Billiards", sf::Style::Close)
+    : mWindow(sf::VideoMode(1440, 900), "Billiards", sf::Style::Close)
     , mDeltaTime{ 0.0f }
 {
     mWindow.setFramerateLimit(120);
     mIcon.loadFromFile("assets/graphics/icon.png");
     mWindow.setIcon(mIcon.getSize().x, mIcon.getSize().y, mIcon.getPixelsPtr());
-    mStateStack.PushState(std::make_unique<MainMenuState>());
+    mStateStack.PushState(std::make_unique<PlayState>());   // Change this back to 'MenuState' 
 }
 
 void Game::Run()

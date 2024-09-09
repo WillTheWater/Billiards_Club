@@ -47,9 +47,16 @@ void PlayState::GUISetup(Game& game)
 	mAudioButton.SetTexture("assets/graphics/buttons.png"); mAudioButton.SetScale(0.35f);
 	if (!mAudioOn) { mAudioButton.SetTextureRect(2036, 624, 200, 200); }
 	else { mAudioButton.SetTextureRect(1827, 624, 200, 200); }
-	
-	mQuitButton.SetPosition(sf::Vector2f{ game.GetWindowSize().x - 4.f * mQuitButton.GetBounds().width, game.GetWindowSize().y - mQuitButton.GetBounds().height - margin });
-	mAudioButton.SetPosition(sf::Vector2f{ game.GetWindowSize().x - 3.f * mQuitButton.GetBounds().width + margin, game.GetWindowSize().y - mQuitButton.GetBounds().height - margin });
+
+	mQuitButton.SetPosition(sf::Vector2f{ (
+		game.GetWindowSize().x /4) - (mQuitButton.GetBounds().width /2), 
+		(float)game.GetWindowSize().y - (game.GetWindowSize().y / 12) }
+	);
+
+	mAudioButton.SetPosition(sf::Vector2f{ (
+		game.GetWindowSize().x /4) * 3 - (mAudioButton.GetBounds().width /2), 
+		(float)game.GetWindowSize().y - (game.GetWindowSize().y /12)}
+	);
 	mQuitButton.Draw(game.GetWindow());
 	mAudioButton.Draw(game.GetWindow());
 }
