@@ -19,19 +19,23 @@ void GUI::MainMenuSetup(Game& game)
 	// ================== GUI ==================
 	mStartButton = std::make_unique<Button>(game.GetTextureManager());
 	mExitButton = std::make_unique<Button>(game.GetTextureManager());
-
-	mStartButton->SetTexture("assets/graphics/buttons.png"); mStartButton->SetTextureRect(0, 0, 600, 200);
-	mExitButton->SetTexture("assets/graphics/buttons.png"); mExitButton->SetTextureRect(1218, 624, 600, 200);
-
-	mStartButton->SetPosition(sf::Vector2f{ game.GetWindowSize().x / 2.f - mStartButton->GetBounds().width / 2.f, game.GetWindowSize().y / 2.f - 200 });
-	mExitButton->SetPosition(sf::Vector2f{ game.GetWindowSize().x / 2.f - mExitButton->GetBounds().width / 2.f, game.GetWindowSize().y / 2.f + 8 });
+	
+	mStartButton->SetTexture("assets/graphics/button.png");
+	mStartButton->SetupButton("assets/fonts/brush.ttf", "PLAY", 60, sf::Color::White, sf::Vector2f{ 645, 75});
+	mStartButton->ScaleFont(1.8f, 1.f);
+	
+	mExitButton->SetTexture("assets/graphics/button.png");
+	mExitButton->SetupButton("assets/fonts/brush.ttf", "Quit", 60, sf::Color::White, sf::Vector2f{ 955, 75 });
+	mExitButton->ScaleFont(1.8f, 1.f);
 }
 
 void GUI::DrawMainMenu(Game& game)
 {
 	game.GetWindow().draw(mBackground);
 	mStartButton->Draw(game.GetWindow());
+	game.GetWindow().draw(mStartButton->GetButtonText());
 	mExitButton->Draw(game.GetWindow());
+	game.GetWindow().draw(mExitButton->GetButtonText());
 }
 
 void GUI::MainMenuInput(Game& game)
@@ -67,11 +71,10 @@ void GUI::PlaySetup(Game& game)
 	mExitButton = std::make_unique<Button>(game.GetTextureManager());
 	mAudioButton = std::make_unique<Button>(game.GetTextureManager());
 
-	float margin = 8.f;
 	mExitButton->SetTexture("assets/graphics/buttons.png"); mExitButton->SetTextureRect(609, 624, 600, 200); mExitButton->SetScale(0.35f);
-	mAudioButton->SetTexture("assets/graphics/buttons.png"); mAudioButton->SetScale(0.35f);
-	
 	mExitButton->SetPosition(sf::Vector2f{ (game.GetWindowSize().x / 4) - (mExitButton->GetBounds().width / 2), (float)game.GetWindowSize().y - (game.GetWindowSize().y / 12) });
+	
+	mAudioButton->SetTexture("assets/graphics/buttons.png"); mAudioButton->SetScale(0.35f);
 	mAudioButton->SetPosition(sf::Vector2f{ (game.GetWindowSize().x / 4) * 3 - (mAudioButton->GetBounds().width / 2), (float)game.GetWindowSize().y - (game.GetWindowSize().y / 12) });
 }
 
