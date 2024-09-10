@@ -53,6 +53,11 @@ void Table::setPosition(float x, float y)
 	mRect.setPosition(x, y);
 }
 
+void Table::setOrigin(float x, float y)
+{
+	mRect.setOrigin(x, y);
+}
+
 sf::RectangleShape& Table::getRect()
 {
 	return mRect;

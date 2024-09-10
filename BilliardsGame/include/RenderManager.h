@@ -1,8 +1,7 @@
 #pragma once
-#include "Game.h"
 
+class Game;
 
-class Game; //Forward decleration to prevent circule dependancies
 
 class RenderManager
 {

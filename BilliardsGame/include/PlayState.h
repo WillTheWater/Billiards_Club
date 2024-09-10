@@ -15,8 +15,8 @@ private:
 	void						GUISetup(Game& game);
 	void						BackgroundSetup(Game& game);
 	sf::Sprite					mBackground;
-	Button						mQuitButton;
-	Button						mAudioButton;
+	std::unique_ptr<Button>		mQuitButton;
+	std::unique_ptr<Button>		mAudioButton;
 	bool						mAudioOn;
 };
 

@@ -1,4 +1,4 @@
-#include "PhysicsEngine.h"
+#include "Game.h"
 
 PhysicsEngine::PhysicsEngine(Game& game)
 	: mGameRef{game}
@@ -8,6 +8,7 @@ PhysicsEngine::PhysicsEngine(Game& game)
 void PhysicsEngine::Update(float deltaTime)
 {
 	MoveBalls(deltaTime);
+	HandleCollisions(deltaTime);
 }
 
 void PhysicsEngine::MoveBalls(float deltaTime)
@@ -33,48 +34,90 @@ bool PhysicsEngine::doBallsOverlap(const Ball& b1, const Ball& b2) const
 
 void PhysicsEngine::debugRandomizeBalls()
 {
+	auto& balls = mGameRef.GetEntityManager().GetBallVector();
+	auto& rect = mGameRef.GetEntityManager().getTable();
+	float upperBound = rect.getTopBound();
+	float lowerBound = rect.getBottomBound();
+	float leftBound = rect.getLeftBound();
+	float rightBound = rect.getRightBound();
 
+	for (auto& ball : balls)
+	{
+		float radius = ball->getRadius();
+		Vec2 ranVel = Random::getRandomVec2(-100, 100, -100, 100);
+		
+		Vec2 ranPos = Random::getRandomVec2(
+			(int)leftBound,
+			(int)rightBound,
+			(int)upperBound,
+			(int)lowerBound
+			
+		);
+
+		ball->setVelocity(ranVel);
+		ball->setPosition(ranPos);
+	}
 }
 
 void PhysicsEngine::HandleCollisions(float deltaTime)
 {
 	Handle_BvTableRect(deltaTime);
-	Handle_BvB(deltaTime);
+	// Handle_BvB(deltaTime);
 }
 
 void PhysicsEngine::Handle_BvTableRect(float deltaTime)
 {
 	std::vector<std::unique_ptr<Ball>>& balls = mGameRef.GetEntityManager().GetBallVector();
-	auto& tableRect = mGameRef.GetEntityManager().getTable().getRect();
+	auto& table = mGameRef.GetEntityManager().getTable();
+
+	double topEdge = table.getTopBound();
+	double bottomEdge = table.getBottomBound();
+	double leftEdge = table.getLeftBound();
+	double rightEdge = table.getRightBound();
 	
 	for (auto& ball : balls)
 	{
 		double ballVelX = ball->getVelocity().getx();
 		double ballVelY = ball->getVelocity().gety(); 
+		double ballPosX = ball->getPosition().getx();
+		double ballPosY = ball->getPosition().gety();
+		float radius = ball->getRadius();
 
-		if (ball->getPosition().gety() - ball->getRadius() > tableRect.getGlobalBounds().top)
+		if (ballPosY - radius < topEdge)
 		{
+			ball->setPosition({ ballPosX, topEdge + radius });
 			ball->setVelocity(Vec2{ballVelX, ballVelY * -1});
 		}
-		if (ball->getPosition().gety() + ball->getRadius() > tableRect.getGlobalBounds().height)
+		if (ballPosY + radius > bottomEdge)
 		{
+			ball->setPosition({ ballPosX, bottomEdge - radius });
 			ball->setVelocity(Vec2{ ballVelX, ballVelY * -1 });
 		}
-		if (ball->getPosition().getx() - ball->getRadius() > tableRect.getGlobalBounds().left)
+		if (ballPosX - radius < leftEdge)
 		{
+			ball->setPosition({ leftEdge + radius, ballPosY});
 			ball->setVelocity(Vec2{ ballVelX * -1, ballVelY });
 		}
-		if (ball->getPosition().getx() + ball->getRadius() > tableRect.getGlobalBounds().width)
+		if (ballPosX + radius > rightEdge)
 		{
+			ball->setPosition({ rightEdge - radius, ballPosY });
 			ball->setVelocity(Vec2{ ballVelX * -1, ballVelY });
 		}
+		// Debug:
+
+		/*system("cls");
+		std::cout << table.getLeftBound() << '\n';
+		std::cout << table.getRightBound() << '\n';
+		std::cout << table.getTopBound() << '\n';
+		std::cout << table.getBottomBound() << '\n';*/
+		
 	}
 }
 
 void PhysicsEngine::Handle_BvB(float deltaTime)
 {
 	double totalVelocity = 0;
-	std::vector<std::unique_ptr<Ball>>& balls = mGameRef.GetEntityManager().GetBallVector();
+	auto& balls = mGameRef.GetEntityManager().GetBallVector();
 
 	for (size_t i{ 0 }; i < balls.size(); i++)
 	{

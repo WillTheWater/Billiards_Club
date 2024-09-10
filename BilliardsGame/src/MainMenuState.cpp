@@ -15,11 +15,11 @@ void MainMenuState::HandleInput(Game& game)
 		{
 			game.GetWindow().close();
 		}
-		if (mStartButton.HandleEvent(event))
+		if (mStartButton->HandleEvent(event))
 		{
 			game.GetStateStack().PushState(std::make_unique<PlayState>());
 		}
-		if (mExitButton.HandleEvent(event))
+		if (mExitButton->HandleEvent(event))
 		{
 			game.GetWindow().close();
 		}
@@ -40,13 +40,15 @@ void MainMenuState::Draw(Game& game)
 
 void MainMenuState::GUISetup(Game& game)
 {
-	mStartButton.SetTexture("assets/graphics/buttons.png"); mStartButton.SetTextureRect(0, 0, 600, 200);
-	mExitButton.SetTexture("assets/graphics/buttons.png"); mExitButton.SetTextureRect(1218, 624, 600, 200);
+	mStartButton = std::make_unique<Button>(game.GetTextureManager());
+	mExitButton = std::make_unique<Button>(game.GetTextureManager());
+	mStartButton->SetTexture("assets/graphics/buttons.png"); mStartButton->SetTextureRect(0, 0, 600, 200);
+	mExitButton->SetTexture("assets/graphics/buttons.png"); mExitButton->SetTextureRect(1218, 624, 600, 200);
 	
-	mStartButton.SetPosition(sf::Vector2f{ game.GetWindowSize().x / 2.f - mStartButton.GetBounds().width / 2.f, game.GetWindowSize().y / 2.f - 200});
-	mExitButton.SetPosition(sf::Vector2f{ game.GetWindowSize().x / 2.f - mExitButton.GetBounds().width / 2.f, game.GetWindowSize().y / 2.f + 8});
-	mStartButton.Draw(game.GetWindow());
-	mExitButton.Draw(game.GetWindow());
+	mStartButton->SetPosition(sf::Vector2f{ game.GetWindowSize().x / 2.f - mStartButton->GetBounds().width / 2.f, game.GetWindowSize().y / 2.f - 200});
+	mExitButton->SetPosition(sf::Vector2f{ game.GetWindowSize().x / 2.f - mExitButton->GetBounds().width / 2.f, game.GetWindowSize().y / 2.f + 8});
+	mStartButton->Draw(game.GetWindow());
+	mExitButton->Draw(game.GetWindow());
 }
 
 void MainMenuState::BackgroundSetup(Game& game)

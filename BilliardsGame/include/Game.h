@@ -5,6 +5,7 @@
 #include "TextureManager.h"
 #include "PhysicsEngine.h"
 #include "EntityManager.h"
+#include "RenderManager.h"
 
 class Game
 {
@@ -19,6 +20,8 @@ public:
 	TextureManager&				GetTextureManager();
 	EntityManager&				GetEntityManager();
 	PhysicsEngine&				GetPhysicsEngine();
+	RenderManager&				GetRenderManager();
+
 
 private:
 	sf::RenderWindow			mWindow;
@@ -29,5 +32,6 @@ private:
 	TextureManager				mTextureManager;
 	EntityManager				mEntityManager;
 	PhysicsEngine				mPhysicsEngine;
+	RenderManager				mRenderManager;
 	StateStack					mStateStack;
 };

@@ -2,12 +2,11 @@
 #include <vector>
 #include <memory>
 #include <cassert>
-#include "Game.h"
 #include "Ball.h"
 #include "Table.h"
 #include "EntityGlobals.h"
 
-class Game;	// To prevent circular dependancies
+class Game;
 
 class EntityManager
 {

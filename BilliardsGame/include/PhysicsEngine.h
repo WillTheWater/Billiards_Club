@@ -1,9 +1,8 @@
 #pragma once
-
-#include "Game.h"
-
+#include "Ball.h"
 #include "Random.h" // For debug randomization of balls
 
+class Game;
 
 class PhysicsEngine
 {
@@ -17,6 +16,9 @@ public:
 	void HandleCollisions(float deltaTime);
 	bool AreBallsAtRest();
 
+	// Debug Functions
+	void debugRandomizeBalls();
+
 private:
 	// Member Variables
 	Game& mGameRef;
@@ -29,7 +31,7 @@ private:
 	void BvB_ResolveVelocity(Ball& b1, Ball& b2);
 	bool doBallsOverlap(const Ball& b1, const Ball& b2) const;
 
-	void debugRandomizeBalls();
+	
 
 };
 

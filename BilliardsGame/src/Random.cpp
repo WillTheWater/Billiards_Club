@@ -21,8 +21,8 @@ namespace Random
 	Vec2 getRandomVec2(int minX, int maxX, int minY, int maxY)
 	{
 		return Vec2{
-			{getRandomFloat(minX, maxX) },
-			{ getRandomFloat(minY, maxY) }
+			( getRandomFloat(minX, maxX) ),
+			( getRandomFloat(minY, maxY) )
 		};
 	}
 

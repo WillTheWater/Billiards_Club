@@ -16,10 +16,10 @@ public:
 	float getRightBound() const;
 
 	float getPositionX();
-
 	float getPositionY();
 
 	void setPosition(float x, float y);
+	void setOrigin(float x, float y);
 
 	sf::RectangleShape& getRect();
 

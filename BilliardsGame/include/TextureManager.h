@@ -3,9 +3,8 @@
 #include <string>
 #include <unordered_map>
 #include <SFML/Graphics.hpp>
-#include "Game.h"
 
-class Game; //Prevent circular dependancies
+class Game;
 
 class TextureManager
 {

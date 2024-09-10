@@ -1,4 +1,4 @@
-#include "RenderManager.h"
+#include "Game.h"
 
 RenderManager::RenderManager(Game& game)
 	:mGameRef{game}
@@ -12,6 +12,7 @@ void RenderManager::RenderTable()
 	auto& textureManager = mGameRef.GetTextureManager();
 	auto& tableRect = entityManager.getTable().getRect();
 
+	tableRect.setFillColor(sf::Color::Green);
 	window.draw(tableRect);
 }
 
@@ -28,6 +29,7 @@ void RenderManager::RenderBalls()
 	{
 		if (ball->isVisible())
 		{
+			ball->getCircle().setFillColor(sf::Color::Red);
 			window.draw(ball->getCircle());
 		}
 	}

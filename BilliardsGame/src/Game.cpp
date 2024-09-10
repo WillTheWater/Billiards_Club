@@ -1,7 +1,9 @@
 #include "Game.h"
 #include "MainMenuState.h"
 #include "PlayState.h"
+#include "TestState.h"
 #include <iomanip>
+
 
 Game::Game()
     : mWindow(sf::VideoMode(1440, 900), "Billiards", sf::Style::Close)
@@ -9,11 +11,12 @@ Game::Game()
     , mEntityManager{*this}
     , mPhysicsEngine{*this}
     , mTextureManager{*this}
+    , mRenderManager{*this}
 {
     mWindow.setFramerateLimit(120);
     mIcon.loadFromFile("assets/graphics/icon.png");
     mWindow.setIcon(mIcon.getSize().x, mIcon.getSize().y, mIcon.getPixelsPtr());
-    mStateStack.PushState(std::make_unique<PlayState>());   // Change this back to 'MenuState' 
+    mStateStack.PushState(std::make_unique<TestState>());   // Change this back to 'MenuState' 
 }
 
 void Game::Run()
@@ -60,6 +63,11 @@ EntityManager& Game::GetEntityManager()
 PhysicsEngine& Game::GetPhysicsEngine()
 {
     return mPhysicsEngine;
+}
+
+RenderManager& Game::GetRenderManager()
+{
+    return mRenderManager;
 }
 
 void Game::Tick()

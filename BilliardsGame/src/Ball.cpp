@@ -8,7 +8,10 @@ Ball::Ball(BallId id, double radius, Vec2 pos = (0, 0), Vec2 vel = (0, 0), Vec2 
 	,m_mass{std::fabs(radius * radius * 3.14)}
 	,m_visible{true}
 	,m_radius{radius}
+	,m_circle{(float)radius}
 {
+	m_circle.setOrigin(radius, radius);
+	m_circle.setPosition(pos.getx(), pos.gety());
 }
 
 const Vec2 Ball::getPosition() const {

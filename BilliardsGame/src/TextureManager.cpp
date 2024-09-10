@@ -1,8 +1,8 @@
-#include "TextureManager.h"
 #include <iostream>
+#include "Game.h"
 
 TextureManager::TextureManager(Game& game)
-    :mGameRef{ game };
+    :mGameRef{ game }
 {
 }
 

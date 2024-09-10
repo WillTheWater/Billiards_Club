@@ -17,3 +17,8 @@ Rendering:
 - Need some way to either index textures by ball_id, or have balls hold a pointer to their texture and initialize them with it. 
 - Learn how to render a texture with a SFML_circle; 
 
+Buttons: 
+- Temporarily changed them to hold references to textureManager.
+- That means the states that currently hold those buttons had to be updated to use unique_ptr... 
+- Currently each call of draw on PlayState & MainMenuState are currently running std::make_uniqueptr<Button> again... 
+

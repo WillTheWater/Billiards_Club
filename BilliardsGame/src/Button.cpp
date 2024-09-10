@@ -1,7 +1,8 @@
 #include "Button.h"
 #include <iostream>
 
-Button::Button()
+Button::Button(TextureManager& textureManager)
+	:mTextureManager{textureManager}
 {
 	mButtonSprite.setColor(mDefaultColor);
 	IsButtonDown = false;

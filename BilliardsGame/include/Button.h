@@ -5,7 +5,8 @@
 class Button
 {
 public:
-	Button();
+	Button() = delete;
+	Button(TextureManager& textureManager);
 	bool						HandleEvent(const sf::Event& event);
 	void						Draw(sf::RenderWindow& window);
 	void						SetTexture(const std::string& texturePath);
@@ -25,5 +26,5 @@ private:
 	void						OnButtonUp();
 	void						OnButtonDown();
 	void						OnButtonHover();
-	TextureManager				mTextureManager;
+	TextureManager&				mTextureManager;
 };
