@@ -3,6 +3,9 @@
 #include "SFML/Graphics.hpp"
 #include "StateStack.h"
 #include "TextureManager.h"
+#include "PhysicsEngine.h"
+#include "EntityManager.h"
+#include "RenderManager.h"
 
 class Game
 {
@@ -15,6 +18,10 @@ public:
 	sf::Vector2u				GetWindowSize();
 	float						GetDeltaTime() const;
 	TextureManager&				GetTextureManager();
+	EntityManager&				GetEntityManager();
+	PhysicsEngine&				GetPhysicsEngine();
+	RenderManager&				GetRenderManager();
+
 
 private:
 	sf::RenderWindow			mWindow;
@@ -23,5 +30,8 @@ private:
 	sf::Clock					mClock;
 	void						Tick();
 	TextureManager				mTextureManager;
+	EntityManager				mEntityManager;
+	PhysicsEngine				mPhysicsEngine;
+	RenderManager				mRenderManager;
 	StateStack					mStateStack;
 };

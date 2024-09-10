@@ -157,22 +157,43 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="include\Ball.h" />
     <ClInclude Include="include\Button.h" />
     <ClInclude Include="include\Game.h" />
+    <ClInclude Include="include\EntityManager.h" />
+    <ClInclude Include="include\EntityGlobals.h" />
+    <ClInclude Include="include\Random.h" />
+    <ClInclude Include="include\Table.h" />
     <ClInclude Include="include\State.h" />
     <ClInclude Include="include\StateStack.h" />
     <ClInclude Include="include\MainMenuState.h" />
     <ClInclude Include="include\PlayState.h" />
     <ClInclude Include="include\TextureManager.h" />
+    <ClInclude Include="include\Vec2.h" />
+    <ClInclude Include="include\PhysicsEngine.h" />
+    <ClInclude Include="include\RenderManager.h" />
+    <ClInclude Include="include\TestState.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\Random.cpp" />
+    <ClCompile Include="src\RenderManager.cpp" />
+    <ClCompile Include="src\PhysicsEngine.cpp" />
+    <ClCompile Include="src\Ball.cpp" />
     <ClCompile Include="src\Button.cpp" />
+    <ClCompile Include="src\EntityManager.cpp" />
     <ClCompile Include="src\PlayState.cpp" />
     <ClCompile Include="src\MainMenuState.cpp" />
     <ClCompile Include="src\Game.cpp" />
     <ClCompile Include="src\main.cpp" />
+    <ClCompile Include="src\EntityGlobals.cpp" />
+    <ClCompile Include="src\Table.cpp" />
     <ClCompile Include="src\StateStack.cpp" />
     <ClCompile Include="src\TextureManager.cpp" />
+    <ClCompile Include="src\Vec2.cpp" />
+    <ClCompile Include="src\TestState.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="Notes\ToDo.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

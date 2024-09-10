@@ -1,16 +1,22 @@
 #include "Game.h"
 #include "MainMenuState.h"
 #include "PlayState.h"
+#include "TestState.h"
 #include <iomanip>
+
 
 Game::Game()
     : mWindow(sf::VideoMode(1600, 900), "Billiards", sf::Style::Close)
     , mDeltaTime{ 0.0f }
+    , mEntityManager{*this}
+    , mPhysicsEngine{*this}
+    , mTextureManager{*this}
+    , mRenderManager{*this}
 {
     mWindow.setFramerateLimit(120);
     mIcon.loadFromFile("assets/graphics/icon.png");
     mWindow.setIcon(mIcon.getSize().x, mIcon.getSize().y, mIcon.getPixelsPtr());
-    mStateStack.PushState(std::make_unique<MainMenuState>());
+    mStateStack.PushState(std::make_unique<TestState>());   // Change this back to 'MenuState' 
 }
 
 void Game::Run()
@@ -47,6 +53,21 @@ float Game::GetDeltaTime() const
 TextureManager& Game::GetTextureManager()
 {
     return mTextureManager;
+}
+
+EntityManager& Game::GetEntityManager()
+{
+    return mEntityManager;
+}
+
+PhysicsEngine& Game::GetPhysicsEngine()
+{
+    return mPhysicsEngine;
+}
+
+RenderManager& Game::GetRenderManager()
+{
+    return mRenderManager;
 }
 
 void Game::Tick()

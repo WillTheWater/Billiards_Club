@@ -15,7 +15,7 @@ private:
 	void						GUISetup(Game& game);
 	void						BackgroundSetup(Game& game);
 	sf::Sprite					mBackground;
-	Button						mStartButton;
-	Button						mExitButton;
+	std::unique_ptr<Button>		mStartButton;
+	std::unique_ptr<Button>		mExitButton;
 };
 
