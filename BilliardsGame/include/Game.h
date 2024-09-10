@@ -2,10 +2,13 @@
 #include <iostream>
 #include "SFML/Graphics.hpp"
 #include "StateStack.h"
+#include "MainMenuState.h"
+#include "PlayState.h"
 #include "TextureManager.h"
 #include "PhysicsEngine.h"
 #include "EntityManager.h"
 #include "RenderManager.h"
+#include "GUI.h"
 
 class Game
 {
@@ -21,6 +24,7 @@ public:
 	EntityManager&				GetEntityManager();
 	PhysicsEngine&				GetPhysicsEngine();
 	RenderManager&				GetRenderManager();
+	GUI&						GetGUI();
 
 
 private:
@@ -34,4 +38,5 @@ private:
 	PhysicsEngine				mPhysicsEngine;
 	RenderManager				mRenderManager;
 	StateStack					mStateStack;
+	GUI							mGUI;
 };

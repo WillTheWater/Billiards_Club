@@ -1,31 +1,14 @@
-#include "PlayState.h"
 #include "Game.h"
 
-PlayState::PlayState()
-	: mAudioOn {false}
+PlayState::PlayState(Game& game)
+	: mGameRef(game)
 {
+	PlayGUISetup(game);
 }
 
 void PlayState::HandleInput(Game& game)
 {
-	sf::Event event;
-	while (game.GetWindow().pollEvent(event))
-	{
-		if (event.type == sf::Event::Closed)
-		{
-			game.GetWindow().close();
-		}
-		if (mQuitButton->HandleEvent(event))
-		{
-			game.GetWindow().close();
-		}
-		if (mAudioButton->HandleEvent(event))
-		{
-			mAudioOn = !mAudioOn;
-			if (mAudioOn) { std::cout << "Audio is turned on\n"; }
-			if (!mAudioOn) { std::cout << "Audio is turned off\n"; }
-		}
-	}
+	game.GetGUI().PlayInput(game);
 }
 
 void PlayState::Update(Game& game, float deltaTime)
@@ -35,40 +18,11 @@ void PlayState::Update(Game& game, float deltaTime)
 void PlayState::Draw(Game& game)
 {
 	game.GetWindow().clear(sf::Color::Black);
-	BackgroundSetup(game);
-	GUISetup(game);
+	game.GetGUI().DrawPlay(game);
 	game.GetWindow().display();
 }
 
-void PlayState::GUISetup(Game& game)
+void PlayState::PlayGUISetup(Game& game)
 {
-	mQuitButton = std::make_unique<Button>(game.GetTextureManager());
-	mAudioButton = std::make_unique<Button>(game.GetTextureManager());
-
-	float margin = 8.f;
-	mQuitButton->SetTexture("assets/graphics/buttons.png"); mQuitButton->SetTextureRect(609, 624, 600, 200); mQuitButton->SetScale(0.35f);
-	mAudioButton->SetTexture("assets/graphics/buttons.png"); mAudioButton->SetScale(0.35f);
-	if (!mAudioOn) { mAudioButton->SetTextureRect(2036, 624, 200, 200); }
-	else { mAudioButton->SetTextureRect(1827, 624, 200, 200); }
-
-	mQuitButton->SetPosition(sf::Vector2f{ (
-		game.GetWindowSize().x /4) - (mQuitButton->GetBounds().width /2), 
-		(float)game.GetWindowSize().y - (game.GetWindowSize().y / 12) }
-	);
-
-	mAudioButton->SetPosition(sf::Vector2f{ (
-		game.GetWindowSize().x /4) * 3 - (mAudioButton->GetBounds().width /2), 
-		(float)game.GetWindowSize().y - (game.GetWindowSize().y /12)}
-	);
-	mQuitButton->Draw(game.GetWindow());
-	mAudioButton->Draw(game.GetWindow());
-}
-
-void PlayState::BackgroundSetup(Game& game)
-{
-	auto mBackgroundTexture = game.GetTextureManager().GetTexture("assets/graphics/table.png");
-	mBackground.setTexture(*mBackgroundTexture);
-	mBackground.setOrigin(sf::Vector2f{ mBackground.getGlobalBounds().width / 2.f, mBackground.getGlobalBounds().height / 2.f });
-	mBackground.setPosition(sf::Vector2f{ game.GetWindowSize().x / 2.f,game.GetWindowSize().y / 2.f });
-	game.GetWindow().draw(mBackground);
+	game.GetGUI().PlaySetup(game);
 }

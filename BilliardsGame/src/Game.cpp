@@ -1,6 +1,4 @@
 #include "Game.h"
-#include "MainMenuState.h"
-#include "PlayState.h"
 #include "TestState.h"
 #include <iomanip>
 
@@ -12,11 +10,12 @@ Game::Game()
     , mPhysicsEngine{*this}
     , mTextureManager{*this}
     , mRenderManager{*this}
+    , mGUI{*this}
 {
     mWindow.setFramerateLimit(120);
     mIcon.loadFromFile("assets/graphics/icon.png");
     mWindow.setIcon(mIcon.getSize().x, mIcon.getSize().y, mIcon.getPixelsPtr());
-    mStateStack.PushState(std::make_unique<TestState>());   // Change this back to 'MenuState' 
+    mStateStack.PushState(std::make_unique<MainMenuState>(*this)); 
 }
 
 void Game::Run()
@@ -68,6 +67,11 @@ PhysicsEngine& Game::GetPhysicsEngine()
 RenderManager& Game::GetRenderManager()
 {
     return mRenderManager;
+}
+
+GUI& Game::GetGUI()
+{
+    return mGUI;
 }
 
 void Game::Tick()

@@ -1,22 +1,20 @@
 #pragma once
 #include "State.h"
-#include "Button.h"
+#include "GUI.h"
+
+class Game;
 
 class PlayState : public State
 {
 public:
-	PlayState();
+	PlayState(Game& game);
+
 	virtual						~PlayState() = default;
 	void						HandleInput(Game& game) override;
 	virtual void				Update(Game& game, float deltaTime) override;
 	virtual void				Draw(Game& game) override;
+	void						PlayGUISetup(Game& game);
 
 private:
-	void						GUISetup(Game& game);
-	void						BackgroundSetup(Game& game);
-	sf::Sprite					mBackground;
-	std::unique_ptr<Button>		mQuitButton;
-	std::unique_ptr<Button>		mAudioButton;
-	bool						mAudioOn;
+	Game&						mGameRef;
 };
-
