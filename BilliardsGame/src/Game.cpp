@@ -6,7 +6,7 @@
 
 
 Game::Game()
-    : mWindow(sf::VideoMode(1440, 900), "Billiards", sf::Style::Close)
+    : mWindow(sf::VideoMode(1600, 900), "Billiards", sf::Style::Close)
     , mDeltaTime{ 0.0f }
     , mEntityManager{*this}
     , mPhysicsEngine{*this}
