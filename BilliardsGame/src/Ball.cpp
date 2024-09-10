@@ -82,3 +82,8 @@ bool Ball::isBallAtRest(Ball* ball)
 {
 	return (ball->getVelocity().getx() == 0 && ball->getVelocity().gety() == 0);
 }
+
+void Ball::debugRender()
+{
+
+}

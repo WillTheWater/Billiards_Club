@@ -1,6 +1,11 @@
 #include "TextureManager.h"
 #include <iostream>
 
+TextureManager::TextureManager(Game& game)
+    :mGameRef{ game };
+{
+}
+
 std::shared_ptr<sf::Texture> TextureManager::GetTexture(const std::string& texture)
 {
     auto it = mTextureMap.find(texture);

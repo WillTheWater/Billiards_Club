@@ -114,7 +114,7 @@ Vec2 Vec2::withMagnitude(const double magnitude)
 	return Vec2(x, y);
 }
 
-double Vec2::distance(Vec2 other)
+const double Vec2::distance(Vec2 other) const
 {
 	return std::sqrt(
 		(std::pow((other.m_x - this->m_x), 2)) + 
@@ -122,12 +122,27 @@ double Vec2::distance(Vec2 other)
 	);
 }
 
+Vec2 Vec2::normalVectorTo(Vec2 other) const
+{
+	double distance = this->distance(other);
+	double normalx = (other.m_x - this->m_x) / (distance);
+	double normaly = (other.m_y - this->m_y) / (distance);
+	return Vec2(normalx, normaly);
+}
+
+Vec2 Vec2::getTangent() const
+{
+	double tangentx = this->m_y * -1;
+	double tangenty = this->m_x;
+	return Vec2(tangentx, tangenty);
+}
+
 const double Vec2::magnitude() const
 {
 	return std::sqrt((std::pow(this->m_x, 2)) + ((std::pow(this->m_y, 2))));
 }
 
-double Vec2::dotProduct(Vec2 other)
+const double Vec2::dotProduct(Vec2 other) const
 {
 	return ((this->m_x * other.m_x) + (this->m_y + other.m_y));
 }

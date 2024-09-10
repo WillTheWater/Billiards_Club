@@ -1,7 +1,8 @@
 #include "EntityManager.h"
 
 
-EntityManager::EntityManager()
+EntityManager::EntityManager(Game& game)
+	:mGameRef{game}
 {
 }
 

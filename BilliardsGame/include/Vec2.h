@@ -52,11 +52,17 @@ public:
 
 	Vec2 withMagnitude(const double magnitude);
 
-	double distance(Vec2 other);
+	const double distance(Vec2 other) const;
+
+	// Calculates the normal between two vectors
+	Vec2 normalVectorTo(Vec2 other) const;
+
+	// Call this on a normal vector to get a tangent vector
+	Vec2 getTangent() const;
 
 	const double magnitude() const;
 
-	double dotProduct (Vec2 other);
+	const double dotProduct (Vec2 other) const;
 
 	double angleInDegrees();
 

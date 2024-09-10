@@ -6,6 +6,9 @@
 Game::Game()
     : mWindow(sf::VideoMode(1440, 900), "Billiards", sf::Style::Close)
     , mDeltaTime{ 0.0f }
+    , mEntityManager{*this}
+    , mPhysicsEngine{*this}
+    , mTextureManager{*this}
 {
     mWindow.setFramerateLimit(120);
     mIcon.loadFromFile("assets/graphics/icon.png");
@@ -47,6 +50,16 @@ float Game::GetDeltaTime() const
 TextureManager& Game::GetTextureManager()
 {
     return mTextureManager;
+}
+
+EntityManager& Game::GetEntityManager()
+{
+    return mEntityManager;
+}
+
+PhysicsEngine& Game::GetPhysicsEngine()
+{
+    return mPhysicsEngine;
 }
 
 void Game::Tick()

@@ -10,6 +10,11 @@ public:
 
 	float getGlobalWidth(); 
 
+	float getTopBound() const;
+	float getBottomBound() const;
+	float getLeftBound() const;
+	float getRightBound() const;
+
 	float getPositionX();
 
 	float getPositionY();

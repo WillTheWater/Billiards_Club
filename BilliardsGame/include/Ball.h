@@ -28,10 +28,10 @@ public:
 	void setVelMagnitude(const double magnitude);
 
 	void updatePosition(double deltaTime);
-
 	void clampVelocity();
-
 	bool isBallAtRest(Ball* ball);
+
+	void debugRender();
 	
 
 private:

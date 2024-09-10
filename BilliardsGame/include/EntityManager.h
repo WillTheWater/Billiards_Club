@@ -2,15 +2,19 @@
 #include <vector>
 #include <memory>
 #include <cassert>
+#include "Game.h"
 #include "Ball.h"
 #include "Table.h"
 #include "EntityGlobals.h"
 
+class Game;	// To prevent circular dependancies
 
 class EntityManager
 {
 public:
-	EntityManager();
+	EntityManager() = delete;
+	EntityManager(Game& game);
+
 	~EntityManager() = default;
 
 	EntityManager& operator=(const EntityManager&) = delete;
@@ -26,9 +30,9 @@ public:
 	Table& getTable();
 
 
-
-
 private: 
 	std::vector<std::unique_ptr<Ball>> mBalls; 
 	std::unique_ptr<Table> mTable;
+
+	Game& mGameRef;
 };
