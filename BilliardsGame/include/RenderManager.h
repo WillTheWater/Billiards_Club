@@ -12,6 +12,7 @@ public:
 	void RenderTable();
 	void RenderBalls();
 	void DebugBallVectors();
+	void DrawDebugCollisionLine();
 
 private:
 	Game& mGameRef;

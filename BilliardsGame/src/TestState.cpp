@@ -30,5 +30,6 @@ void TestState::Draw(Game& game)
 	game.GetRenderManager().RenderTable();
 	game.GetRenderManager().RenderBalls();
 	game.GetRenderManager().DebugBallVectors();
+	game.GetRenderManager().DrawDebugCollisionLine();
 	game.GetWindow().display();
 }

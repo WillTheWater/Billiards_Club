@@ -63,3 +63,14 @@ void RenderManager::DebugBallVectors()
 		}
 	}
 }
+
+void RenderManager::DrawDebugCollisionLine()
+{
+	auto& window = mGameRef.GetWindow();
+	auto& entityManager = mGameRef.GetEntityManager();
+	auto& line = entityManager.getDebugCollisionLine();
+	line[0].color = sf::Color::Magenta;
+	line[1].color = sf::Color::Magenta;
+	window.draw(line);
+	
+}

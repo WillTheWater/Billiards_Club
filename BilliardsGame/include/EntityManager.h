@@ -24,12 +24,17 @@ public:
 
 	void CreateTable();
 
+	void CreateDebugCollisionLine();
+
+	sf::VertexArray& getDebugCollisionLine();
+
 	std::vector<std::unique_ptr<Ball>>& GetBallVector();
 
 	Table& getTable();
 
 private: 
+	Game& mGameRef;
 	std::vector<std::unique_ptr<Ball>> mBalls; 
 	std::unique_ptr<Table> mTable;
-	Game& mGameRef;
+	sf::VertexArray mPolygon;	// For debug
 };
