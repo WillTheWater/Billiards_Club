@@ -1,6 +1,7 @@
 #include "TestState.h"
 
-TestState::TestState()
+TestState::TestState(Game& game)
+	:mGame(game)
 {
 
 }
@@ -28,5 +29,6 @@ void TestState::Draw(Game& game)
 	game.GetWindow().clear(sf::Color::Black);
 	game.GetRenderManager().RenderTable();
 	game.GetRenderManager().RenderBalls();
+	game.GetRenderManager().DebugBallVectors();
 	game.GetWindow().display();
 }

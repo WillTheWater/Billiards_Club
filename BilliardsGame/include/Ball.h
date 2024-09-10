@@ -18,6 +18,7 @@ public:
 	const bool isVisible() const;
 	const double getRadius() const;
 	sf::CircleShape& getCircle();
+	const BallId getId() const;
 
 	void setPosition(const Vec2& position);
 	void setVelocity(const Vec2& velocity);

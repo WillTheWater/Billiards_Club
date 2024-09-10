@@ -11,6 +11,7 @@ public:
 
 	void RenderTable();
 	void RenderBalls();
+	void DebugBallVectors();
 
 private:
 	Game& mGameRef;

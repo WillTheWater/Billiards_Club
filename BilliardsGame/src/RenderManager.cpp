@@ -33,5 +33,33 @@ void RenderManager::RenderBalls()
 			window.draw(ball->getCircle());
 		}
 	}
+}
 
+void RenderManager::DebugBallVectors()
+{
+	auto& window = mGameRef.GetWindow();
+	auto& entityManager = mGameRef.GetEntityManager();
+	auto& balls = entityManager.GetBallVector();
+
+	for (auto& ball : balls)	// Loop through the vector of balls
+	{
+		if (ball->isVisible())
+		{
+			double velx = ball->getVelocity().getx();
+			double vely = ball->getVelocity().gety();
+			double vel_linex = 0.3 * velx;
+			double vel_liney = 0.3 * vely;
+
+			double xPos = ball->getPosition().getx();
+			double yPos = ball->getPosition().gety();
+
+
+			sf::VertexArray lines(sf::LinesStrip, 2);
+			lines[0].position = sf::Vector2f(xPos,yPos);
+			lines[0].color = sf::Color::Cyan;
+			lines[1].position = sf::Vector2f(xPos + vel_linex, yPos + vel_liney);
+			lines[1].color = sf::Color::Cyan;
+			window.draw(lines);
+		}
+	}
 }

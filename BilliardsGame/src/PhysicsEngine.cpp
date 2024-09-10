@@ -15,9 +15,25 @@ void PhysicsEngine::MoveBalls(float deltaTime)
 {
 	std::vector<std::unique_ptr<Ball>>& balls = mGameRef.GetEntityManager().GetBallVector();
 
+	// DEBUG BALL POSITIONS
+	/*double vec2Posx = balls[0]->getPosition().getx();
+	double vec2Posy = balls[0]->getPosition().gety();
+	double circlePosx = balls[0]->getCircle().getPosition().x;
+	double circlePosy = balls[0]->getCircle().getPosition().y;
+	double circleOriginx = balls[0]->getCircle().getOrigin().x;
+	double circleOriginy = balls[0]->getCircle().getOrigin().y;
+
+	std::cout << "The Vec2 x is " << vec2Posx << '\n';
+	std::cout << "The Vec2 y is " << vec2Posy << '\n';
+	std::cout << "The Circle x is " << circlePosx << '\n';
+	std::cout << "The Circle y is " << circlePosy << '\n';
+	std::cout << "The Circle Origin x is" << circleOriginx << '\n';
+	std::cout << "The Circle Origin y is" << circleOriginy << '\n';*/
+
 	for (auto& ball : balls)
 	{
 		ball->updatePosition(deltaTime);
+
 	}
 }
 
@@ -41,6 +57,14 @@ void PhysicsEngine::debugRandomizeBalls()
 	float leftBound = rect.getLeftBound();
 	float rightBound = rect.getRightBound();
 
+	std::cout << "Table upperBound: " << upperBound << '\n';
+	std::cout << "Table lowerBound: " << lowerBound << '\n';
+	std::cout << "Table leftBound: " << leftBound << '\n';
+	std::cout << "Table rightBound: " << rightBound << '\n';
+	std::cout << "Table Position X: " << rect.getPositionX() << '\n';
+	std::cout << "Table Position Y: " << rect.getPositionY() << '\n';
+
+
 	for (auto& ball : balls)
 	{
 		float radius = ball->getRadius();
@@ -51,9 +75,7 @@ void PhysicsEngine::debugRandomizeBalls()
 			(int)rightBound,
 			(int)upperBound,
 			(int)lowerBound
-			
 		);
-
 		ball->setVelocity(ranVel);
 		ball->setPosition(ranPos);
 	}
@@ -124,9 +146,9 @@ void PhysicsEngine::Handle_BvB(float deltaTime)
 		if (balls[i]->isVisible() == false) { continue;	}				// If Ball 1 is not visible, skip this iteration
 		else { totalVelocity += balls[i]->getVelocity().magnitude();}	// To debug for energy conservation print this value at end
 
-		for (size_t j{ i + 1 }; j < balls.size(); j++)
+		for (size_t j{ i +1  }; j < balls.size(); j++)
 		{
-			if (balls[j]->isVisible() == false) { continue;}			// if Ball 2 is not visible, skip this iteration
+			if (balls[j]->isVisible() == false) { continue;}			// If Ball 2 is not visible, skip this iteration
 			if (i == j) { continue; }									// Most likely redundant safeguard
 			if (!doBallsOverlap(*balls[i], *balls[j])) { continue; }	// If balls don't overlap, no need to do anything
 

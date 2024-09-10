@@ -28,10 +28,8 @@ public:
 
 	Table& getTable();
 
-
 private: 
 	std::vector<std::unique_ptr<Ball>> mBalls; 
 	std::unique_ptr<Table> mTable;
-
 	Game& mGameRef;
 };

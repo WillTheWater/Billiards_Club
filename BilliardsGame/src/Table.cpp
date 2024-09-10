@@ -23,7 +23,7 @@ float Table::getTopBound() const
 
 float Table::getBottomBound() const
 {
-	return mRect.getGlobalBounds().height;
+	return mRect.getGlobalBounds().top + mRect.getGlobalBounds().height;
 }
 
 float Table::getLeftBound() const
@@ -33,9 +33,8 @@ float Table::getLeftBound() const
 
 float Table::getRightBound() const
 {
-	return mRect.getGlobalBounds().width;
+	return mRect.getGlobalBounds().left + mRect.getGlobalBounds().width;
 }
-
 
 
 float Table::getPositionX()
