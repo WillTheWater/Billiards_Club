@@ -21,11 +21,11 @@ void GUI::MainMenuSetup(Game& game)
 	mExitButton = std::make_unique<Button>(game.GetTextureManager());
 	
 	mStartButton->SetTexture("assets/graphics/button.png");
-	mStartButton->SetupButton("assets/fonts/brush.ttf", "PLAY", 60, sf::Color::White, sf::Vector2f{ 645, 75});
+	mStartButton->SetupButton("assets/fonts/brush.ttf", "Play", 60, sf::Color::White, sf::Vector2f{ 645, 825});
 	mStartButton->ScaleFont(1.8f, 1.f);
 	
 	mExitButton->SetTexture("assets/graphics/button.png");
-	mExitButton->SetupButton("assets/fonts/brush.ttf", "Quit", 60, sf::Color::White, sf::Vector2f{ 955, 75 });
+	mExitButton->SetupButton("assets/fonts/brush.ttf", "Quit", 60, sf::Color::White, sf::Vector2f{ 955, 825 });
 	mExitButton->ScaleFont(1.8f, 1.f);
 }
 
