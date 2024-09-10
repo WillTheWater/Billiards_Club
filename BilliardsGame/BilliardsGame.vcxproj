@@ -157,6 +157,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="include\GUI.h" />
     <ClInclude Include="include\Ball.h" />
     <ClInclude Include="include\Button.h" />
     <ClInclude Include="include\Game.h" />
@@ -175,6 +176,7 @@
     <ClInclude Include="include\TestState.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\GUI.cpp" />
     <ClCompile Include="src\Random.cpp" />
     <ClCompile Include="src\RenderManager.cpp" />
     <ClCompile Include="src\PhysicsEngine.cpp" />
