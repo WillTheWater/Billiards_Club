@@ -44,6 +44,7 @@ void PlayState::GUISetup(Game& game)
 {
 	mQuitButton = std::make_unique<Button>(game.GetTextureManager());
 	mAudioButton = std::make_unique<Button>(game.GetTextureManager());
+
 	float margin = 8.f;
 	mQuitButton->SetTexture("assets/graphics/buttons.png"); mQuitButton->SetTextureRect(609, 624, 600, 200); mQuitButton->SetScale(0.35f);
 	mAudioButton->SetTexture("assets/graphics/buttons.png"); mAudioButton->SetScale(0.35f);

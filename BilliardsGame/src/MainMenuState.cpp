@@ -42,6 +42,7 @@ void MainMenuState::GUISetup(Game& game)
 {
 	mStartButton = std::make_unique<Button>(game.GetTextureManager());
 	mExitButton = std::make_unique<Button>(game.GetTextureManager());
+
 	mStartButton->SetTexture("assets/graphics/buttons.png"); mStartButton->SetTextureRect(0, 0, 600, 200);
 	mExitButton->SetTexture("assets/graphics/buttons.png"); mExitButton->SetTextureRect(1218, 624, 600, 200);
 	

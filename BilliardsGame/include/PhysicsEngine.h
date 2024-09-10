@@ -9,6 +9,7 @@ class PhysicsEngine
 public:
 	// Constructors
 	PhysicsEngine() = delete;
+	PhysicsEngine& operator=(const PhysicsEngine&) = delete;
 	PhysicsEngine(Game& game);
 
 	// Public Functions

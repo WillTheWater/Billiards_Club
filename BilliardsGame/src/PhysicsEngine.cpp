@@ -29,7 +29,7 @@ bool PhysicsEngine::doBallsOverlap(const Ball& b1, const Ball& b2) const
 	);
 
 	// If distance is less than b1 + b2 radius, they intercept
-	return (distance <= b1.getRadius() + b2.getRadius());
+	return (distance < b1.getRadius() + b2.getRadius());
 }
 
 void PhysicsEngine::debugRandomizeBalls()
@@ -62,7 +62,7 @@ void PhysicsEngine::debugRandomizeBalls()
 void PhysicsEngine::HandleCollisions(float deltaTime)
 {
 	Handle_BvTableRect(deltaTime);
-	// Handle_BvB(deltaTime);
+	Handle_BvB(deltaTime);
 }
 
 void PhysicsEngine::Handle_BvTableRect(float deltaTime)
@@ -157,11 +157,11 @@ void PhysicsEngine::BvB_ResolvePosition(Ball& b1, Ball& b2)
 
 	// Resolve the position of Ball 1
 	double xpos_offset = overlap * (b1Pos.getx() - b2Pos.getx()) / distance;
-	double ypos_offset = overlap * (b1Pos.getx() - b2Pos.gety()) / distance;
+	double ypos_offset = overlap * (b1Pos.gety() - b2Pos.gety()) / distance;
 	b1.setPosition({ b1Pos.getx() - xpos_offset , b1Pos.gety() - ypos_offset });
 
 	// Resolve the position of Ball2
-	b2.setPosition({ b2Pos.getx() + xpos_offset, b2Pos.getx() + ypos_offset });
+	b2.setPosition({ b2Pos.getx() + xpos_offset, b2Pos.gety() + ypos_offset });
 }
 
 void PhysicsEngine::BvB_ResolveVelocity(Ball& b1, Ball& b2)
@@ -179,7 +179,7 @@ void PhysicsEngine::BvB_ResolveVelocity(Ball& b1, Ball& b2)
 	double b2mass = b2.getMass();
 
 	// # Handle the changes in velocity
-	Vec2 normal = b1Vel.normalVectorTo(b2Vel);		// Normal vector vel1 | vel2
+	Vec2 normal = b1Pos.normalVectorTo(b2Pos);		// Normal vector vel1 | vel2
 	Vec2 tangent = normal.getTangent();				// Tangent of normal Vector:
 
 	double dotProdTan1 = b1Vel.dotProduct(tangent);	// Dot product vel1 | tangent

@@ -1,6 +1,5 @@
 #include "Game.h"
 
-
 EntityManager::EntityManager(Game& game)
 	:mGameRef{game}
 {
