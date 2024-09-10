@@ -31,6 +31,7 @@ private:
 	void BvB_ResolvePosition(Ball& b1, Ball& b2);
 	void BvB_ResolveVelocity(Ball& b1, Ball& b2);
 	bool doBallsOverlap(const Ball& b1, const Ball& b2) const;
+	void BallVsVector(Ball& b, const sf::VertexArray& polygon);
 
 	
 

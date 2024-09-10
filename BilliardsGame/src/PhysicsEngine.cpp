@@ -48,6 +48,56 @@ bool PhysicsEngine::doBallsOverlap(const Ball& b1, const Ball& b2) const
 	return (distance < b1.getRadius() + b2.getRadius());
 }
 
+void PhysicsEngine::BallVsVector(Ball& b, const sf::VertexArray& polygon)
+{
+	if (polygon.getVertexCount() < 2)
+	{
+		return;
+	}
+	sf::Vector2f ballpos{ b.getPosition().getx(), b.getPosition().gety()};
+
+	for (size_t i{ 0 }; i < polygon.getVertexCount(); i++)
+	{
+		for (size_t j{ i + 1 }; j < polygon.getVertexCount(); j++)
+		{
+			Vec2 ballPos = b.getPosition();	// Ball Position
+			Vec2 ballVel = b.getVelocity();
+
+			Vec2 point1 = { polygon[i].position.x, polygon[j].position.y };
+			Vec2 point2 = { polygon[1].position.x, polygon[j].position.y };
+
+			// Vector from point1 to point2 (The line)
+			Vec2 edge = point2 - point1;
+
+			// Vector from point1 to the ball
+			Vec2 centerToP1 = ballPos - point1;
+
+			// Projection of ball onto edge
+			double edgeLength = edge.magnitude();
+			double projection = (centerToP1.dotProduct(edge) / (edgeLength * edgeLength));
+			projection = std::clamp(projection, (double)0, (double)1);
+
+			// Closest point on the edge to the ball's center
+			Vec2 closestPoint = (point1 + (edge * projection));
+
+			// Vector from ball to closest point
+			Vec2 centerToClosest = ballPos - closestPoint;
+
+			// Distance to ball edge
+			double distance = centerToClosest.magnitude();
+
+			if (distance <= b.getRadius())
+			{
+				Vec2 normal = centerToClosest / centerToClosest.magnitude();
+
+				Vec2 velocity = ballVel -  (normal * 2.0 * (velocity.dotProduct(normal) ));
+				b.setVelocity(velocity);
+			}
+		}
+	}
+
+}
+
 void PhysicsEngine::debugRandomizeBalls()
 {
 	auto& balls = mGameRef.GetEntityManager().GetBallVector();
@@ -157,7 +207,7 @@ void PhysicsEngine::Handle_BvB(float deltaTime)
 		}
 	}
 	// Uncomment to print the total velocity in the system
-	//std::cout << "Total Velocity: " << totalVelocity << '\n';
+	std::cout << "Total Velocity: " << totalVelocity << '\n';
 }
 
 void PhysicsEngine::BvB_ResolvePosition(Ball& b1, Ball& b2)
@@ -186,6 +236,7 @@ void PhysicsEngine::BvB_ResolvePosition(Ball& b1, Ball& b2)
 	b2.setPosition({ b2Pos.getx() + xpos_offset, b2Pos.gety() + ypos_offset });
 }
 
+
 void PhysicsEngine::BvB_ResolveVelocity(Ball& b1, Ball& b2)
 {
 	double b1Radius = b1.getRadius();
@@ -211,22 +262,24 @@ void PhysicsEngine::BvB_ResolveVelocity(Ball& b1, Ball& b2)
 	double dotProdNorm2 = b2Vel.dotProduct(normal);	// Dot Product vel2 | normal
 
 	// Conservation of momentum - This might be irrelevant now because poolballs all have the same mass
-	double m1 = (dotProdNorm1 * (b1mass - b2mass) + 2.0 * b2mass * dotProdNorm2) / (b1mass + b2mass);
-	double m2 = (dotProdNorm2 * (b2mass - b1mass) + 2.0 * b1mass * dotProdNorm1) / (b1mass + b2mass);
+	double m1 = (dotProdNorm1 * (b1mass - b2mass) + (2.0 * b2mass * dotProdNorm2)) / (b1mass + b2mass);
+	double m2 = (dotProdNorm2 * (b2mass - b1mass) + (2.0 * b1mass * dotProdNorm1)) / (b1mass + b2mass);
 
 	// New Velocities
 	Vec2 b1NewVel{
-		{tangent.getx() * dotProdTan1 + normal.getx() * m1},	// New X velocity of ball 1
-		{tangent.gety() * dotProdTan1 + normal.gety() * m1}		// New Y Velocity of ball 1
+		{(tangent.getx() * dotProdTan1) + (normal.getx() * m1)},	// New X velocity of ball 1
+		{(tangent.gety() * dotProdTan1) + (normal.gety() * m1)}		// New Y Velocity of ball 1
 	};
 	Vec2 b2NewVel{
-		{tangent.getx() * dotProdTan2 + normal.getx() * m2 },	// New X velocity of ball 2
-		{tangent.gety() * dotProdTan2 + normal.gety() * m2 }	// New Y Velocity of ball 2
+		{(tangent.getx() * dotProdTan2) + (normal.getx() * m2) },	// New X velocity of ball 2
+		{(tangent.gety() * dotProdTan2) + (normal.gety() * m2) }	// New Y Velocity of ball 2
 	};
 
 	b1.setVelocity(b1NewVel);
 	b2.setVelocity(b2NewVel);
 }
+
+
 
 bool PhysicsEngine::AreBallsAtRest()
 {

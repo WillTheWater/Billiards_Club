@@ -144,7 +144,7 @@ const double Vec2::magnitude() const
 
 const double Vec2::dotProduct(Vec2 other) const
 {
-	return ((this->m_x * other.m_x) + (this->m_y + other.m_y));
+	return ((this->m_x * other.m_x) + (this->m_y * other.m_y));
 }
 
 double Vec2::angleInDegrees()
