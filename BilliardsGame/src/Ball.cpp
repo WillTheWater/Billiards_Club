@@ -36,6 +36,11 @@ sf::CircleShape& Ball::getCircle()
 	return m_circle;
 }
 
+const BallId Ball::getId() const
+{
+	return m_id;
+}
+
 const bool Ball::isVisible() const {
 	return m_visible;
 }

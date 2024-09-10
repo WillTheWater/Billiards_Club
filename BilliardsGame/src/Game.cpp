@@ -16,7 +16,7 @@ Game::Game()
     mWindow.setFramerateLimit(120);
     mIcon.loadFromFile("assets/graphics/icon.png");
     mWindow.setIcon(mIcon.getSize().x, mIcon.getSize().y, mIcon.getPixelsPtr());
-    mStateStack.PushState(std::make_unique<TestState>());   // Change this back to 'MenuState' 
+    mStateStack.PushState(std::make_unique<TestState>(*this));   // Change this back to 'MenuState' 
 }
 
 void Game::Run()
