@@ -54,6 +54,8 @@ public:
 
 	const double distance(Vec2 other) const;
 
+	Vec2 getNormalized() const;
+
 	// Calculates the normal between two vectors
 	Vec2 normalVectorTo(Vec2 other) const;
 

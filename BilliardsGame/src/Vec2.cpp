@@ -122,6 +122,19 @@ const double Vec2::distance(Vec2 other) const
 	);
 }
 
+Vec2 Vec2::getNormalized() const
+{
+	double length = this->magnitude();
+	if (length == 0)
+	{
+		return (0, 0);
+	}
+	else
+	{
+		return ((this->m_x / length), (this->m_y / length));
+	}
+}
+
 Vec2 Vec2::normalVectorTo(Vec2 other) const
 {
 	double distance = this->distance(other);

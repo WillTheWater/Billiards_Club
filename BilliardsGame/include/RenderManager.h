@@ -12,7 +12,8 @@ public:
 	void RenderTable();
 	void RenderBalls();
 	void DebugBallVectors();
-	void DrawDebugCollisionLine();
+	void DrawDebugCollisionPoly();
+	void DrawDebugConvexShape();
 
 private:
 	Game& mGameRef;

@@ -12,7 +12,8 @@ void RenderManager::RenderTable()
 	auto& textureManager = mGameRef.GetTextureManager();
 	auto& tableRect = entityManager.getTable().getRect();
 
-	tableRect.setFillColor(sf::Color::Green);
+	tableRect.setFillColor(sf::Color(0,0,0,0));
+	tableRect.setOutlineThickness(5);
 	window.draw(tableRect);
 }
 
@@ -64,13 +65,22 @@ void RenderManager::DebugBallVectors()
 	}
 }
 
-void RenderManager::DrawDebugCollisionLine()
+void RenderManager::DrawDebugCollisionPoly()
 {
 	auto& window = mGameRef.GetWindow();
 	auto& entityManager = mGameRef.GetEntityManager();
-	auto& line = entityManager.getDebugCollisionLine();
-	line[0].color = sf::Color::Magenta;
-	line[1].color = sf::Color::Magenta;
-	window.draw(line);
-	
+	auto& poly = entityManager.getDebugCollisionLine();
+	for (size_t i{ 0 }; i < poly.getVertexCount(); i++)
+	{
+		poly[i].color = sf::Color::Magenta;
+	}
+	window.draw(poly);
+}
+
+void RenderManager::DrawDebugConvexShape()
+{
+	auto& window = mGameRef.GetWindow();
+	auto& entityManager = mGameRef.GetEntityManager();
+	auto& poly = entityManager.getDebugConvexShape();
+	window.draw(poly);
 }

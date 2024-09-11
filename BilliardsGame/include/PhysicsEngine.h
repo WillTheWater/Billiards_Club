@@ -31,8 +31,14 @@ private:
 	void BvB_ResolvePosition(Ball& b1, Ball& b2);
 	void BvB_ResolveVelocity(Ball& b1, Ball& b2);
 	bool doBallsOverlap(const Ball& b1, const Ball& b2) const;
-	void handleBallVsPolygons();
+	void HandleBallVsPolygons();
 	void BallVsPolygon(Ball& b, const sf::VertexArray& polygon);
+	
+	void BallVsPolygonStolen(Ball& b, const sf::ConvexShape& polygon);
+
+	float dotProduct(const sf::Vector2f& a, const sf::Vector2f& b);
+	float length(const sf::Vector2f& v);
+	sf::Vector2f normalize(const sf::Vector2f& v);
 
 	
 

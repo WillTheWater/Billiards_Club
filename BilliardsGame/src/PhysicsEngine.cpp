@@ -32,13 +32,18 @@ bool PhysicsEngine::doBallsOverlap(const Ball& b1, const Ball& b2) const
 	return (distance < b1.getRadius() + b2.getRadius());
 }
 
-void PhysicsEngine::handleBallVsPolygons()
+void PhysicsEngine::HandleBallVsPolygons()
 {
 	auto& polygon = mGameRef.GetEntityManager().getDebugCollisionLine();
 	std::vector<std::unique_ptr<Ball>>& balls = mGameRef.GetEntityManager().GetBallVector();
+
+	// Lines added for stolen code
+	auto& convexShape = mGameRef.GetEntityManager().getDebugConvexShape();
+
 	for (auto& b : balls)
 	{
-		BallVsPolygon(*b, polygon);
+		//BallVsPolygon(*b, polygon);
+		BallVsPolygonStolen(*b, convexShape);
 	}
 }
 
@@ -54,7 +59,7 @@ void PhysicsEngine::debugRandomizeBalls()
 	for (auto& ball : balls)
 	{
 		float radius = ball->getRadius();
-		Vec2 ranVel = Random::getRandomVec2(-100, 100, -100, 100);
+		Vec2 ranVel = Random::getRandomVec2(-500, 500, -500, 500);
 		
 		Vec2 ranPos = Random::getRandomVec2(
 			(int)leftBound,
@@ -71,7 +76,7 @@ void PhysicsEngine::HandleCollisions(float deltaTime)
 {
 	Handle_BvTableRect(deltaTime);
 	Handle_BvB(deltaTime);
-	handleBallVsPolygons();
+	HandleBallVsPolygons();
 }
 
 void PhysicsEngine::Handle_BvTableRect(float deltaTime)
@@ -212,53 +217,125 @@ void PhysicsEngine::BvB_ResolveVelocity(Ball& b1, Ball& b2)
 
 void PhysicsEngine::BallVsPolygon(Ball& b, const sf::VertexArray& polygon)
 {
-	if (polygon.getVertexCount() < 2)
-	{
-		return;
-	}
+
+	// Debug stuff
+	auto& window = mGameRef.GetWindow();
+
 	for (size_t i{ 0 }; i < polygon.getVertexCount(); i++)
 	{
-		for (size_t j{ i + 1 }; j < polygon.getVertexCount(); j++)
+		Vec2 ballPos = b.getPosition();	// Ball Position
+		Vec2 ballVel = b.getVelocity();
+
+		Vec2 point1 = { polygon[i].position.x, polygon[i].position.y };
+		Vec2 point2 = { 
+			polygon[((i + 1) % polygon.getVertexCount())].position.x,
+			polygon[((i + 1) % polygon.getVertexCount())].position.y 
+		};
+
+		// Vector from point1 to point2 (The line)
+		Vec2 edge = point2 - point1;
+
+		// Vector from point1 to the ball
+		Vec2 centerToP1 = ballPos - point1;
+
+		// Projection of ball onto edge
+		float edgeLength = edge.magnitude();
+		float projection = ((centerToP1.dotProduct(edge) / (edgeLength * edgeLength)));
+		projection = std::clamp(projection, 0.f, 1.f);
+
+		// Closest point on the edge to the ball's center
+		Vec2 closestPoint = (point1 + (edge * projection));
+
+		// Vector from ball to closest point
+		Vec2 centerToClosest = ballPos - closestPoint;
+
+		//DEBUG DRAW
+		sf::VertexArray lines(sf::LinesStrip, 2);
+		lines[0].position = sf::Vector2f(closestPoint.getx(), closestPoint.gety());
+		lines[0].color = sf::Color::Cyan;
+		lines[1].position = sf::Vector2f(centerToClosest.getx() + closestPoint.getx(), centerToClosest.gety() + closestPoint.gety());
+		lines[1].color = sf::Color::Cyan;
+		window.draw(lines);
+
+		// Distance to ball edge
+		double distance = centerToClosest.magnitude();
+
+		if (distance <= b.getRadius())
 		{
-			Vec2 ballPos = b.getPosition();	// Ball Position
-			Vec2 ballVel = b.getVelocity();
+			Vec2 normal = centerToClosest.withMagnitude(1);
 
-			Vec2 point1 = { polygon[i].position.x, polygon[j].position.y };
-			Vec2 point2 = { polygon[1].position.x, polygon[j].position.y };
+			// Push the ball back
+			Vec2 newPos = ballPos + (normal * (distance - b.getRadius()));
+			b.setPosition(newPos);
 
-			// Vector from point1 to point2 (The line)
-			Vec2 edge = point2 - point1;
-
-			// Vector from point1 to the ball
-			Vec2 centerToP1 = ballPos - point1;
-
-			// Projection of ball onto edge
-			double edgeLength = edge.magnitude();
-			double projection = (centerToP1.dotProduct(edge) / (edgeLength * edgeLength));
-			projection = std::clamp(projection, (double)0, (double)1);
-
-			// Closest point on the edge to the ball's center
-			Vec2 closestPoint = (point1 + (edge * projection));
-
-			// Vector from ball to closest point
-			Vec2 centerToClosest = ballPos - closestPoint;
-
-			// Distance to ball edge
-			double distance = centerToClosest.magnitude();
-
-			if (distance <= b.getRadius())
-			{
-				Vec2 normal = centerToClosest / centerToClosest.magnitude();
-
-				Vec2 velocity = ballVel - (normal * 2.0 * (velocity.dotProduct(normal)));
-				b.setVelocity(velocity);
-			}
+			// Update velocity
+			Vec2 velocity = ballVel - (normal * 2.0 * (ballVel.dotProduct(normal)));
+			b.setVelocity(velocity);
 		}
+		
 	}
-
 }
 
+// Dot product
+float PhysicsEngine::dotProduct(const sf::Vector2f& a, const sf::Vector2f& b) {
+	return a.x * b.x + a.y * b.y;
+}
+// magnitude
+float PhysicsEngine::length(const sf::Vector2f& v) {
+	return std::sqrt(v.x * v.x + v.y * v.y);
+}
+// normal vector
+sf::Vector2f PhysicsEngine::normalize(const sf::Vector2f& v) {
+	float len = length(v);
+	return (len != 0) ? sf::Vector2f(v.x / len, v.y / len) : sf::Vector2f(0.f, 0.f);
+}
 
+void PhysicsEngine::BallVsPolygonStolen(Ball& b, const sf::ConvexShape& polygon)
+{
+	sf::Vector2f velocity = { (float)b.getVelocity().getx(), (float)b.getVelocity().gety() };
+	sf::Vector2f ballCenter = { (float)b.getPosition().getx(), (float)b.getPosition().gety() };
+    // Iterate through polygon
+    for (size_t i = 0; i < polygon.getPointCount(); ++i) {
+        // Get current and next vertex
+        sf::Vector2f point1 = polygon.getPoint(i);
+        sf::Vector2f point2 = polygon.getPoint((i + 1) % polygon.getPointCount());
+
+        // Vector from point1 to point2 (polygon edge)
+        sf::Vector2f edge = point2 - point1;
+
+
+        // Vector from point1 to the ball's center
+        sf::Vector2f centerToP1 = ballCenter - point1;
+        // Projection of ball onto edge
+        float edgeLength = length(edge);
+        float projection = dotProduct(centerToP1, edge) / (edgeLength * edgeLength);
+        projection = std::clamp(projection, 0.f, 1.f);  
+
+        // Closest point on the edge to the ball's center
+        sf::Vector2f closestPoint = point1 + projection * edge;
+
+        // Vector from ball to closest point
+        sf::Vector2f centerToClosest = ballCenter - closestPoint;
+        
+        // Distance ball to edge
+        float distance = length(centerToClosest);
+
+        if (distance <= b.getRadius() + 0.001) {
+            // Collision detected, calculate reflection
+
+            // Vector collision
+            sf::Vector2f normal = normalize(centerToClosest);
+
+			//sf::Vector2f newPos = ballCenter + (normal * (distance - (float)b.getRadius()));
+			//b.setPosition({ newPos.x, newPos.y });
+
+            // Reflect velocity
+            velocity = velocity - 2.f * dotProduct(velocity, normal) * normal;
+			b.setVelocity({ velocity.x, velocity.y });
+        }
+    }
+
+}
 
 bool PhysicsEngine::AreBallsAtRest()
 {
@@ -275,7 +352,6 @@ bool PhysicsEngine::AreBallsAtRest()
 			atRest = false;
 		}
 	}
-
 	return atRest;
 }
 
