@@ -21,6 +21,16 @@ public:
 private:
 	Game&						mGameRef;
 	sf::Sprite					mBackground;
+	sf::Sprite					mFloor;
+	// Needs refactored out
+	sf::ConvexShape				polygon;
+	sf::CircleShape				hole1;
+	sf::CircleShape				hole2;
+	sf::CircleShape				hole3;
+	sf::CircleShape				hole4;
+	sf::CircleShape				hole5;
+	sf::CircleShape				hole6;
+
 	std::unique_ptr<Button>		mStartButton;
 	std::unique_ptr<Button>		mExitButton;
 	std::unique_ptr<Button>		mAudioButton;
