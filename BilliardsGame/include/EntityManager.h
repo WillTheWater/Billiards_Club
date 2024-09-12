@@ -26,7 +26,13 @@ public:
 
 	void CreateDebugCollisionLine();
 
+	void CreateDebugCollisionBox();
+
+	void CreateDebugConvexShape();
+
 	sf::VertexArray& getDebugCollisionLine();
+
+	sf::ConvexShape& getDebugConvexShape();
 
 	std::vector<std::unique_ptr<Ball>>& GetBallVector();
 
@@ -37,4 +43,5 @@ private:
 	std::vector<std::unique_ptr<Ball>> mBalls; 
 	std::unique_ptr<Table> mTable;
 	sf::VertexArray mPolygon;	// For debug
+	sf::ConvexShape mConvexShape;
 };

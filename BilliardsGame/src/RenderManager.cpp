@@ -12,7 +12,8 @@ void RenderManager::RenderTable()
 	auto& textureManager = mGameRef.GetTextureManager();
 	auto& tableRect = entityManager.getTable().getRect();
 
-	tableRect.setFillColor(sf::Color::Green);
+	tableRect.setFillColor(sf::Color(0,0,0,0));
+	tableRect.setOutlineThickness(5);
 	window.draw(tableRect);
 }
 
@@ -45,13 +46,13 @@ void RenderManager::DebugBallVectors()
 	{
 		if (ball->isVisible())
 		{
-			double velx = ball->getVelocity().getx();
-			double vely = ball->getVelocity().gety();
-			double vel_linex = 0.3 * velx;
-			double vel_liney = 0.3 * vely;
+			float velx = ball->getVelocity().getx();
+			float vely = ball->getVelocity().gety();
+			float vel_linex = velx;
+			float vel_liney = vely;
 
-			double xPos = ball->getPosition().getx();
-			double yPos = ball->getPosition().gety();
+			float xPos = ball->getPosition().getx();
+			float yPos = ball->getPosition().gety();
 
 
 			sf::VertexArray lines(sf::LinesStrip, 2);
@@ -64,13 +65,22 @@ void RenderManager::DebugBallVectors()
 	}
 }
 
-void RenderManager::DrawDebugCollisionLine()
+void RenderManager::DrawDebugCollisionPoly()
 {
 	auto& window = mGameRef.GetWindow();
 	auto& entityManager = mGameRef.GetEntityManager();
-	auto& line = entityManager.getDebugCollisionLine();
-	line[0].color = sf::Color::Magenta;
-	line[1].color = sf::Color::Magenta;
-	window.draw(line);
-	
+	auto& poly = entityManager.getDebugCollisionLine();
+	for (size_t i{ 0 }; i < poly.getVertexCount(); i++)
+	{
+		poly[i].color = sf::Color::Magenta;
+	}
+	window.draw(poly);
+}
+
+void RenderManager::DrawDebugConvexShape()
+{
+	auto& window = mGameRef.GetWindow();
+	auto& entityManager = mGameRef.GetEntityManager();
+	auto& poly = entityManager.getDebugConvexShape();
+	window.draw(poly);
 }

@@ -21,15 +21,16 @@ void TestState::HandleInput(Game& game)
 
 void TestState::Update(Game& game, float deltaTime)
 {
+	game.GetWindow().clear(sf::Color::Black);
 	game.GetPhysicsEngine().Update(deltaTime);
 }
 
 void TestState::Draw(Game& game)
 {
-	game.GetWindow().clear(sf::Color::Black);
 	game.GetRenderManager().RenderTable();
 	game.GetRenderManager().RenderBalls();
 	game.GetRenderManager().DebugBallVectors();
-	game.GetRenderManager().DrawDebugCollisionLine();
+	//game.GetRenderManager().DrawDebugCollisionPoly();
+	game.GetRenderManager().DrawDebugConvexShape();
 	game.GetWindow().display();
 }

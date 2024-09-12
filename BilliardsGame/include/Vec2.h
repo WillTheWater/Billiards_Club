@@ -6,10 +6,10 @@ class Vec2
 {
 public:
 	// ### PUBLIC PARAMETERS ###
-	const double PI = 3.14159265;
+	const float PI = 3.14159265;
 
 	// ### CONSTRUCTORS ###
-	Vec2(double x = 0, double y = 0);
+	Vec2(float x = 0, float y = 0);
 
 	~Vec2();
 
@@ -24,35 +24,37 @@ public:
 
 	Vec2& operator -= (Vec2 other);
 
-	Vec2 operator / (double num);
+	Vec2 operator / (float num);
 
-	Vec2 operator * (double num);
+	Vec2 operator * (float num);
 
-	Vec2 operator + (double num);
+	Vec2 operator + (float num);
 
-	Vec2 operator - (double num);
+	Vec2 operator - (float num);
 
 	friend std::ostream& operator << (std::ostream& out, Vec2& vec);
 
 	// ### GETTERS ###
 
-	const double getx() const;
+	const float getx() const;
 
-	const double gety() const;
+	const float gety() const;
 
 	// ### SETTERS ###
 
-	void setx(double x);
+	void setx(float x);
 
-	void sety(double y);
+	void sety(float y);
 
-	void setMagnitude(const double magnitude);
+	void setMagnitude(const float magnitude);
 
 	// ### FUNCTIONS ###
 
-	Vec2 withMagnitude(const double magnitude);
+	Vec2 withMagnitude(const float magnitude);
 
-	const double distance(Vec2 other) const;
+	const float distance(Vec2 other) const;
+
+	Vec2 getNormalized() const;
 
 	// Calculates the normal between two vectors
 	Vec2 normalVectorTo(Vec2 other) const;
@@ -60,15 +62,15 @@ public:
 	// Call this on a normal vector to get a tangent vector
 	Vec2 getTangent() const;
 
-	const double magnitude() const;
+	const float magnitude() const;
 
-	const double dotProduct (Vec2 other) const;
+	const float dotProduct (Vec2 other) const;
 
-	double angleInDegrees();
+	float angleInDegrees();
 
-	double angleInRads();
+	float angleInRads();
 
 private:
-	double m_x;
-	double m_y;
+	float m_x;
+	float m_y;
 };
