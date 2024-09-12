@@ -24,6 +24,7 @@ enum BallId
 namespace PoolBall
 {
 	extern int radius;
+	extern float tagScale;
 }
 
 namespace PoolTable

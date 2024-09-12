@@ -52,6 +52,11 @@ float Ball::getSimTimeRemaining() const
 	return m_SimTimeRemaining;
 }
 
+sf::Sprite& Ball::getTagSprite()
+{
+	return m_tag;
+}
+
 const bool Ball::isVisible() const {
 	return m_visible;
 }

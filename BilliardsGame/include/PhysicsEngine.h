@@ -30,6 +30,7 @@ private:
 	// Private Functions
 	void calculateStepTime(float deltaTime);
 	void initializeSimTimeForBalls();
+	void resetPreviousPositionForBalls();
 	void updateSimTimeForBalls();
 	void MoveBalls();
 	void Handle_BvTableRect();

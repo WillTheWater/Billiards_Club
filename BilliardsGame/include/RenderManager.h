@@ -1,5 +1,4 @@
 #pragma once
-
 class Game;
 
 class RenderManager
@@ -17,5 +16,6 @@ public:
 
 private:
 	Game& mGameRef;
+	sf::RenderStates mRenderMode;
 };
 

@@ -1,6 +1,7 @@
 #pragma once
 #include <iostream>
 #include "SFML/Graphics.hpp"
+#include "EntityGlobals.h"
 #include "StateStack.h"
 #include "MainMenuState.h"
 #include "PlayState.h"

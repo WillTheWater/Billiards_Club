@@ -3,6 +3,9 @@
 RenderManager::RenderManager(Game& game)
 	:mGameRef{game}
 {
+	mRenderMode.blendMode = sf::BlendAlpha;
+	// This doesn't work
+	//mRenderMode.blendMode.alphaSrcFactor = sf::BlendMode::Factor(0.2);
 }
 
 void RenderManager::RenderTable()
@@ -26,12 +29,28 @@ void RenderManager::RenderBalls()
 	
 	auto& balls = entityManager.GetBallVector();
 
-	for (auto& ball : balls)	// Loop through the vector of balls
+	sf::CircleShape overlayCircle;
+	overlayCircle.setOrigin(PoolBall::radius, PoolBall::radius);
+	overlayCircle.setRadius(PoolBall::radius);
+	overlayCircle.setTexture(&textureManager.getBallOverlay());
+
+	for (auto& ball : balls) // Loop through the vector of balls
 	{
 		if (ball->isVisible())
 		{
-			ball->getCircle().setFillColor(sf::Color::Red);
+			overlayCircle.setPosition(ball->getCircle().getPosition());
 			window.draw(ball->getCircle());
+			window.draw(overlayCircle, mRenderMode);
+			BallId id = ball->getId();
+			
+			if (id != BallId_cueBall)
+			{
+				auto& tagSprite = ball->getTagSprite();
+				tagSprite.setPosition(ball->getCircle().getPosition());
+				window.draw(tagSprite);
+				
+			}
+			
 		}
 	}
 }
@@ -81,6 +100,9 @@ void RenderManager::DrawDebugConvexShape()
 {
 	auto& window = mGameRef.GetWindow();
 	auto& entityManager = mGameRef.GetEntityManager();
-	auto& poly = entityManager.getDebugConvexShape();
-	window.draw(poly);
+	auto& polygon = entityManager.getDebugConvexShape();
+	polygon.setFillColor(sf::Color(0, 0, 0, 0));
+	polygon.setOutlineColor(sf::Color::White);
+	polygon.setOutlineThickness(1);
+	window.draw(polygon);
 }

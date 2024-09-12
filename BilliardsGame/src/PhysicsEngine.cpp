@@ -11,9 +11,10 @@ PhysicsEngine::PhysicsEngine(Game& game)
 void PhysicsEngine::Update(float deltaTime)
 {
 	calculateStepTime(deltaTime);
-	initializeSimTimeForBalls();
+	resetPreviousPositionForBalls();
 	for (size_t i{ 0 }; i < mSimUpdates; i++)
 	{
+		initializeSimTimeForBalls();
 		for (size_t j{ 0 }; j < mMaxSimSteps; j++)
 		{
 			MoveBalls();
@@ -34,6 +35,15 @@ void PhysicsEngine::initializeSimTimeForBalls()
 	for (auto& ball : balls)
 	{
 		ball->setSimTimeRemaining(mStepTime);
+	}
+}
+
+void PhysicsEngine::resetPreviousPositionForBalls()
+{
+	std::vector<std::unique_ptr<Ball>>& balls = mGameRef.GetEntityManager().GetBallVector();
+	for (auto& ball : balls)
+	{
+		ball->setPositionPrevious(ball->getPosition());
 	}
 }
 
