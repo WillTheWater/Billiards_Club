@@ -27,14 +27,14 @@ void EntityManager::CreateBalls()
 
 	for (size_t i{ 0 }; i < BallId_MAX_BALL_ID; i++)
 	{
-		/*mBalls.push_back(
+		mBalls.push_back(
 			std::make_unique<Ball>(static_cast<BallId>(i), PoolBall::radius, NULL, NULL, NULL)
 			);
 
 		mBalls[i]->setPosition(Vec2{ 
-			(double)PoolTable::width /2, 
-			(double)PoolTable::height /2 
-			});*/
+			(float)PoolTable::width /2, 
+			(float)PoolTable::height /2 
+			});
 
 		
 	}
@@ -131,13 +131,26 @@ void EntityManager::CreateDebugCollisionBox()
 
 void EntityManager::CreateDebugConvexShape()
 {
-	sf::ConvexShape polygon;
+	/*sf::ConvexShape polygon;
 	polygon.setPointCount(3);
 	polygon.setPoint(0, sf::Vector2f(400, 400));
 	polygon.setPoint(1, sf::Vector2f(400, 800));
 	polygon.setPoint(2, sf::Vector2f(800, 600));
 	polygon.setOutlineColor(sf::Color::Red);
-	polygon.setOutlineThickness(2);
+	polygon.setOutlineThickness(2);*/
+
+
+	sf::ConvexShape polygon;
+	polygon.setPointCount(10);
+	float polygonRadius = 200.f;
+	sf::Vector2f polygonCenter(400.f, 300.f);
+	for (int i = 0; i < 10; ++i) {
+		float angle = i * (2 * 3.14159f / 10.f);
+		float x = 200 + polygonRadius * std::cos(angle);
+		float y = 200 + polygonRadius * std::sin(angle);
+		polygon.setPoint(i, sf::Vector2f(polygonCenter.x + x, polygonCenter.y + y));
+	}
+	//polygon.move({ 200,200 });
 
 	mConvexShape = polygon;
 }

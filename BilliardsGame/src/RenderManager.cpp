@@ -46,13 +46,13 @@ void RenderManager::DebugBallVectors()
 	{
 		if (ball->isVisible())
 		{
-			double velx = ball->getVelocity().getx();
-			double vely = ball->getVelocity().gety();
-			double vel_linex = 0.3 * velx;
-			double vel_liney = 0.3 * vely;
+			float velx = ball->getVelocity().getx();
+			float vely = ball->getVelocity().gety();
+			float vel_linex = velx;
+			float vel_liney = vely;
 
-			double xPos = ball->getPosition().getx();
-			double yPos = ball->getPosition().gety();
+			float xPos = ball->getPosition().getx();
+			float yPos = ball->getPosition().gety();
 
 
 			sf::VertexArray lines(sf::LinesStrip, 2);
