@@ -21,7 +21,6 @@ public:
 	Table& getTable();
 	
 	//FUNCTIONS
-
 	void InitializeAssets();
 	void CreateBalls();
 	void RackBalls();

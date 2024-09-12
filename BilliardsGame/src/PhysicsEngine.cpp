@@ -5,6 +5,7 @@ PhysicsEngine::PhysicsEngine(Game& game)
 	, mSimUpdates{4}
 	, mStepTime{ 0 }
 	, mMaxSimSteps{15}
+	, mFrictionScale{100}
 {
 }
 
@@ -18,8 +19,10 @@ void PhysicsEngine::Update(float deltaTime)
 		for (size_t j{ 0 }; j < mMaxSimSteps; j++)
 		{
 			MoveBalls();
+			ApplyFriction();
+			// ApplyFrictionCoEff(); // Needs debugging, not quite working
 			HandleCollisions();
-			updateSimTimeForBalls();
+			UpdateSimTimeForBalls();
 		}
 	}
 }
@@ -47,7 +50,7 @@ void PhysicsEngine::resetPreviousPositionForBalls()
 	}
 }
 
-void PhysicsEngine::updateSimTimeForBalls()
+void PhysicsEngine::UpdateSimTimeForBalls()
 {
 	std::vector<std::unique_ptr<Ball>>& balls = mGameRef.GetEntityManager().GetBallVector();
 	for (auto& ball : balls)
@@ -235,7 +238,6 @@ void PhysicsEngine::BvB_ResolvePosition(Ball& b1, Ball& b2)
 	b2.setPosition({ b2Pos.getx() + xpos_offset, b2Pos.gety() + ypos_offset });
 }
 
-
 void PhysicsEngine::BvB_ResolveVelocity(Ball& b1, Ball& b2)
 {
 	float b1Radius = b1.getRadius();
@@ -343,6 +345,63 @@ void PhysicsEngine::BallVsPolygon(Ball& b, const sf::ConvexShape& polygon)
 			b.setVelocity({ velocity.x, velocity.y });
         }
     }
+}
+
+void PhysicsEngine::ApplyFriction()
+{
+	std::vector<std::unique_ptr<Ball>>& balls = mGameRef.GetEntityManager().GetBallVector();
+
+	float scale = mFrictionScale;
+
+	for (auto& ball : balls)
+	{
+		if (!ball->isVisible())
+		{
+			continue;
+		}
+		float time = ball->getSimTimeRemaining();
+		if (time > 0 && ball->getVelocity().magnitude() > 0)
+		{
+			Vec2 currentVelocity = ball->getVelocity();
+			Vec2 velocityToSub = currentVelocity;
+			velocityToSub = velocityToSub / velocityToSub.magnitude() * scale * time;
+			Vec2 newVelocity = currentVelocity - velocityToSub;
+			ball->setVelocity(newVelocity);
+		}
+	}
+}
+
+void PhysicsEngine::ApplyFrictionCoEff()	// Not working yet
+{
+	std::vector<std::unique_ptr<Ball>>& balls = mGameRef.GetEntityManager().GetBallVector();
+	for (auto& ball : balls)
+	{
+		if (!ball->isVisible())
+		{
+			continue;
+		}
+
+		float time = ball->getSimTimeRemaining();	// delta time equivelant
+		float frictionCoEff = 0.0000005;
+
+		if (time > 0 && ball->getVelocity().magnitude() > 0)
+		{
+			float speed = ball->getVelocity().magnitude();
+			float force = speed * frictionCoEff * time;
+			speed -= force * time;
+			if (speed < 0)
+			{
+				speed = 0;
+			}
+			Vec2 newVel = ball->getVelocity();
+			newVel = newVel / newVel.magnitude();
+			newVel* speed;
+			if (ball->getVelocity().magnitude() > 5)
+			{
+				ball->setVelocity(newVel);
+			}
+		}
+	}
 }
 
 bool PhysicsEngine::AreBallsAtRest()

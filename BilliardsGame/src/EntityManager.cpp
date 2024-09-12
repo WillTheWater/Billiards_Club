@@ -22,7 +22,7 @@ void EntityManager::CreateBalls()
 	{
 		mBalls.push_back(
 			std::make_unique<Ball>(static_cast<BallId>(i), PoolBall::radius, NULL, NULL, NULL)
-			);
+		);
 
 		mBalls[i]->setPosition(Vec2{ 
 			(float)PoolTable::width /2, 
