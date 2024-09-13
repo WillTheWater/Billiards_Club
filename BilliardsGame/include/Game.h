@@ -1,6 +1,7 @@
 #pragma once
 #include <iostream>
 #include "SFML/Graphics.hpp"
+#include "SFML/Audio.hpp"
 #include "StateStack.h"
 #include "MainMenuState.h"
 #include "PlayState.h"
@@ -9,6 +10,7 @@
 #include "PhysicsEngine.h"
 #include "EntityManager.h"
 #include "RenderManager.h"
+#include "Button.h"
 #include "GUI.h"
 
 class Game
