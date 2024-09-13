@@ -14,6 +14,8 @@ public:
 	~Vec2();
 
 	// ### OPERATORS ###
+	Vec2 operator -();	// Unary negative operator
+
 	Vec2 operator + (Vec2 other);
 
 	Vec2 operator - (Vec2 other);

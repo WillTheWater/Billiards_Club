@@ -14,6 +14,11 @@ Vec2::~Vec2()
 
 // ### OPERATORS ###
 
+Vec2 Vec2::operator-()
+{
+	return Vec2(-m_x, -m_y);
+}
+
 Vec2 Vec2::operator + (Vec2 other)
 {
 	float x = (this->m_x + other.m_x); 
@@ -152,6 +157,10 @@ Vec2 Vec2::getTangent() const
 
 const float Vec2::magnitude() const
 {
+	if (m_x == 0 && m_y == 0)
+	{
+		return 0;
+	}
 	return std::sqrt((this->m_x * this->m_x) + (this->m_y * this->m_y));
 }
 

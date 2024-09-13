@@ -11,6 +11,7 @@ Ball::Ball(BallId id, float radius, Vec2 pos = (0, 0), Vec2 vel = (0, 0), Vec2 a
 	,m_radius{radius}
 	,m_circle{radius}
 	,m_SimTimeRemaining{0}
+	,m_outline{false}
 {
 	m_circle.setOrigin(radius, radius);
 	m_circle.setPosition(pos.getx(), pos.gety());
@@ -52,6 +53,11 @@ float Ball::getSimTimeRemaining() const
 	return m_SimTimeRemaining;
 }
 
+sf::Sprite& Ball::getTagSprite()
+{
+	return m_tag;
+}
+
 const bool Ball::isVisible() const {
 	return m_visible;
 }
@@ -82,6 +88,19 @@ void Ball::setVelMagnitude(const float magnitude)
 void Ball::setSimTimeRemaining(float time)
 {
 	m_SimTimeRemaining = time;
+}
+
+void Ball::toggleOutline(bool toggle)
+{
+	m_outline = toggle;
+	if (m_outline)
+	{
+		m_circle.setOutlineThickness(5);
+	}
+	else
+	{
+		m_circle.setOutlineThickness(0);
+	}
 }
 
 void Ball::setRadius(const float radius) {

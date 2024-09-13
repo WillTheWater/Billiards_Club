@@ -16,6 +16,7 @@ public:
 	void Update(float deltaTime);
 	void HandleCollisions();
 	bool AreBallsAtRest();
+	void ApplyStrikeVelocityToCueBall(Vec2 unitVec, float scale);
 
 	// Debug Functions
 	void debugRandomizeBalls();
@@ -26,11 +27,13 @@ private:
 	int mSimUpdates;
 	float mStepTime;
 	int mMaxSimSteps;
+	float mFrictionScale; 
 
 	// Private Functions
 	void calculateStepTime(float deltaTime);
 	void initializeSimTimeForBalls();
-	void updateSimTimeForBalls();
+	void resetPreviousPositionForBalls();
+	void UpdateSimTimeForBalls();
 	void MoveBalls();
 	void Handle_BvTableRect();
 	void Handle_BvB();
@@ -39,6 +42,9 @@ private:
 	bool doBallsOverlap(const Ball& b1, const Ball& b2) const;
 	void HandleBallVsPolygons();
 	void BallVsPolygon(Ball& b, const sf::ConvexShape& polygon);
+	void ApplyFriction();
+
+	void ApplyFrictionCoEff();
 
 	float dotProduct(const sf::Vector2f& a, const sf::Vector2f& b);
 	float length(const sf::Vector2f& v);

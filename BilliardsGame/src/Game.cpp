@@ -10,12 +10,13 @@ Game::Game()
     , mPhysicsEngine{*this}
     , mTextureManager{*this}
     , mRenderManager{*this}
+    , mInputManager{*this}
     , mGUI{*this}
 {
     mWindow.setFramerateLimit(120);
     mIcon.loadFromFile("assets/graphics/icon.png");
     mWindow.setIcon(mIcon.getSize().x, mIcon.getSize().y, mIcon.getPixelsPtr());
-    mStateStack.PushState(std::make_unique<MainMenuState>(*this)); 
+    mStateStack.PushState(std::make_unique<TestState>(*this)); 
 }
 
 void Game::Run()
@@ -67,6 +68,11 @@ PhysicsEngine& Game::GetPhysicsEngine()
 RenderManager& Game::GetRenderManager()
 {
     return mRenderManager;
+}
+
+InputManager& Game::GetInputManager()
+{
+    return mInputManager;
 }
 
 GUI& Game::GetGUI()

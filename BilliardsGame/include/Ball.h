@@ -3,7 +3,7 @@
 #include "Vec2.h"
 #include "EntityGlobals.h"
 #include <cmath>
-#include <SFML/Graphics/CircleShape.hpp>
+#include <SFML/Graphics.hpp>
 
 class Ball
 {
@@ -21,6 +21,7 @@ public:
 	sf::CircleShape& getCircle();
 	const BallId getId() const;
 	float getSimTimeRemaining() const;
+	sf::Sprite& getTagSprite(); 
 
 	void setPosition(const Vec2& position);
 	void setPositionPrevious(const Vec2& position);
@@ -31,6 +32,7 @@ public:
 	void setRadius(const float radius) ;
 	void setVelMagnitude(const float magnitude);
 	void setSimTimeRemaining(float time);
+	void toggleOutline(bool toggle);
 
 	void updatePosition();
 	void clampVelocity();
@@ -48,6 +50,8 @@ private:
 	float m_radius;
 	bool m_visible;
 	sf::CircleShape m_circle;
+	sf::Sprite		m_tag;
 	BallId m_id;
 	float m_SimTimeRemaining;
+	bool m_outline;
 };
