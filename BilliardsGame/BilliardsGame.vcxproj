@@ -157,6 +157,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="include\AudioManager.h" />
     <ClInclude Include="include\CueStick.h" />
     <ClInclude Include="include\GUI.h" />
     <ClInclude Include="include\Ball.h" />
@@ -178,6 +179,7 @@
     <ClInclude Include="include\InputManager.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\AudioManager.cpp" />
     <ClCompile Include="src\CueStick.cpp" />
     <ClCompile Include="src\InputManager.cpp" />
     <ClCompile Include="src\GUI.cpp" />

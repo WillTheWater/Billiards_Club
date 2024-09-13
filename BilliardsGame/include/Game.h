@@ -5,6 +5,7 @@
 #include "StateStack.h"
 #include "MainMenuState.h"
 #include "PlayState.h"
+#include "AudioManager.h"
 #include "TextureManager.h"
 #include "PhysicsEngine.h"
 #include "EntityManager.h"

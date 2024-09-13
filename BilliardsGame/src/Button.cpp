@@ -28,6 +28,7 @@ bool Button::HandleEvent(const sf::Event& event)
 			if (mButtonSprite.getGlobalBounds().contains(event.mouseButton.x, event.mouseButton.y))
 			{
 				std::cout << "Button Clicked\n";
+				Audio::PlaySound(mSound, Audio::BUTTON_DOWN, 40, 1);
 				IsButtonDown = true;
 				OnButtonDown();
 			}
@@ -40,6 +41,7 @@ bool Button::HandleEvent(const sf::Event& event)
 			if (IsButtonDown && mButtonSprite.getGlobalBounds().contains(event.mouseButton.x, event.mouseButton.y))
 			{
 				std::cout << "Button Released\n";
+				Audio::PlaySound(mSound, Audio::BUTTON_UP, 40, 1);
 				OnButtonDown();
 				WasClicked();
 				handled = true;
