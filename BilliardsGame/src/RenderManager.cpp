@@ -36,31 +36,31 @@ void RenderManager::RenderBalls()
 
 	for (auto& ball : balls) // Loop through the vector of balls
 	{
-		if (ball->isVisible())
+		if (!ball->isVisible())	// Don't need to render invisible balls
 		{
-			// Calculate the overlay rotation so it fakes a light
-			Vec2 circlePos = ball->getPosition();
-			Vec2 centerOfScreen{ (float)window.getSize().x /2 , (float)window.getSize().y /2 };
-			std::cout << centerOfScreen << '\n';
-			Vec2 vectorBallToCenter = centerOfScreen - circlePos;
-			float angle = vectorBallToCenter.angleInDegrees();
-			overlayCircle.setRotation(angle + 110);
+			continue;
+		}
 
-			// Render the overlay
-			overlayCircle.setPosition(ball->getCircle().getPosition());
-			window.draw(ball->getCircle());
-			window.draw(overlayCircle, mRenderMode);
-			BallId id = ball->getId();
-			
-			// Render the tags
-			if (id != BallId_cueBall)
-			{
-				auto& tagSprite = ball->getTagSprite();
-				tagSprite.setPosition(ball->getCircle().getPosition());
-				window.draw(tagSprite);
-				
-			}
-			
+		// Calculate the overlay rotation so it fakes a light
+
+		Vec2 circlePos = ball->getPosition();
+		Vec2 centerOfScreen{ (float)window.getSize().x / 2 , (float)window.getSize().y / 2 };
+		Vec2 vectorBallToCenter = centerOfScreen - circlePos;
+		float angle = vectorBallToCenter.angleInDegrees();
+		overlayCircle.setRotation(angle + 110);
+
+		// Render the overlay
+		overlayCircle.setPosition(ball->getCircle().getPosition());
+		window.draw(ball->getCircle());
+		window.draw(overlayCircle, mRenderMode);
+		BallId id = ball->getId();
+
+		// Render the tags
+		if (id != BallId_cueBall)
+		{
+			auto& tagSprite = ball->getTagSprite();
+			tagSprite.setPosition(ball->getCircle().getPosition());
+			window.draw(tagSprite);
 		}
 	}
 }
@@ -84,13 +84,13 @@ void RenderManager::RenderCue()
 	Vec2 cueOnBall = ballPos - offsetToBallEdge;
 
 	// Set the position of the cuestick
+	// Make this cueOnBall to render exactly on the ball
+	// Make this mousePos to render where the mouse is, pointed at the ball
 	cueStick.setPosition(cueOnBall);
 
 	// Set the angle of the cue stick
 	float angle{ inputManager.getAngleCueballToMouse() };	
 	cueStick.setRotationDegrees(angle);
-
-	
 
 	window.draw(cueStick.getSprite());
 }

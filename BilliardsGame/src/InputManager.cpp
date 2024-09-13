@@ -85,3 +85,12 @@ float InputManager::getAngleCueballToMouse()
 	return angle;
 }
 
+float InputManager::distanceFromCueToBall()
+{
+	Vec2 mousePos = getMousePos();
+	Vec2 ballPos = getCueBallPos();
+	Vec2 ballToCue = GetVecMouseToCueBall();
+	float distance = ballToCue.magnitude() - PoolBall::radius;
+	return distance; 
+}
+

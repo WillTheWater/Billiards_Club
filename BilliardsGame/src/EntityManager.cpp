@@ -87,26 +87,26 @@ void EntityManager::RackBalls()
 	mBalls[ball1]->setPosition({ tableLeft + 870, tableBottom / 2 });
 
 	// Second row of rack
-	mBalls[ball2]-> setPosition({  mBalls[ball1]->getPosition().getx() + TriangleOffsetUp.getx(),		mBalls[ball1]->getPosition().gety() + TriangleOffsetUp.gety()});
-	mBalls[ball3]-> setPosition({  mBalls[ball1]->getPosition().getx() + TriangleOffsetDown.getx(),		mBalls[ball1]->getPosition().gety() + TriangleOffsetDown.gety() });
+	mBalls[ball2]-> setPosition({  mBalls[ball1]->getPosition().getx()  + TriangleOffsetUp.getx(),		mBalls[ball1]->getPosition().gety()  + TriangleOffsetUp.gety()		});
+	mBalls[ball3]-> setPosition({  mBalls[ball1]->getPosition().getx()  + TriangleOffsetDown.getx(),	mBalls[ball1]->getPosition().gety()  + TriangleOffsetDown.gety()	});
 
 	// Third row of rack
-	mBalls[ball4]->setPosition({   mBalls[ball2]->getPosition().getx() + TriangleOffsetUp.getx(),		mBalls[ball2]->getPosition().gety() + TriangleOffsetUp.gety() });
-	mBalls[ball5]->setPosition({   mBalls[ball3]->getPosition().getx() + TriangleOffsetUp.getx(),		mBalls[ball3]->getPosition().gety() + TriangleOffsetUp.gety() });
-	mBalls[ball6]->setPosition({   mBalls[ball3]->getPosition().getx() + TriangleOffsetDown.getx(),		mBalls[ball3]->getPosition().gety() + TriangleOffsetDown.gety() });
+	mBalls[ball4]->setPosition({   mBalls[ball2]->getPosition().getx()  + TriangleOffsetUp.getx(),		mBalls[ball2]->getPosition().gety()  + TriangleOffsetUp.gety()		});
+	mBalls[ball5]->setPosition({   mBalls[ball3]->getPosition().getx()  + TriangleOffsetUp.getx(),		mBalls[ball3]->getPosition().gety()  + TriangleOffsetUp.gety()		});
+	mBalls[ball6]->setPosition({   mBalls[ball3]->getPosition().getx()  + TriangleOffsetDown.getx(),	mBalls[ball3]->getPosition().gety()  + TriangleOffsetDown.gety()	});
 
 	// Fourth row of rack
-	mBalls[ball7]->setPosition({   mBalls[ball4]->getPosition().getx() + TriangleOffsetUp.getx(),		mBalls[ball4]->getPosition().gety() + TriangleOffsetUp.gety() });
-	mBalls[ball8]->setPosition({   mBalls[ball5]->getPosition().getx() + TriangleOffsetUp.getx(),		mBalls[ball5]->getPosition().gety() + TriangleOffsetUp.gety() });
-	mBalls[ball9]->setPosition({   mBalls[ball6]->getPosition().getx() + TriangleOffsetUp.getx(),		mBalls[ball6]->getPosition().gety() + TriangleOffsetUp.gety() });
-	mBalls[ball10]->setPosition({  mBalls[ball6]->getPosition().getx() + TriangleOffsetDown.getx(),		mBalls[ball6]->getPosition().gety() + TriangleOffsetDown.gety() });
+	mBalls[ball7]->setPosition({   mBalls[ball4]->getPosition().getx()  + TriangleOffsetUp.getx(),		mBalls[ball4]->getPosition().gety()  + TriangleOffsetUp.gety()		});
+	mBalls[ball8]->setPosition({   mBalls[ball5]->getPosition().getx()  + TriangleOffsetUp.getx(),		mBalls[ball5]->getPosition().gety()  + TriangleOffsetUp.gety()		});
+	mBalls[ball9]->setPosition({   mBalls[ball6]->getPosition().getx()  + TriangleOffsetUp.getx(),		mBalls[ball6]->getPosition().gety()  + TriangleOffsetUp.gety()		});
+	mBalls[ball10]->setPosition({  mBalls[ball6]->getPosition().getx()  + TriangleOffsetDown.getx(),	mBalls[ball6]->getPosition().gety()  + TriangleOffsetDown.gety()	});
 
 	// Fifth row of rack
-	mBalls[ball11]->setPosition({  mBalls[ball7]->getPosition().getx() + TriangleOffsetUp.getx(),		mBalls[ball7]->getPosition().gety() + TriangleOffsetUp.gety() });
-	mBalls[ball12]->setPosition({  mBalls[ball8]->getPosition().getx() + TriangleOffsetUp.getx(),		mBalls[ball8]->getPosition().gety() + TriangleOffsetUp.gety() });
-	mBalls[ball13]->setPosition({  mBalls[ball9]->getPosition().getx() + TriangleOffsetUp.getx(),		mBalls[ball9]->getPosition().gety() + TriangleOffsetUp.gety() });
-	mBalls[ball14]->setPosition({  mBalls[ball10]->getPosition().getx() + TriangleOffsetUp.getx(),		mBalls[ball10]->getPosition().gety() + TriangleOffsetUp.gety() });
-	mBalls[ball15]->setPosition({  mBalls[ball10]->getPosition().getx() + TriangleOffsetDown.getx(),	mBalls[ball10]->getPosition().gety() + TriangleOffsetDown.gety() });
+	mBalls[ball13]->setPosition({  mBalls[ball9]->getPosition().getx()  + TriangleOffsetUp.getx(),		mBalls[ball9]->getPosition().gety()  + TriangleOffsetUp.gety()		});
+	mBalls[ball11]->setPosition({  mBalls[ball7]->getPosition().getx()  + TriangleOffsetUp.getx(),		mBalls[ball7]->getPosition().gety()  + TriangleOffsetUp.gety()		});
+	mBalls[ball12]->setPosition({  mBalls[ball8]->getPosition().getx()  + TriangleOffsetUp.getx(),		mBalls[ball8]->getPosition().gety()  + TriangleOffsetUp.gety()		});
+	mBalls[ball14]->setPosition({  mBalls[ball10]->getPosition().getx() + TriangleOffsetUp.getx(),		mBalls[ball10]->getPosition().gety() + TriangleOffsetUp.gety()		});
+	mBalls[ball15]->setPosition({  mBalls[ball10]->getPosition().getx() + TriangleOffsetDown.getx(),	mBalls[ball10]->getPosition().gety() + TriangleOffsetDown.gety()	});
 
 }
 
