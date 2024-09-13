@@ -67,6 +67,10 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="include\AudioManager.h">
+    <ClInclude Include="include\InputManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\CueStick.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -123,6 +127,10 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\AudioManager.cpp">
+    <ClCompile Include="src\InputManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\CueStick.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

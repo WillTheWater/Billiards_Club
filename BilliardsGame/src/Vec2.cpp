@@ -2,7 +2,7 @@
 
 // ### CONSTRUCTORS ###
 
-Vec2::Vec2(double x, double y)
+Vec2::Vec2(float x, float y)
 	: m_x{x}
 	, m_y{y}
 {
@@ -14,17 +14,22 @@ Vec2::~Vec2()
 
 // ### OPERATORS ###
 
+Vec2 Vec2::operator-()
+{
+	return Vec2(-m_x, -m_y);
+}
+
 Vec2 Vec2::operator + (Vec2 other)
 {
-	double x = (this->m_x + other.m_x); 
-	double y = (this->m_y + other.m_y);
+	float x = (this->m_x + other.m_x); 
+	float y = (this->m_y + other.m_y);
 	return Vec2(x, y);
 }
 
 Vec2 Vec2::operator - (Vec2 other)
 {
-	double x = (this->m_x - other.m_x);
-	double y = (this->m_y - other.m_y);
+	float x = (this->m_x - other.m_x);
+	float y = (this->m_y - other.m_y);
 	return Vec2(x, y);
 }
 
@@ -45,37 +50,37 @@ Vec2& Vec2::operator -= (Vec2 other)
 	return *this = *this - other;
 }
 
-Vec2 Vec2::operator / (double num)
+Vec2 Vec2::operator / (float num)
 {
-	double x = (this->m_x / num);
-	double y =  (this->m_y / num);
+	float x = (this->m_x / num);
+	float y =  (this->m_y / num);
 	return Vec2(x, y);
 }
 
-Vec2 Vec2::operator * (double num)
+Vec2 Vec2::operator * (float num)
 {
-	double x = (this->m_x * num);
-	double y = (this->m_y * num);
+	float x = (this->m_x * num);
+	float y = (this->m_y * num);
 	return Vec2(x, y);
 }
 
-Vec2 Vec2::operator + (double num)
+Vec2 Vec2::operator + (float num)
 {
-	double magnitude = this->magnitude();
-	double angle = this->angleInDegrees();
+	float magnitude = this->magnitude();
+	float angle = this->angleInDegrees();
 	magnitude += num;
-	double x = (this->m_x = magnitude * std::cos(angle));
-	double y = (this->m_y = magnitude * std::sin(angle));
+	float x = (this->m_x = magnitude * std::cos(angle));
+	float y = (this->m_y = magnitude * std::sin(angle));
 	return Vec2(x, y);
 }
 
-Vec2 Vec2::operator - (double num)
+Vec2 Vec2::operator - (float num)
 {
-	double magnitude = this->magnitude();
-	double angle = this->angleInDegrees();
+	float magnitude = this->magnitude();
+	float angle = this->angleInDegrees();
 	magnitude -= num;
-	double x = (this->m_x = magnitude * std::cos(angle));
-	double y = (this->m_y = magnitude * std::sin(angle));
+	float x = (this->m_x = magnitude * std::cos(angle));
+	float y = (this->m_y = magnitude * std::sin(angle));
 	return Vec2(x, y);
 }
 
@@ -87,34 +92,34 @@ std::ostream& operator << (std::ostream& out, Vec2& vec)
 
 // ### GETTERS ###
 
-const double Vec2::getx() const { return this->m_x; }
+const float Vec2::getx() const { return this->m_x; }
 
-const double Vec2::gety() const { return this->m_y; }
+const float Vec2::gety() const { return this->m_y; }
 
 // ### SETTERS ###
 
-void Vec2::setx(double x) { this->m_x = x; }
+void Vec2::setx(float x) { this->m_x = x; }
 
-void Vec2::sety(double y) { this->m_y = y; }
+void Vec2::sety(float y) { this->m_y = y; }
 
-void Vec2::setMagnitude(const double magnitude)
+void Vec2::setMagnitude(const float magnitude)
 {
-	double angle = this->angleInDegrees();
+	float angle = this->angleInDegrees();
 	this->m_x = magnitude * std::cos(angle);
 	this->m_y = magnitude * std::sin(angle);
 }
 
 // ### FUNCTIONS ###
 
-Vec2 Vec2::withMagnitude(const double magnitude)
+Vec2 Vec2::withMagnitude(const float magnitude)
 {
-	double angle = this->angleInDegrees();
-	double x = magnitude * std::cos(angle);
-	double y = magnitude * std::sin(angle);
+	float angle = this->angleInDegrees();
+	float x = magnitude * std::cos(angle);
+	float y = magnitude * std::sin(angle);
 	return Vec2(x, y);
 }
 
-const double Vec2::distance(Vec2 other) const
+const float Vec2::distance(Vec2 other) const
 {
 	return std::sqrt(
 		(std::pow((other.m_x - this->m_x), 2)) + 
@@ -122,37 +127,54 @@ const double Vec2::distance(Vec2 other) const
 	);
 }
 
+Vec2 Vec2::getNormalized() const
+{
+	float length = this->magnitude();
+	if (length == 0)
+	{
+		return (0, 0);
+	}
+	else
+	{
+		return ((this->m_x / length), (this->m_y / length));
+	}
+}
+
 Vec2 Vec2::normalVectorTo(Vec2 other) const
 {
-	double distance = this->distance(other);
-	double normalx = (other.m_x - this->m_x) / (distance);
-	double normaly = (other.m_y - this->m_y) / (distance);
+	float distance = this->distance(other);
+	float normalx = (other.m_x - this->m_x) / (distance);
+	float normaly = (other.m_y - this->m_y) / (distance);
 	return Vec2(normalx, normaly);
 }
 
 Vec2 Vec2::getTangent() const
 {
-	double tangentx = this->m_y * -1;
-	double tangenty = this->m_x;
+	float tangentx = this->m_y * -1;
+	float tangenty = this->m_x;
 	return Vec2(tangentx, tangenty);
 }
 
-const double Vec2::magnitude() const
+const float Vec2::magnitude() const
 {
-	return std::sqrt((std::pow(this->m_x, 2)) + ((std::pow(this->m_y, 2))));
+	if (m_x == 0 && m_y == 0)
+	{
+		return 0;
+	}
+	return std::sqrt((this->m_x * this->m_x) + (this->m_y * this->m_y));
 }
 
-const double Vec2::dotProduct(Vec2 other) const
+const float Vec2::dotProduct(Vec2 other) const
 {
-	return ((this->m_x * other.m_x) + (this->m_y + other.m_y));
+	return ((this->m_x * other.m_x) + (this->m_y * other.m_y));
 }
 
-double Vec2::angleInDegrees()
+float Vec2::angleInDegrees()
 {
 	return std::atan2(this->m_y, this->m_x) * (180 / PI);
 }
 
-double Vec2::angleInRads()
+float Vec2::angleInRads()
 {
 	return std::atan2(this->m_y, this->m_x);
 }
