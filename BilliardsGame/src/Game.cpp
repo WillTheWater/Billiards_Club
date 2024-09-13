@@ -10,6 +10,7 @@ Game::Game()
     , mPhysicsEngine{*this}
     , mTextureManager{*this}
     , mRenderManager{*this}
+    , mInputManager{*this}
     , mGUI{*this}
 {
     mWindow.setFramerateLimit(120);
@@ -67,6 +68,11 @@ PhysicsEngine& Game::GetPhysicsEngine()
 RenderManager& Game::GetRenderManager()
 {
     return mRenderManager;
+}
+
+InputManager& Game::GetInputManager()
+{
+    return mInputManager;
 }
 
 GUI& Game::GetGUI()

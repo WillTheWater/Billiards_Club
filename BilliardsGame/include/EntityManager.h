@@ -4,6 +4,7 @@
 #include <cassert>
 #include "Ball.h"
 #include "Table.h"
+#include "CueStick.h"
 #include "EntityGlobals.h"
 
 class Game;
@@ -18,12 +19,15 @@ public:
 
 	// GETTERS
 	std::vector<std::unique_ptr<Ball>>& GetBallVector();
+	Ball& getCueBall();
 	Table& getTable();
+	CueStick& getCueStick();
 	
 	//FUNCTIONS
 	void InitializeAssets();
 	void CreateBalls();
 	void RackBalls();
+	void CreateCueStick();
 	void CreateTable();
 	void CreateCollisionPolygons();
 
@@ -39,6 +43,7 @@ private:
 	Game& mGameRef;
 	std::vector<std::unique_ptr<Ball>> mBalls; 
 	std::unique_ptr<Table> mTable;
+	std::unique_ptr<CueStick> mCueStick;
 	sf::ConvexShape mCollisionPolygon;
 
 	// Debugs

@@ -9,6 +9,13 @@ PhysicsEngine::PhysicsEngine(Game& game)
 {
 }
 
+
+void PhysicsEngine::ApplyStrikeVelocityToCueBall(Vec2 unitVec, float scale)
+{
+	auto& cueBall = mGameRef.GetEntityManager().getCueBall();
+	cueBall.setVelocity(unitVec * scale);
+}
+
 void PhysicsEngine::Update(float deltaTime)
 {
 	calculateStepTime(deltaTime);
@@ -421,5 +428,6 @@ bool PhysicsEngine::AreBallsAtRest()
 	}
 	return atRest;
 }
+
 
 

@@ -32,6 +32,7 @@ public:
 	void setRadius(const float radius) ;
 	void setVelMagnitude(const float magnitude);
 	void setSimTimeRemaining(float time);
+	void toggleOutline(bool toggle);
 
 	void updatePosition();
 	void clampVelocity();
@@ -52,4 +53,5 @@ private:
 	sf::Sprite		m_tag;
 	BallId m_id;
 	float m_SimTimeRemaining;
+	bool m_outline;
 };

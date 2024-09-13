@@ -16,6 +16,7 @@ public:
 	void Update(float deltaTime);
 	void HandleCollisions();
 	bool AreBallsAtRest();
+	void ApplyStrikeVelocityToCueBall(Vec2 unitVec, float scale);
 
 	// Debug Functions
 	void debugRandomizeBalls();

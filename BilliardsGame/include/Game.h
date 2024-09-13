@@ -9,6 +9,7 @@
 #include "PhysicsEngine.h"
 #include "EntityManager.h"
 #include "RenderManager.h"
+#include "InputManager.h"
 #include "GUI.h"
 
 class Game
@@ -25,6 +26,7 @@ public:
 	EntityManager&				GetEntityManager();
 	PhysicsEngine&				GetPhysicsEngine();
 	RenderManager&				GetRenderManager();
+	InputManager&				GetInputManager();
 	GUI&						GetGUI();
 
 
@@ -38,6 +40,7 @@ private:
 	EntityManager				mEntityManager;
 	PhysicsEngine				mPhysicsEngine;
 	RenderManager				mRenderManager;
+	InputManager				mInputManager;
 	StateStack					mStateStack;
 	GUI							mGUI;
 };

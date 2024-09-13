@@ -5,6 +5,7 @@ TextureManager::TextureManager(Game& game)
     :mGameRef{ game }
 {
     loadBallTextures();
+    loadCueStick();
 }
 
 std::shared_ptr<sf::Texture> TextureManager::GetTexture(const std::string& texture)
@@ -71,6 +72,16 @@ void TextureManager::loadBallTextures()
             std::cout << "TextureManager::loadBallTextures failed to load the ball tag at: " << path << " ! \n";
         };
     }
+    
+}
+
+void TextureManager::loadCueStick()
+{
+    mCueStick = std::make_unique<sf::Texture>();
+    if (!mCueStick->loadFromFile("assets/graphics/cue.png"))
+    {
+        assert(0 && "TextureManager failed to load cuestick! \n");
+    }
 }
 
 const sf::Texture& TextureManager::getBallTexture(BallId id)
@@ -95,6 +106,11 @@ const sf::Texture& TextureManager::getBallTag(BallId id)
         return *mBallTags[id];
     }
 
+}
+
+const sf::Texture& TextureManager::getCueStick()
+{
+    return *mCueStick;
 }
 
 std::shared_ptr<sf::Texture> TextureManager::LoadTexture(const std::string& texturePath)

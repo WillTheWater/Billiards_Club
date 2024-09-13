@@ -11,6 +11,7 @@ void EntityManager::InitializeAssets()
 	CreateTable();
 	CreateBalls();
 	CreateCollisionPolygons();
+	CreateCueStick();
 	RackBalls();
 }
 
@@ -40,6 +41,9 @@ void EntityManager::CreateBalls()
 		
 	}
 	assert(mBalls.size() == BallId::BallId_MAX_BALL_ID && "EntityManager::CreateBalls, vector size != BallId_MAX_BALL_ID");
+
+	// Set the outline color of the cueball
+	mBalls[BallId_cueBall]->getCircle().setOutlineColor(sf::Color::Red);
 }
 
 void EntityManager::RackBalls()
@@ -106,10 +110,30 @@ void EntityManager::RackBalls()
 
 }
 
+void EntityManager::CreateCueStick()
+{
+	mCueStick = std::make_unique<CueStick>();
+	auto& texture = mGameRef.GetTextureManager().getCueStick();
+	auto& cueSprite = mCueStick->getSprite();
+	cueSprite.setTexture(texture);
+
+	// Set the cuestick origin to be the tip of the cuestick
+	cueSprite.setOrigin(texture.getSize().x, texture.getSize().y / 2);
+
+	float tableBottom = mTable->getBottomBound();
+	float tableLeft = mTable->getLeftBound();
+
+	// For debug purposes:
+	mCueStick->setPosition({tableLeft + 330, tableBottom / 2});
+
+}
+
 void EntityManager::CreateTable()
 {
 	mTable = std::make_unique<Table>(PoolTable::width, PoolTable::height);
 	mTable->setOrigin(PoolTable::width / 2, PoolTable::height / 2);
+
+
 	mTable->setPosition(mGameRef.GetWindowSize().x / 2, mGameRef.GetWindowSize().y / 2);
 }
 
@@ -169,9 +193,21 @@ std::vector<std::unique_ptr<Ball>>& EntityManager::GetBallVector()
 	return mBalls;
 }
 
+Ball& EntityManager::getCueBall()
+{
+	assert(mBalls[0] != nullptr && "EntityManager::getCueBall called before cueball initialized in vector!\n");
+	return *mBalls[(int)BallId::BallId_cueBall];
+
+}
+
 Table& EntityManager::getTable()
 {
 	return *mTable;
+}
+
+CueStick& EntityManager::getCueStick()
+{
+	return *mCueStick;
 }
 
 // DEBUG:
