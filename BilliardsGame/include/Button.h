@@ -1,6 +1,7 @@
 #pragma once
 #include "SFML/Graphics.hpp"
 #include "TextureManager.h"
+#include "AudioManager.h"
 
 class Button
 {
@@ -36,5 +37,6 @@ private:
 	void						OnButtonUp();
 	void						OnButtonDown();
 	void						OnButtonHover();
+	sf::Sound					mSound;
 	TextureManager&				mTextureManager;
 };
