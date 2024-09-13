@@ -18,7 +18,6 @@ Game::Game()
     mWindow.setIcon(mIcon.getSize().x, mIcon.getSize().y, mIcon.getPixelsPtr());
     mStateStack.PushState(std::make_unique<MainMenuState>(*this));
     Audio::Init();
-    mStateStack.PushState(std::make_unique<TestState>(*this)); 
 }
 
 void Game::Run()
