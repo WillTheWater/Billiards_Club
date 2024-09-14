@@ -12,6 +12,7 @@ void EntityManager::InitializeAssets()
 	CreateBalls();
 	CreateCollisionPolygons();
 	CreateCueStick();
+	CreatePockets();
 	RackBalls();
 }
 
@@ -191,12 +192,49 @@ void EntityManager::CreateCollisionPolygons()
 
 void EntityManager::CreatePockets()
 {
-	sf::CircleShape pocket1{ 70 };
-	sf::CircleShape pocket2{ 70 };
-	sf::CircleShape pocket3{ 70 };
-	sf::CircleShape pocket4{ 70 };
-	sf::CircleShape pocket5{ 70 };
-	sf::CircleShape pocket6{ 70 };
+	sf::CircleShape pocket1{ PoolTable::pocketradius };
+	sf::CircleShape pocket2{ PoolTable::pocketradius };
+	sf::CircleShape pocket3{ PoolTable::pocketradius };
+	sf::CircleShape pocket4{ PoolTable::pocketradius };
+	sf::CircleShape pocket5{ PoolTable::pocketradius };
+	sf::CircleShape pocket6{ PoolTable::pocketradius };
+
+	float originOffset = PoolTable::pocketradius;
+
+	// Center their origins
+	pocket1.setOrigin(originOffset, originOffset);
+	pocket2.setOrigin(originOffset, originOffset);
+	pocket3.setOrigin(originOffset, originOffset);
+	pocket4.setOrigin(originOffset, originOffset);
+	pocket5.setOrigin(originOffset, originOffset);
+	pocket6.setOrigin(originOffset, originOffset);
+
+	auto& table = getTable();
+	float tableupper = table.getTopBound();
+	float tableleft = table.getLeftBound();
+
+	pocket1.setPosition(tableleft + 50,		tableupper + 50);
+	pocket2.setPosition(tableleft + 600,	tableupper + 50);
+	pocket3.setPosition(tableleft + 1150,	tableupper + 50);
+	pocket4.setPosition(tableleft + 50,		tableupper + 550);
+	pocket5.setPosition(tableleft + 600,	tableupper + 550);
+	pocket6.setPosition(tableleft + 1150,	tableupper + 550);
+									
+	mPockets.push_back(pocket1);
+	mPockets.push_back(pocket2);
+	mPockets.push_back(pocket3);
+	mPockets.push_back(pocket4);
+	mPockets.push_back(pocket5);
+	mPockets.push_back(pocket6);
+}
+
+void EntityManager::ResetCueBall()
+{
+	float tableLeft = mTable->getLeftBound();
+	mBalls[(int)BallId::BallId_cueBall]->setPosition({ tableLeft + 330, (float)mGameRef.GetWindowSize().y / 2 });
+	mBalls[(int)BallId::BallId_cueBall]->setVisiblity(true);
+	mGameRef.GetPhysicsEngine().FixCueBallResetOnBall();
+
 }
 
 std::vector<std::unique_ptr<Ball>>& EntityManager::GetBallVector()
@@ -219,6 +257,11 @@ Table& EntityManager::getTable()
 CueStick& EntityManager::getCueStick()
 {
 	return *mCueStick;
+}
+
+std::vector<sf::CircleShape>& EntityManager::getPockets()
+{
+	return mPockets;
 }
 
 // DEBUG:

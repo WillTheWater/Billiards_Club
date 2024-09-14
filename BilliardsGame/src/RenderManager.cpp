@@ -113,6 +113,17 @@ void RenderManager::DebugRenderCue()
 	window.draw(cueStick.getSprite());
 }
 
+void RenderManager::DebugRenderPockets()
+{
+	auto& pockets = mGameRef.GetEntityManager().getPockets();
+	auto& window = mGameRef.GetWindow();
+	for (auto& pocket : pockets)
+	{
+		window.draw(pocket);
+	}
+
+}
+
 void RenderManager::DebugBallVectors()
 {
 	auto& window = mGameRef.GetWindow();

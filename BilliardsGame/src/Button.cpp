@@ -85,7 +85,6 @@ void Button::SetTextureRect(int left, int top, int width, int height)
 void Button::SetText(const std::string& buttonText)
 {
 	mButtonText.setString(buttonText);
-	
 }
 
 void Button::SetFont(const std::string& fontPath)

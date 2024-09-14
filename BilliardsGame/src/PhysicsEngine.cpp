@@ -5,7 +5,7 @@ PhysicsEngine::PhysicsEngine(Game& game)
 	, mSimUpdates{4}
 	, mStepTime{ 0 }
 	, mMaxSimSteps{15}
-	, mFrictionScale{100}
+	, mFrictionScale{150}
 	, mSoundPlayed{false}
 	, soundDelayCounter{0}
 {
@@ -15,6 +15,23 @@ void PhysicsEngine::ApplyStrikeVelocityToCueBall(Vec2 unitVec, float scale)
 {
 	auto& cueBall = mGameRef.GetEntityManager().getCueBall();
 	cueBall.setVelocity(unitVec * scale);
+}
+
+void PhysicsEngine::FixCueBallResetOnBall()
+{
+	auto& balls = mGameRef.GetEntityManager().GetBallVector();
+	auto& cueball = mGameRef.GetEntityManager().getCueBall();
+	for (auto& ball : balls)
+	{
+		if (ball->getId() == BallId::BallId_cueBall)
+		{
+			continue;
+		}
+		if (doBallsOverlap(*ball, cueball))
+		{
+			BvB_ResolvePosition(*ball, cueball);
+		}
+	}
 }
 
 void PhysicsEngine::Update(float deltaTime)
@@ -34,6 +51,7 @@ void PhysicsEngine::Update(float deltaTime)
 		}
 	}
 	ClampBallVelocity();
+	HandleBallInPocket();
 }
 
 void PhysicsEngine::calculateStepTime(float deltaTime)
@@ -82,6 +100,11 @@ void PhysicsEngine::MoveBalls()
 
 	for (auto& ball : balls)
 	{
+		if (!ball->isVisible())
+		{
+			ball->setVelocity({ 0,0 });
+			continue;
+		}
 		if (ball->getSimTimeRemaining() > 0.f)
 		{
 			ball->updatePosition();
@@ -241,7 +264,7 @@ void PhysicsEngine::BvB_ResolvePosition(Ball& b1, Ball& b2)
 	float distance = b1Pos.distance(b2Pos);
 
 	// What is the distance they actually overlap, halved so it's the amount of overlap for each ball
-	float overlap = 0.5 * (distance - b1Radius - b2Radius);
+	float overlap = 0.5 * (distance - b1Radius - b2Radius - 1);
 
 	// Resolve the position of Ball 1
 	float xpos_offset = overlap * (b1Pos.getx() - b2Pos.getx()) / distance;
@@ -372,7 +395,34 @@ void PhysicsEngine::BallVsPolygon(Ball& b, const sf::ConvexShape& polygon)
 		float randomVolume = Random::getRandomFloat(80, 100);
 		Audio::PlaySound(mSound, Audio::BALL_WITH_TABLE_COLLISION, randomVolume * clamped, randomPitch * 0.75);*/
 	}
-	
+}
+
+void PhysicsEngine::HandleBallInPocket()
+{
+	auto& pockets = mGameRef.GetEntityManager().getPockets();
+	auto& balls = mGameRef.GetEntityManager().GetBallVector();
+
+	for (auto& ball : balls)
+	{
+		if (!ball->isVisible())
+		{
+			continue;
+		}
+
+		for (auto& pocket : pockets)
+		{
+			Vec2 ballPos = ball->getPosition();
+			Vec2 pocketPos = { pocket.getPosition().x, pocket.getPosition().y };
+			float distance = pocketPos.distance(ballPos);
+			float combinedRadius = PoolTable::pocketradius;
+			if (distance < combinedRadius)
+			{
+				Audio::PlaySound(mSound, Audio::POCKET, 50, 1);
+				ball->setVisiblity(false);
+			}
+
+		}
+	}
 }
 
 void PhysicsEngine::ApplyFriction()

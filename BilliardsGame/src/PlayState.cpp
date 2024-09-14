@@ -26,7 +26,7 @@ void PlayState::HandleInput(Game& game)
 		}
 		if (event.type == sf::Event::MouseButtonReleased)
 		{
-			if (event.mouseButton.button == sf::Mouse::Left)
+			if (event.mouseButton.button == sf::Mouse::Left && physicsEngine.AreBallsAtRest() && !inputManager.IsMouseOverCueBall())
 			{
 				inputManager.initialiazeCueStickAnim(60);
 			}
@@ -40,6 +40,7 @@ void PlayState::HandleInput(Game& game)
 
 void PlayState::Update(Game& game, float deltaTime)
 {
+	auto& cueBall = mGameRef.GetEntityManager().getCueBall();
 	auto& cueStick = mGameRef.GetEntityManager().getCueStick();
 	auto& inputManager = mGameRef.GetInputManager();
 	if (cueStick.isAnimationActive())
@@ -51,6 +52,13 @@ void PlayState::Update(Game& game, float deltaTime)
 			cueStick.toggleVisiblity(false);
 		}
 	}
+	if (game.GetPhysicsEngine().AreBallsAtRest())
+	{
+		if (!cueBall.isVisible())
+		{
+			mGameRef.GetEntityManager().ResetCueBall();
+		}
+	}
 	game.GetPhysicsEngine().Update(deltaTime);
 	game.GetInputManager().debugCueOutline();
 }
@@ -60,7 +68,6 @@ void PlayState::Draw(Game& game)
 	game.GetWindow().clear(sf::Color::Black);
 	game.GetGUI().DrawPlay(game);
 	auto& renderManager = game.GetRenderManager();
-	renderManager.RenderTable();
 	renderManager.RenderBalls();
 	renderManager.RenderCue();
 	game.GetWindow().display();

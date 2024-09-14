@@ -50,7 +50,7 @@ void InputManager::updateCueStick()
 	if (IsMouseOverCueBall())
 	{
 		cuestick.setPosition(GetPositionForCueOnBall());
-		
+		powerBar.setScale(0, powerBar.getScale().y);
 	}
 	else
 	{
@@ -70,7 +70,7 @@ void InputManager::updateCueStick()
 	{
 		cuestick.toggleVisiblity(false);
 	}
-	
+
 	cuestick.setRotationDegrees(getAngleCueballToMouse());
 }
 
@@ -92,7 +92,6 @@ void InputManager::initialiazeCueStickAnim(int steps)
 
 bool InputManager::IsMouseOverCueBall()
 {
-	
 	Vec2 mousePos = getMousePos();
 	Vec2 cueBallPos = getCueBallPos();
 	if (mousePos.distance(cueBallPos) < (float)PoolBall::radius)

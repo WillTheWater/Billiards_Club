@@ -18,6 +18,7 @@ public:
 	void HandleCollisions();
 	bool AreBallsAtRest();
 	void ApplyStrikeVelocityToCueBall(Vec2 unitVec, float scale);
+	void FixCueBallResetOnBall();
 
 	// Debug Functions
 	void debugRandomizeBalls();
@@ -43,6 +44,7 @@ private:
 	bool doBallsOverlap(const Ball& b1, const Ball& b2) const;
 	void HandleBallVsPolygons();
 	void BallVsPolygon(Ball& b, const sf::ConvexShape& polygon);
+	void HandleBallInPocket();
 	void ApplyFriction();
 	void ClampBallVelocity();
 

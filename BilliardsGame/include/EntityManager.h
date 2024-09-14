@@ -17,11 +17,12 @@ public:
 	~EntityManager() = default;
 	EntityManager& operator=(const EntityManager&) = delete;
 
-	// GETTERS
+	//GETTERS
 	std::vector<std::unique_ptr<Ball>>& GetBallVector();
 	Ball& getCueBall();
 	Table& getTable();
 	CueStick& getCueStick();
+	std::vector<sf::CircleShape>& getPockets();
 	
 	//FUNCTIONS
 	void InitializeAssets();
@@ -31,6 +32,7 @@ public:
 	void CreateTable();
 	void CreateCollisionPolygons();
 	void CreatePockets();
+	void ResetCueBall();
 
 
 	//DEBUG

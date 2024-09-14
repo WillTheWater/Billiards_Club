@@ -2,7 +2,7 @@
 
 GUI::GUI(Game& game)
 	: mGameRef{game}
-	, mAudioOn{false}
+	, mAudioOn{true}
 {
 	Audio::IsMuted = true;
 }
