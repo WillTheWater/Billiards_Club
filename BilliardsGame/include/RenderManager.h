@@ -11,6 +11,7 @@ public:
 	void RenderTable();
 	void RenderBalls();
 	void RenderCue();
+	void DebugRenderCue();
 	void DebugBallVectors();
 	void DrawDebugCollisionPoly();
 	void DrawDebugConvexShape();

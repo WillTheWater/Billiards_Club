@@ -6,9 +6,10 @@ PhysicsEngine::PhysicsEngine(Game& game)
 	, mStepTime{ 0 }
 	, mMaxSimSteps{15}
 	, mFrictionScale{100}
+	, mSoundPlayed{false}
+	, soundDelayCounter{0}
 {
 }
-
 
 void PhysicsEngine::ApplyStrikeVelocityToCueBall(Vec2 unitVec, float scale)
 {
@@ -32,6 +33,7 @@ void PhysicsEngine::Update(float deltaTime)
 			UpdateSimTimeForBalls();
 		}
 	}
+	ClampBallVelocity();
 }
 
 void PhysicsEngine::calculateStepTime(float deltaTime)
@@ -103,7 +105,6 @@ void PhysicsEngine::HandleBallVsPolygons()
 	auto& polygon = mGameRef.GetEntityManager().getDebugCollisionLine();
 	std::vector<std::unique_ptr<Ball>>& balls = mGameRef.GetEntityManager().GetBallVector();
 
-	// Lines added for stolen code
 	auto& convexShape = mGameRef.GetEntityManager().getDebugConvexShape();
 
 	for (auto& ball : balls)
@@ -112,7 +113,7 @@ void PhysicsEngine::HandleBallVsPolygons()
 		{
 			continue;
 		}
-		//BallVsPolygon(*ball, convexShape);
+
 		BallVsPolygon(*ball, convexShape);
 	}
 }
@@ -213,6 +214,12 @@ void PhysicsEngine::Handle_BvB()
 
 			BvB_ResolvePosition(*balls[i], *balls[j]);					// Resolve the positional overlap
 			BvB_ResolveVelocity(*balls[i], *balls[j]);					// Calculate the new velocities
+
+			// Play sounds 
+			float randomNumber = Random::getRandomFloat(90, 110);
+			float randomPitch = randomNumber / 100;
+			float randomVolume = Random::getRandomFloat(80, 100);
+			Audio::PlaySound(mSound, Audio::BALL_WITH_BALL_COLLISION, randomVolume, randomPitch);
 		}
 	}
 	// Uncomment to print the total velocity in the system
@@ -303,6 +310,8 @@ sf::Vector2f PhysicsEngine::normalize(const sf::Vector2f& v) {
 
 void PhysicsEngine::BallVsPolygon(Ball& b, const sf::ConvexShape& polygon)
 {
+
+	bool collision = false;
 	sf::Vector2f velocity = { b.getVelocity().getx(), b.getVelocity().gety() };
 	sf::Vector2f ballCenter = { b.getPosition().getx(), b.getPosition().gety() };
     // Iterate through polygon
@@ -332,12 +341,12 @@ void PhysicsEngine::BallVsPolygon(Ball& b, const sf::ConvexShape& polygon)
 
         if (distance <= b.getRadius()) {
             // Collision detected, calculate reflection
-
+			collision = true;
             // Vector collision
             sf::Vector2f normal = normalize(centerToClosest);
 
 			// Resolve Position
-			float overlap = distance - b.getRadius();
+			float overlap = distance - b.getRadius() - 1;
 			sf::Vector2f displace
 			{
 			((overlap * (ballCenter.x - closestPoint.x)) / distance),
@@ -346,12 +355,24 @@ void PhysicsEngine::BallVsPolygon(Ball& b, const sf::ConvexShape& polygon)
 
 			sf::Vector2f newPos = ballCenter - displace;
 			b.setPosition({ newPos.x, newPos.y });
-
-            // Reflect velocity
-            velocity = velocity - 2.f * dotProduct(velocity, normal) * normal;
+			// Reflect velocity
+			velocity = velocity - 2.f * dotProduct(velocity, normal) * normal;
 			b.setVelocity({ velocity.x, velocity.y });
+
+		
         }
     }
+	if (collision) // This doesn't work very well sadly. :(
+	{
+		/*float speed = b.getVelocity().magnitude();
+		float clamped = std::clamp(speed, 0.f, 500.f);
+		clamped = clamped / 5000;
+		float randomNumber = Random::getRandomFloat(90, 110);
+		float randomPitch = randomNumber / 100;
+		float randomVolume = Random::getRandomFloat(80, 100);
+		Audio::PlaySound(mSound, Audio::BALL_WITH_TABLE_COLLISION, randomVolume * clamped, randomPitch * 0.75);*/
+	}
+	
 }
 
 void PhysicsEngine::ApplyFriction()
@@ -374,6 +395,18 @@ void PhysicsEngine::ApplyFriction()
 			velocityToSub = velocityToSub / velocityToSub.magnitude() * scale * time;
 			Vec2 newVelocity = currentVelocity - velocityToSub;
 			ball->setVelocity(newVelocity);
+		}
+	}
+}
+
+void PhysicsEngine::ClampBallVelocity()
+{
+	std::vector<std::unique_ptr<Ball>>& balls = mGameRef.GetEntityManager().GetBallVector();
+	for (auto& ball : balls)
+	{
+		if (ball->getVelocity().magnitude() < 2)
+		{
+			ball->setVelocity({ 0,0 });
 		}
 	}
 }

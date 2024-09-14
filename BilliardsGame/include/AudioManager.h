@@ -22,6 +22,6 @@ namespace Audio
 	void					ToggleMute();
 	
 
-	static bool				IsMuted = true;
+	static bool				IsMuted = false;
 	static std::unordered_map<AudioType, sf::SoundBuffer> buffers;
 }

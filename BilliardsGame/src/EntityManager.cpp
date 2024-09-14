@@ -48,14 +48,12 @@ void EntityManager::CreateBalls()
 
 void EntityManager::RackBalls()
 {
-	float tableTop = mTable->getLeftBound();
-	float tableBottom = mTable->getBottomBound();
+	
 	float tableLeft = mTable->getLeftBound();
-	float tableRight = mTable->getRightBound();
 	float radius = PoolBall::radius;
 
-	const Vec2 TriangleOffsetDown{ ((radius + radius) * (float)std::cos(0.523599)), ((radius + radius) * (float)std::sin(0.523599)) };
-	const Vec2 TriangleOffsetUp{((radius + radius) * (float)std::cos(-0.523599)), ((radius + radius) * (float)std::sin(-0.523599)) };
+	const Vec2 TriangleOffsetDown{ ((radius + radius + 1) * (float)std::cos(0.523599)), ((radius + radius) * (float)std::sin(0.523599)) };
+	const Vec2 TriangleOffsetUp{((radius + radius + 1) * (float)std::cos(-0.523599)), ((radius + radius) * (float)std::sin(-0.523599)) };
 
 	// Cueball
 	int ball0 = BallId_cueBall;
@@ -81,10 +79,10 @@ void EntityManager::RackBalls()
 	int ball15 = BallId_twelve;
 
 	// Cueball
-	mBalls[ball0]->setPosition({ tableLeft + 330, tableBottom / 2 });
+	mBalls[ball0]->setPosition({ tableLeft + 330, (float)mGameRef.GetWindowSize().y / 2 });
 
 	// First row of rack
-	mBalls[ball1]->setPosition({ tableLeft + 870, tableBottom / 2 });
+	mBalls[ball1]->setPosition({ tableLeft + 870, (float)mGameRef.GetWindowSize().y / 2 });
 
 	// Second row of rack
 	mBalls[ball2]-> setPosition({  mBalls[ball1]->getPosition().getx()  + TriangleOffsetUp.getx(),		mBalls[ball1]->getPosition().gety()  + TriangleOffsetUp.gety()		});
@@ -115,16 +113,21 @@ void EntityManager::CreateCueStick()
 	mCueStick = std::make_unique<CueStick>();
 	auto& texture = mGameRef.GetTextureManager().getCueStick();
 	auto& cueSprite = mCueStick->getSprite();
+	auto& powerBar = mCueStick->getPowerBar();
 	cueSprite.setTexture(texture);
 
 	// Set the cuestick origin to be the tip of the cuestick
 	cueSprite.setOrigin(texture.getSize().x, texture.getSize().y / 2);
+	powerBar.setOrigin(0.f, powerBar.getSize().y / 2);
+	powerBar.setPosition(texture.getSize().x, texture.getSize().y / 2);
+	
 
 	float tableBottom = mTable->getBottomBound();
 	float tableLeft = mTable->getLeftBound();
 
 	// For debug purposes:
 	mCueStick->setPosition({tableLeft + 330, tableBottom / 2});
+	
 
 }
 
@@ -132,8 +135,6 @@ void EntityManager::CreateTable()
 {
 	mTable = std::make_unique<Table>(PoolTable::width, PoolTable::height);
 	mTable->setOrigin(PoolTable::width / 2, PoolTable::height / 2);
-
-
 	mTable->setPosition(mGameRef.GetWindowSize().x / 2, mGameRef.GetWindowSize().y / 2);
 }
 
@@ -186,6 +187,16 @@ void EntityManager::CreateCollisionPolygons()
 	polygon.setPoint(39, sf::Vector2f(200, 235));
 
 	mCollisionPolygon = polygon;
+}
+
+void EntityManager::CreatePockets()
+{
+	sf::CircleShape pocket1{ 70 };
+	sf::CircleShape pocket2{ 70 };
+	sf::CircleShape pocket3{ 70 };
+	sf::CircleShape pocket4{ 70 };
+	sf::CircleShape pocket5{ 70 };
+	sf::CircleShape pocket6{ 70 };
 }
 
 std::vector<std::unique_ptr<Ball>>& EntityManager::GetBallVector()

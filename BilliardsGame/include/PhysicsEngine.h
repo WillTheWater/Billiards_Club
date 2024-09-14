@@ -1,4 +1,5 @@
 #pragma once
+#include <algorithm>
 #include "Ball.h"
 #include "Random.h" // For debug randomization of balls
 
@@ -43,14 +44,17 @@ private:
 	void HandleBallVsPolygons();
 	void BallVsPolygon(Ball& b, const sf::ConvexShape& polygon);
 	void ApplyFriction();
+	void ClampBallVelocity();
 
 	void ApplyFrictionCoEff();
 
 	float dotProduct(const sf::Vector2f& a, const sf::Vector2f& b);
 	float length(const sf::Vector2f& v);
 	sf::Vector2f normalize(const sf::Vector2f& v);
+	sf::Sound mSound;
+	int soundDelayCounter; 
+	bool mSoundPlayed;
 
-	
 
 };
 

@@ -4,6 +4,7 @@ InputManager::InputManager(Game& game)
 	:mGameRef{game}
 	,mCueBallSelected{false}
 	,mMouseHeld{false}
+	,mMaxDistanceForCueStick{300}
 {
 }
 
@@ -40,6 +41,53 @@ Vec2 InputManager::GetPositionForCueOnBall()
 
 	//If you make the cue have this position, the tip will be on the very edge of the cue ball. 
 	return cueOnBall;
+}
+
+void InputManager::updateCueStick()
+{
+	auto& cuestick = mGameRef.GetEntityManager().getCueStick();
+	auto& powerBar = cuestick.getPowerBar();
+	if (IsMouseOverCueBall())
+	{
+		cuestick.setPosition(GetPositionForCueOnBall());
+		
+	}
+	else
+	{
+		cuestick.setPosition(getMousePos());
+		powerBar.setScale(distanceFromCueToBall(), powerBar.getScale().y);
+		sf::Uint8 colorScale = std::clamp(distanceFromCueToBall(), 0.f, 255.f);
+		sf::Uint8 otherColor = (255 - colorScale);
+		sf::Color powerBarColor{ colorScale, otherColor, otherColor };
+		powerBar.setFillColor(powerBarColor);
+	}
+
+	if (distanceFromCueToBall() < mMaxDistanceForCueStick)
+	{
+		cuestick.toggleVisiblity(true);
+	}
+	else
+	{
+		cuestick.toggleVisiblity(false);
+	}
+	
+	cuestick.setRotationDegrees(getAngleCueballToMouse());
+}
+
+void InputManager::giveCueBallStrikeVelocity()
+{
+	auto& cuestick = mGameRef.GetEntityManager().getCueStick();
+	Vec2 strikeVelocity = cuestick.getStrikeVelocity();
+	auto& physicsEngine = mGameRef.GetPhysicsEngine();
+	physicsEngine.ApplyStrikeVelocityToCueBall(strikeVelocity, 500);
+}
+
+void InputManager::initialiazeCueStickAnim(int steps)
+{
+	auto& cuestick = mGameRef.GetEntityManager().getCueStick();
+	cuestick.setPosition(getMousePos());
+	cuestick.setRotationDegrees(getAngleCueballToMouse());
+	cuestick.setAnimVectors(getMousePos(), GetPositionForCueOnBall(), steps);
 }
 
 bool InputManager::IsMouseOverCueBall()

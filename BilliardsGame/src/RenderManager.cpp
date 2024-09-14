@@ -67,6 +67,24 @@ void RenderManager::RenderBalls()
 
 void RenderManager::RenderCue()
 {
+
+	auto& window{ mGameRef.GetWindow() };
+	auto& entityManager { mGameRef.GetEntityManager()};
+	auto& cueStick{ entityManager.getCueStick() };
+	auto& powerBar = cueStick.getPowerBar();
+	if (cueStick.isVisible())
+	{
+		window.draw(cueStick.getSprite());
+	}
+	if (!cueStick.isAnimationActive() && cueStick.isVisible())
+	{
+		window.draw(powerBar);
+	}
+	
+}
+
+void RenderManager::DebugRenderCue()
+{
 	auto& window{ mGameRef.GetWindow() };
 	auto& entityManager { mGameRef.GetEntityManager()};
 	auto& inputManager{ mGameRef.GetInputManager() };

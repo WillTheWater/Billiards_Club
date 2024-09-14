@@ -30,6 +30,7 @@ public:
 	void CreateCueStick();
 	void CreateTable();
 	void CreateCollisionPolygons();
+	void CreatePockets();
 
 
 	//DEBUG
@@ -42,6 +43,7 @@ public:
 private: 
 	Game& mGameRef;
 	std::vector<std::unique_ptr<Ball>> mBalls; 
+	std::vector<sf::CircleShape> mPockets;
 	std::unique_ptr<Table> mTable;
 	std::unique_ptr<CueStick> mCueStick;
 	sf::ConvexShape mCollisionPolygon;
