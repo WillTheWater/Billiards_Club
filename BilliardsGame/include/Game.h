@@ -1,6 +1,7 @@
 #pragma once
 #include <iostream>
 #include "SFML/Graphics.hpp"
+#include "SFML/Audio.hpp"
 #include "EntityGlobals.h"
 #include "StateStack.h"
 #include "MainMenuState.h"
@@ -10,6 +11,7 @@
 #include "PhysicsEngine.h"
 #include "EntityManager.h"
 #include "RenderManager.h"
+#include "Button.h"
 #include "InputManager.h"
 #include "GUI.h"
 
