@@ -1,5 +1,4 @@
 #pragma once
-
 class Game;
 
 class RenderManager
@@ -11,9 +10,15 @@ public:
 
 	void RenderTable();
 	void RenderBalls();
+	void RenderCue();
 	void DebugBallVectors();
+	void DrawDebugCollisionPoly();
+	void DrawDebugConvexShape();
+
+	void DrawDebugLineMouseToCueBall();
 
 private:
 	Game& mGameRef;
+	sf::RenderStates mRenderMode;
 };
 
