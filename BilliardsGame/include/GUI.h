@@ -16,7 +16,7 @@ public:
 	
 	void PlaySetup(Game& game);
 	void DrawPlay(Game& game);
-	void PlayInput(Game& game);
+	void PlayInput(sf::Event event);
 
 private:
 	Game&						mGameRef;

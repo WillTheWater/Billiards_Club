@@ -34,6 +34,6 @@ void TestState::Draw(Game& game)
 	//game.GetRenderManager().DrawDebugCollisionPoly();
 	game.GetRenderManager().DrawDebugConvexShape();
 	game.GetRenderManager().DrawDebugLineMouseToCueBall();
-	game.GetRenderManager().RenderCue();
+	game.GetRenderManager().DebugRenderCue();
 	game.GetWindow().display();
 }

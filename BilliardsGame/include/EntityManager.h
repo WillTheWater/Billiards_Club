@@ -17,11 +17,12 @@ public:
 	~EntityManager() = default;
 	EntityManager& operator=(const EntityManager&) = delete;
 
-	// GETTERS
+	//GETTERS
 	std::vector<std::unique_ptr<Ball>>& GetBallVector();
 	Ball& getCueBall();
 	Table& getTable();
 	CueStick& getCueStick();
+	std::vector<sf::CircleShape>& getPockets();
 	
 	//FUNCTIONS
 	void InitializeAssets();
@@ -30,6 +31,8 @@ public:
 	void CreateCueStick();
 	void CreateTable();
 	void CreateCollisionPolygons();
+	void CreatePockets();
+	void ResetCueBall();
 
 
 	//DEBUG
@@ -42,6 +45,7 @@ public:
 private: 
 	Game& mGameRef;
 	std::vector<std::unique_ptr<Ball>> mBalls; 
+	std::vector<sf::CircleShape> mPockets;
 	std::unique_ptr<Table> mTable;
 	std::unique_ptr<CueStick> mCueStick;
 	sf::ConvexShape mCollisionPolygon;

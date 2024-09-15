@@ -67,6 +67,24 @@ void RenderManager::RenderBalls()
 
 void RenderManager::RenderCue()
 {
+
+	auto& window{ mGameRef.GetWindow() };
+	auto& entityManager { mGameRef.GetEntityManager()};
+	auto& cueStick{ entityManager.getCueStick() };
+	auto& powerBar = cueStick.getPowerBar();
+	if (cueStick.isVisible())
+	{
+		window.draw(cueStick.getSprite());
+	}
+	if (!cueStick.isAnimationActive() && cueStick.isVisible())
+	{
+		window.draw(powerBar);
+	}
+	
+}
+
+void RenderManager::DebugRenderCue()
+{
 	auto& window{ mGameRef.GetWindow() };
 	auto& entityManager { mGameRef.GetEntityManager()};
 	auto& inputManager{ mGameRef.GetInputManager() };
@@ -93,6 +111,17 @@ void RenderManager::RenderCue()
 	cueStick.setRotationDegrees(angle);
 
 	window.draw(cueStick.getSprite());
+}
+
+void RenderManager::DebugRenderPockets()
+{
+	auto& pockets = mGameRef.GetEntityManager().getPockets();
+	auto& window = mGameRef.GetWindow();
+	for (auto& pocket : pockets)
+	{
+		window.draw(pocket);
+	}
+
 }
 
 void RenderManager::DebugBallVectors()

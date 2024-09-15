@@ -12,6 +12,7 @@ void EntityManager::InitializeAssets()
 	CreateBalls();
 	CreateCollisionPolygons();
 	CreateCueStick();
+	CreatePockets();
 	RackBalls();
 }
 
@@ -48,14 +49,12 @@ void EntityManager::CreateBalls()
 
 void EntityManager::RackBalls()
 {
-	float tableTop = mTable->getLeftBound();
-	float tableBottom = mTable->getBottomBound();
+	
 	float tableLeft = mTable->getLeftBound();
-	float tableRight = mTable->getRightBound();
 	float radius = PoolBall::radius;
 
-	const Vec2 TriangleOffsetDown{ ((radius + radius) * (float)std::cos(0.523599)), ((radius + radius) * (float)std::sin(0.523599)) };
-	const Vec2 TriangleOffsetUp{((radius + radius) * (float)std::cos(-0.523599)), ((radius + radius) * (float)std::sin(-0.523599)) };
+	const Vec2 TriangleOffsetDown{ ((radius + radius + 1) * (float)std::cos(0.523599)), ((radius + radius) * (float)std::sin(0.523599)) };
+	const Vec2 TriangleOffsetUp{((radius + radius + 1) * (float)std::cos(-0.523599)), ((radius + radius) * (float)std::sin(-0.523599)) };
 
 	// Cueball
 	int ball0 = BallId_cueBall;
@@ -81,10 +80,10 @@ void EntityManager::RackBalls()
 	int ball15 = BallId_twelve;
 
 	// Cueball
-	mBalls[ball0]->setPosition({ tableLeft + 330, tableBottom / 2 });
+	mBalls[ball0]->setPosition({ tableLeft + 330, (float)mGameRef.GetWindowSize().y / 2 });
 
 	// First row of rack
-	mBalls[ball1]->setPosition({ tableLeft + 870, tableBottom / 2 });
+	mBalls[ball1]->setPosition({ tableLeft + 870, (float)mGameRef.GetWindowSize().y / 2 });
 
 	// Second row of rack
 	mBalls[ball2]-> setPosition({  mBalls[ball1]->getPosition().getx()  + TriangleOffsetUp.getx(),		mBalls[ball1]->getPosition().gety()  + TriangleOffsetUp.gety()		});
@@ -115,16 +114,21 @@ void EntityManager::CreateCueStick()
 	mCueStick = std::make_unique<CueStick>();
 	auto& texture = mGameRef.GetTextureManager().getCueStick();
 	auto& cueSprite = mCueStick->getSprite();
+	auto& powerBar = mCueStick->getPowerBar();
 	cueSprite.setTexture(texture);
 
 	// Set the cuestick origin to be the tip of the cuestick
 	cueSprite.setOrigin(texture.getSize().x, texture.getSize().y / 2);
+	powerBar.setOrigin(0.f, powerBar.getSize().y / 2);
+	powerBar.setPosition(texture.getSize().x, texture.getSize().y / 2);
+	
 
 	float tableBottom = mTable->getBottomBound();
 	float tableLeft = mTable->getLeftBound();
 
 	// For debug purposes:
 	mCueStick->setPosition({tableLeft + 330, tableBottom / 2});
+	
 
 }
 
@@ -132,8 +136,6 @@ void EntityManager::CreateTable()
 {
 	mTable = std::make_unique<Table>(PoolTable::width, PoolTable::height);
 	mTable->setOrigin(PoolTable::width / 2, PoolTable::height / 2);
-
-
 	mTable->setPosition(mGameRef.GetWindowSize().x / 2, mGameRef.GetWindowSize().y / 2);
 }
 
@@ -188,6 +190,53 @@ void EntityManager::CreateCollisionPolygons()
 	mCollisionPolygon = polygon;
 }
 
+void EntityManager::CreatePockets()
+{
+	sf::CircleShape pocket1{ PoolTable::pocketradius };
+	sf::CircleShape pocket2{ PoolTable::pocketradius };
+	sf::CircleShape pocket3{ PoolTable::pocketradius };
+	sf::CircleShape pocket4{ PoolTable::pocketradius };
+	sf::CircleShape pocket5{ PoolTable::pocketradius };
+	sf::CircleShape pocket6{ PoolTable::pocketradius };
+
+	float originOffset = PoolTable::pocketradius;
+
+	// Center their origins
+	pocket1.setOrigin(originOffset, originOffset);
+	pocket2.setOrigin(originOffset, originOffset);
+	pocket3.setOrigin(originOffset, originOffset);
+	pocket4.setOrigin(originOffset, originOffset);
+	pocket5.setOrigin(originOffset, originOffset);
+	pocket6.setOrigin(originOffset, originOffset);
+
+	auto& table = getTable();
+	float tableupper = table.getTopBound();
+	float tableleft = table.getLeftBound();
+
+	pocket1.setPosition(tableleft + 50,		tableupper + 50);
+	pocket2.setPosition(tableleft + 600,	tableupper + 50);
+	pocket3.setPosition(tableleft + 1150,	tableupper + 50);
+	pocket4.setPosition(tableleft + 50,		tableupper + 550);
+	pocket5.setPosition(tableleft + 600,	tableupper + 550);
+	pocket6.setPosition(tableleft + 1150,	tableupper + 550);
+									
+	mPockets.push_back(pocket1);
+	mPockets.push_back(pocket2);
+	mPockets.push_back(pocket3);
+	mPockets.push_back(pocket4);
+	mPockets.push_back(pocket5);
+	mPockets.push_back(pocket6);
+}
+
+void EntityManager::ResetCueBall()
+{
+	float tableLeft = mTable->getLeftBound();
+	mBalls[(int)BallId::BallId_cueBall]->setPosition({ tableLeft + 330, (float)mGameRef.GetWindowSize().y / 2 });
+	mBalls[(int)BallId::BallId_cueBall]->setVisiblity(true);
+	mGameRef.GetPhysicsEngine().FixCueBallResetOnBall();
+
+}
+
 std::vector<std::unique_ptr<Ball>>& EntityManager::GetBallVector()
 {
 	return mBalls;
@@ -208,6 +257,11 @@ Table& EntityManager::getTable()
 CueStick& EntityManager::getCueStick()
 {
 	return *mCueStick;
+}
+
+std::vector<sf::CircleShape>& EntityManager::getPockets()
+{
+	return mPockets;
 }
 
 // DEBUG:

@@ -1,4 +1,5 @@
 #pragma once
+#include <algorithm>
 #include "Ball.h"
 #include "Random.h" // For debug randomization of balls
 
@@ -17,6 +18,7 @@ public:
 	void HandleCollisions();
 	bool AreBallsAtRest();
 	void ApplyStrikeVelocityToCueBall(Vec2 unitVec, float scale);
+	void FixCueBallResetOnBall();
 
 	// Debug Functions
 	void debugRandomizeBalls();
@@ -42,15 +44,19 @@ private:
 	bool doBallsOverlap(const Ball& b1, const Ball& b2) const;
 	void HandleBallVsPolygons();
 	void BallVsPolygon(Ball& b, const sf::ConvexShape& polygon);
+	void HandleBallInPocket();
 	void ApplyFriction();
+	void ClampBallVelocity();
 
 	void ApplyFrictionCoEff();
 
 	float dotProduct(const sf::Vector2f& a, const sf::Vector2f& b);
 	float length(const sf::Vector2f& v);
 	sf::Vector2f normalize(const sf::Vector2f& v);
+	sf::Sound mSound;
+	int soundDelayCounter; 
+	bool mSoundPlayed;
 
-	
 
 };
 

@@ -2,7 +2,7 @@
 
 GUI::GUI(Game& game)
 	: mGameRef{game}
-	, mAudioOn{false}
+	, mAudioOn{true}
 {
 	Audio::IsMuted = true;
 }
@@ -97,24 +97,21 @@ void GUI::DrawPlay(Game& game)
 	mAudioButton->Draw(game.GetWindow());
 }
 
-void GUI::PlayInput(Game& game)
+void GUI::PlayInput(sf::Event event)
 {
-	sf::Event event;
-	while (game.GetWindow().pollEvent(event))
+	if (event.type == sf::Event::Closed)
 	{
-		if (event.type == sf::Event::Closed)
-		{
-			game.GetWindow().close();
-		}
-		if (mExitButton->HandleEvent(event))
-		{
-			game.GetWindow().close();
-		}
-		if (mAudioButton->HandleEvent(event))
-		{
-			mAudioOn = !mAudioOn;
-			if (mAudioOn) { Audio::ToggleMute(); std::cout << "Audio is turned on\n"; }
-			if (!mAudioOn) { Audio::ToggleMute(); std::cout << "Audio is turned off\n"; }
-		}
+		mGameRef.GetWindow().close();
 	}
+	if (mExitButton->HandleEvent(event))
+	{
+		mGameRef.GetWindow().close();
+	}
+	if (mAudioButton->HandleEvent(event))
+	{
+		mAudioOn = !mAudioOn;
+		if (mAudioOn) { Audio::ToggleMute(); std::cout << "Audio is turned on\n"; }
+		if (!mAudioOn) { Audio::ToggleMute(); std::cout << "Audio is turned off\n"; }
+	}
+	
 }

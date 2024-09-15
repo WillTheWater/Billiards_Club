@@ -31,4 +31,5 @@ namespace PoolTable
 {
 	extern int height;
 	extern int width;
+	extern float pocketradius;
 }
