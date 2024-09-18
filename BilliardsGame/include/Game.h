@@ -31,6 +31,17 @@ public:
 	RenderManager&				GetRenderManager();
 	InputManager&				GetInputManager();
 	GUI&						GetGUI();
+	void						IncrementShotsTaken();
+	int							GetShotsTaken();
+	void						ResetShotsTaken();
+	void						CheckWinConditionOnBallSunk();
+	void						GameWon();
+	void						GameLost();
+	void						ResetGame();
+	bool						IsGameOver();
+	bool						IsGameWon();
+	bool						isGameLost();
+
 
 
 private:
@@ -46,4 +57,7 @@ private:
 	InputManager				mInputManager;
 	StateStack					mStateStack;
 	GUI							mGUI;
+	int							mShotsTaken;
+	bool						mGameWon;
+	bool						mGameLost;
 };

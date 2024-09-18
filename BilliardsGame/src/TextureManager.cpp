@@ -6,6 +6,8 @@ TextureManager::TextureManager(Game& game)
 {
     loadBallTextures();
     loadCueStick();
+    loadWinSplash();
+    loadLostSplash();
 }
 
 std::shared_ptr<sf::Texture> TextureManager::GetTexture(const std::string& texture)
@@ -84,6 +86,24 @@ void TextureManager::loadCueStick()
     }
 }
 
+void TextureManager::loadWinSplash()
+{
+    mWinSplashTexture = std::make_unique<sf::Texture>();
+    mWinSplashTexture->loadFromFile("assets/graphics/winSplash.png");
+    mWinSplashSprite = std::make_unique<sf::Sprite>(*mWinSplashTexture);
+    mWinSplashSprite->setOrigin(mWinSplashSprite->getTextureRect().getSize().x / 2, mWinSplashSprite->getTextureRect().getSize().y / 2);
+    mWinSplashSprite->setPosition(mGameRef.GetWindowSize().x / 2, mGameRef.GetWindowSize().y / 2);
+}
+
+void TextureManager::loadLostSplash()
+{
+    mLostSplashTexture = std::make_unique<sf::Texture>();
+    mLostSplashTexture->loadFromFile("assets/graphics/lostSplash.png");
+    mLostSplashSprite = std::make_unique<sf::Sprite>(*mLostSplashTexture);
+    mLostSplashSprite->setOrigin(mLostSplashSprite->getTextureRect().getSize().x / 2, mLostSplashSprite->getTextureRect().getSize().y / 2);
+    mLostSplashSprite->setPosition(mGameRef.GetWindowSize().x / 2, mGameRef.GetWindowSize().y / 2);
+}
+
 const sf::Texture& TextureManager::getBallTexture(BallId id)
 {
     assert(id < BallId::BallId_MAX_BALL_ID && id >= 0);
@@ -111,6 +131,16 @@ const sf::Texture& TextureManager::getBallTag(BallId id)
 const sf::Texture& TextureManager::getCueStick()
 {
     return *mCueStick;
+}
+
+const sf::Sprite& TextureManager::getWinSplashSprite()
+{
+    return *mWinSplashSprite;
+}
+
+const sf::Sprite& TextureManager::getLostSplashSprite()
+{
+    return *mLostSplashSprite;
 }
 
 std::shared_ptr<sf::Texture> TextureManager::LoadTexture(const std::string& texturePath)

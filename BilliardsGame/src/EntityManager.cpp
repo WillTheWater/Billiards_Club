@@ -107,6 +107,8 @@ void EntityManager::RackBalls()
 	mBalls[ball14]->setPosition({  mBalls[ball10]->getPosition().getx() + TriangleOffsetUp.getx(),		mBalls[ball10]->getPosition().gety() + TriangleOffsetUp.gety()		});
 	mBalls[ball15]->setPosition({  mBalls[ball10]->getPosition().getx() + TriangleOffsetDown.getx(),	mBalls[ball10]->getPosition().gety() + TriangleOffsetDown.gety()	});
 
+	// Reset visibility on all the balls
+	ResetVisibilityOnBalls();
 }
 
 void EntityManager::CreateCueStick()
@@ -235,6 +237,14 @@ void EntityManager::ResetCueBall()
 	mBalls[(int)BallId::BallId_cueBall]->setVisiblity(true);
 	mGameRef.GetPhysicsEngine().FixCueBallResetOnBall();
 
+}
+
+void EntityManager::ResetVisibilityOnBalls()
+{
+	for (auto& ball : mBalls)
+	{
+		ball->setVisiblity(true);
+	}
 }
 
 std::vector<std::unique_ptr<Ball>>& EntityManager::GetBallVector()

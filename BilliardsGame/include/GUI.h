@@ -16,6 +16,7 @@ public:
 	
 	void PlaySetup(Game& game);
 	void DrawPlay(Game& game);
+	void DrawBackground(Game& game);
 	void PlayInput(sf::Event event);
 
 private:
@@ -25,6 +26,7 @@ private:
 	std::unique_ptr<Button>		mStartButton;
 	std::unique_ptr<Button>		mExitButton;
 	std::unique_ptr<Button>		mAudioButton;
+	std::unique_ptr<Button>		mRestartButton;
 	bool						mAudioOn;
 };
 

@@ -17,7 +17,6 @@ bool CueStick::isVisible()
     return mVisible;
 }
 
-
 sf::Sprite& CueStick::getSprite()
 {
     return mSprite;
