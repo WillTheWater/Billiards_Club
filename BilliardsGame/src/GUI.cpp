@@ -131,9 +131,12 @@ void GUI::PlayInput(sf::Event event)
 		if (mAudioOn) { Audio::ToggleMute(); std::cout << "Audio is turned on\n"; }
 		if (!mAudioOn) { Audio::ToggleMute(); std::cout << "Audio is turned off\n"; }
 	}
-	if (mRestartButton->HandleEvent(event))
+	if (mGameRef.IsGameOver())
 	{
-		mGameRef.ResetGame();
+		if (mRestartButton->HandleEvent(event))
+		{
+			mGameRef.ResetGame();
+		}
 	}
 	
 }
