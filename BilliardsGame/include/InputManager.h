@@ -33,6 +33,8 @@ public:
 
 	float distanceFromCueToBall();	// Returns the distance from the tip of the cue to the edge of the ball
 
+	bool isMouseInShootingRange();
+
 private:
 	Game& mGameRef; 
 	float mMaxDistanceForCueStick; // The maximum distance the mouse can be from the cuestick for it to be displayed

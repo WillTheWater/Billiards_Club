@@ -32,8 +32,12 @@ void PlayState::HandleInput(Game& game)
 		{
 			if (event.mouseButton.button == sf::Mouse::Left && physicsEngine.AreBallsAtRest() && !inputManager.IsMouseOverCueBall() && !game.IsGameOver())
 			{
-				game.IncrementShotsTaken();
-				inputManager.initialiazeCueStickAnim(60);
+				if (inputManager.isMouseInShootingRange())
+				{
+					game.IncrementShotsTaken();
+					inputManager.initialiazeCueStickAnim(60);
+				}
+				
 			}
 		}
 		else if(!cueStick.isAnimationActive() && physicsEngine.AreBallsAtRest() && !game.IsGameOver())

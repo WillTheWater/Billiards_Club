@@ -141,4 +141,14 @@ float InputManager::distanceFromCueToBall()
 	return distance; 
 }
 
+bool InputManager::isMouseInShootingRange()
+{
+	if (distanceFromCueToBall() < mMaxDistanceForCueStick)
+	{
+		return true;
+	}
+
+	return false;
+}
+
 
