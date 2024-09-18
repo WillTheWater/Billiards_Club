@@ -6,7 +6,7 @@ class Vec2
 {
 public:
 	// ### PUBLIC PARAMETERS ###
-	const float PI = 3.14159265;
+	const float PI = 3.14159265f;
 
 	// ### CONSTRUCTORS ###
 	Vec2(float x = 0, float y = 0);

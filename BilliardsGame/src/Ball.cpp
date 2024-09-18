@@ -1,12 +1,12 @@
 #include "Ball.h"
 
-Ball::Ball(BallId id, float radius, Vec2 pos = (0, 0), Vec2 vel = (0, 0), Vec2 accel = (0, 0))
+Ball::Ball(BallId id, float radius, Vec2 pos = (0.f, 0.f), Vec2 vel = (0.f, 0.f), Vec2 accel = (0.f, 0.f))
 	:m_id{id}
 	,m_position{pos}
 	,m_positionPrevious{ pos }
 	,m_velocity{vel}
 	,m_acceleration{accel}
-	,m_mass{(float)std::fabs(radius * radius * 3.14)}
+	,m_mass{(float)std::fabs(radius * radius * 3.14f)}
 	,m_visible{true}
 	,m_radius{radius}
 	,m_circle{radius}

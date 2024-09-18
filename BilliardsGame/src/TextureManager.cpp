@@ -91,8 +91,8 @@ void TextureManager::loadWinSplash()
     mWinSplashTexture = std::make_unique<sf::Texture>();
     mWinSplashTexture->loadFromFile("assets/graphics/winSplash.png");
     mWinSplashSprite = std::make_unique<sf::Sprite>(*mWinSplashTexture);
-    mWinSplashSprite->setOrigin(mWinSplashSprite->getTextureRect().getSize().x / 2, mWinSplashSprite->getTextureRect().getSize().y / 2);
-    mWinSplashSprite->setPosition(mGameRef.GetWindowSize().x / 2, mGameRef.GetWindowSize().y / 2);
+    mWinSplashSprite->setOrigin(mWinSplashSprite->getTextureRect().getSize().x / 2.f, mWinSplashSprite->getTextureRect().getSize().y / 2.f);
+    mWinSplashSprite->setPosition(mGameRef.GetWindowSize().x / 2.f, mGameRef.GetWindowSize().y / 2.f);
 }
 
 void TextureManager::loadLostSplash()
@@ -121,11 +121,8 @@ const sf::Texture& TextureManager::getBallTag(BallId id)
         assert("getBallTag called on ball that does not have a tag, or outside of range!\n");
         
     }
-    else
-    {
-        return *mBallTags[id];
-    }
-
+   
+    return *mBallTags[id];
 }
 
 const sf::Texture& TextureManager::getCueStick()

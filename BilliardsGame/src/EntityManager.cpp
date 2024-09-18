@@ -36,7 +36,7 @@ void EntityManager::CreateBalls()
 		{
 			auto& tagTexture = textureManager.getBallTag(static_cast<BallId>(i));
 			mBalls[i]->getTagSprite().setTexture(tagTexture);
-			mBalls[i]->getTagSprite().setOrigin(tagTexture.getSize().x /2, tagTexture.getSize().y / 2);
+			mBalls[i]->getTagSprite().setOrigin((float)tagTexture.getSize().x /2.f, (float)tagTexture.getSize().y / 2.f);
 			mBalls[i]->getTagSprite().setScale(PoolBall::tagScale, PoolBall::tagScale);
 		}
 		
@@ -51,7 +51,7 @@ void EntityManager::RackBalls()
 {
 	
 	float tableLeft = mTable->getLeftBound();
-	float radius = PoolBall::radius;
+	float radius = (float)PoolBall::radius;
 
 	const Vec2 TriangleOffsetDown{ ((radius + radius + 1) * (float)std::cos(0.523599)), ((radius + radius) * (float)std::sin(0.523599)) };
 	const Vec2 TriangleOffsetUp{((radius + radius + 1) * (float)std::cos(-0.523599)), ((radius + radius) * (float)std::sin(-0.523599)) };
@@ -120,9 +120,9 @@ void EntityManager::CreateCueStick()
 	cueSprite.setTexture(texture);
 
 	// Set the cuestick origin to be the tip of the cuestick
-	cueSprite.setOrigin(texture.getSize().x, texture.getSize().y / 2);
-	powerBar.setOrigin(0.f, powerBar.getSize().y / 2);
-	powerBar.setPosition(texture.getSize().x, texture.getSize().y / 2);
+	cueSprite.setOrigin((float)texture.getSize().x, (float)texture.getSize().y / 2.f);
+	powerBar.setOrigin(0.f, powerBar.getSize().y / 2.f);
+	powerBar.setPosition((float)texture.getSize().x, (float)texture.getSize().y / 2.f);
 	
 
 	float tableBottom = mTable->getBottomBound();
@@ -137,8 +137,8 @@ void EntityManager::CreateCueStick()
 void EntityManager::CreateTable()
 {
 	mTable = std::make_unique<Table>(PoolTable::width, PoolTable::height);
-	mTable->setOrigin(PoolTable::width / 2, PoolTable::height / 2);
-	mTable->setPosition(mGameRef.GetWindowSize().x / 2, mGameRef.GetWindowSize().y / 2);
+	mTable->setOrigin(PoolTable::width / 2.f, PoolTable::height / 2.f);
+	mTable->setPosition(mGameRef.GetWindowSize().x / 2.f, mGameRef.GetWindowSize().y / 2.f);
 }
 
 
@@ -278,10 +278,10 @@ std::vector<sf::CircleShape>& EntityManager::getPockets()
 
 void EntityManager::CreateDebugCollisionLine()
 {
-	float v1x = Random::getRandomFloat(mTable->getLeftBound(), mTable->getRightBound());
-	float v1y = Random::getRandomFloat(mTable->getTopBound(), mTable->getBottomBound());
-	float v2x = Random::getRandomFloat(mTable->getLeftBound(), mTable->getRightBound());
-	float v2y = Random::getRandomFloat(mTable->getTopBound(), mTable->getBottomBound());
+	float v1x = Random::getRandomFloat((int)mTable->getLeftBound(),		(int)mTable->getRightBound());
+	float v1y = Random::getRandomFloat((int)mTable->getTopBound(),		(int)mTable->getBottomBound());
+	float v2x = Random::getRandomFloat((int)mTable->getLeftBound(),	(int)mTable->getRightBound());
+	float v2y = Random::getRandomFloat((int)mTable->getTopBound(),		(int)mTable->getBottomBound());
 
 	sf::Vector2f vertex0 (v1x, v1y);
 	sf::Vector2f vertex1 (v2x, v2y);

@@ -26,7 +26,7 @@ bool Button::HandleEvent(const sf::Event& event)
 	{
 		if (event.mouseButton.button == sf::Mouse::Left)
 		{
-			if (mButtonSprite.getGlobalBounds().contains(event.mouseButton.x, event.mouseButton.y))
+			if (mButtonSprite.getGlobalBounds().contains((float)event.mouseButton.x, (float)event.mouseButton.y))
 			{
 				std::cout << "Button Clicked\n";
 				Audio::PlaySound(mSound, Audio::BUTTON_DOWN, 40, 1);
@@ -39,7 +39,7 @@ bool Button::HandleEvent(const sf::Event& event)
 	{
 		if (event.mouseButton.button == sf::Mouse::Left)
 		{
-			if (IsButtonDown && mButtonSprite.getGlobalBounds().contains(event.mouseButton.x, event.mouseButton.y))
+			if (IsButtonDown && mButtonSprite.getGlobalBounds().contains((float)event.mouseButton.x, (float)event.mouseButton.y))
 			{
 				std::cout << "Button Released\n";
 				Audio::PlaySound(mSound, Audio::BUTTON_UP, 40, 1);
@@ -54,7 +54,7 @@ bool Button::HandleEvent(const sf::Event& event)
 	{
 		if (!sf::Mouse::isButtonPressed(sf::Mouse::Left))
 		{
-			if (mButtonSprite.getGlobalBounds().contains(event.mouseMove.x, event.mouseMove.y))
+			if (mButtonSprite.getGlobalBounds().contains((float)event.mouseMove.x, (float)event.mouseMove.y))
 			{
 				OnButtonHover();
 			}

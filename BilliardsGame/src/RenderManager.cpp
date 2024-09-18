@@ -30,8 +30,8 @@ void RenderManager::RenderBalls()
 	auto& balls = entityManager.GetBallVector();
 
 	sf::CircleShape overlayCircle;
-	overlayCircle.setOrigin(PoolBall::radius, PoolBall::radius);
-	overlayCircle.setRadius(PoolBall::radius);
+	overlayCircle.setOrigin((float)PoolBall::radius, (float)PoolBall::radius);
+	overlayCircle.setRadius((float)PoolBall::radius);
 	overlayCircle.setTexture(&textureManager.getBallOverlay());
 
 	for (auto& ball : balls) // Loop through the vector of balls
@@ -94,7 +94,7 @@ void RenderManager::DebugRenderCue()
 	Vec2 ballToCueUnit = ballToCue / ballToCue.magnitude();
 
 	// Make ballToCue the length of the ball radius
-	Vec2 offsetToBallEdge = ballToCueUnit * PoolBall::radius;
+	Vec2 offsetToBallEdge = ballToCueUnit * (float)PoolBall::radius;
 
 	Vec2 cueOnBall = ballPos - offsetToBallEdge;
 

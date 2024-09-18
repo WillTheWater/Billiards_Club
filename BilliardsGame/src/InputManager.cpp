@@ -34,7 +34,7 @@ Vec2 InputManager::GetPositionForCueOnBall()
 	Vec2 ballToCueUnit = ballToCue / ballToCue.magnitude();
 
 	// Make ballToCue the length of the ball radius
-	Vec2 offsetToBallEdge = ballToCueUnit * PoolBall::radius;
+	Vec2 offsetToBallEdge = ballToCueUnit * (float)PoolBall::radius;
 
 	// Apply the offset to ballposition so that it's on the edge
 	Vec2 cueOnBall = ballPos - offsetToBallEdge;
@@ -56,7 +56,7 @@ void InputManager::updateCueStick()
 	{
 		cuestick.setPosition(getMousePos());
 		powerBar.setScale(distanceFromCueToBall(), powerBar.getScale().y);
-		sf::Uint8 colorScale = std::clamp(distanceFromCueToBall(), 0.f, 255.f);
+		sf::Uint8 colorScale = (sf::Uint8)std::clamp(distanceFromCueToBall(), 0.f, 255.f);
 		sf::Uint8 otherColor = (255 - colorScale);
 		sf::Color powerBarColor{ colorScale, otherColor, otherColor };
 		powerBar.setFillColor(powerBarColor);

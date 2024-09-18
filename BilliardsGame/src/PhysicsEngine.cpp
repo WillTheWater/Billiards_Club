@@ -5,7 +5,7 @@ PhysicsEngine::PhysicsEngine(Game& game)
 	, mSimUpdates{4}
 	, mStepTime{ 0 }
 	, mMaxSimSteps{15}
-	, mFrictionScale{150}
+	, mFrictionScale{180}
 	, mSoundPlayed{false}
 	, soundDelayCounter{0}
 {
@@ -264,7 +264,7 @@ void PhysicsEngine::BvB_ResolvePosition(Ball& b1, Ball& b2)
 	float distance = b1Pos.distance(b2Pos);
 
 	// What is the distance they actually overlap, halved so it's the amount of overlap for each ball
-	float overlap = 0.5 * (distance - b1Radius - b2Radius - 1);
+	float overlap = 0.5f * (distance - b1Radius - b2Radius - 1.f);
 
 	// Resolve the position of Ball 1
 	float xpos_offset = overlap * (b1Pos.getx() - b2Pos.getx()) / distance;
@@ -300,8 +300,8 @@ void PhysicsEngine::BvB_ResolveVelocity(Ball& b1, Ball& b2)
 	float dotProdNorm2 = b2Vel.dotProduct(normal);	// Dot Product vel2 | normal
 
 	// Conservation of momentum - This might be irrelevant now because poolballs all have the same mass
-	float m1 = (dotProdNorm1 * (b1mass - b2mass) + (2.0 * b2mass * dotProdNorm2)) / (b1mass + b2mass);
-	float m2 = (dotProdNorm2 * (b2mass - b1mass) + (2.0 * b1mass * dotProdNorm1)) / (b1mass + b2mass);
+	float m1 = (dotProdNorm1 * (b1mass - b2mass) + (2.0f * b2mass * dotProdNorm2)) / (b1mass + b2mass);
+	float m2 = (dotProdNorm2 * (b2mass - b1mass) + (2.0f * b1mass * dotProdNorm1)) / (b1mass + b2mass);
 
 	// New Velocities
 	Vec2 b1NewVel{
@@ -472,7 +472,7 @@ void PhysicsEngine::ApplyFrictionCoEff()	// Not working yet
 		}
 
 		float time = ball->getSimTimeRemaining();	// delta time equivelant
-		float frictionCoEff = 0.0000005;
+		float frictionCoEff = 0.0000005f;
 
 		if (time > 0 && ball->getVelocity().magnitude() > 0)
 		{
