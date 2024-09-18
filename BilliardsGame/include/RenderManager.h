@@ -16,6 +16,10 @@ public:
 	void DebugBallVectors();
 	void DrawDebugCollisionPoly();
 	void DrawDebugConvexShape();
+	void DrawGameWon();
+	void DrawGameLost();
+	void DrawShotsTaken();
+	
 
 	void DrawDebugLineMouseToCueBall();
 

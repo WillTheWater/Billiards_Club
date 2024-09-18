@@ -42,7 +42,6 @@ void RenderManager::RenderBalls()
 		}
 
 		// Calculate the overlay rotation so it fakes a light
-
 		Vec2 circlePos = ball->getPosition();
 		Vec2 centerOfScreen{ (float)window.getSize().x / 2 , (float)window.getSize().y / 2 };
 		Vec2 vectorBallToCenter = centerOfScreen - circlePos;
@@ -67,7 +66,6 @@ void RenderManager::RenderBalls()
 
 void RenderManager::RenderCue()
 {
-
 	auto& window{ mGameRef.GetWindow() };
 	auto& entityManager { mGameRef.GetEntityManager()};
 	auto& cueStick{ entityManager.getCueStick() };
@@ -80,7 +78,6 @@ void RenderManager::RenderCue()
 	{
 		window.draw(powerBar);
 	}
-	
 }
 
 void RenderManager::DebugRenderCue()
@@ -121,7 +118,6 @@ void RenderManager::DebugRenderPockets()
 	{
 		window.draw(pocket);
 	}
-
 }
 
 void RenderManager::DebugBallVectors()
@@ -141,7 +137,6 @@ void RenderManager::DebugBallVectors()
 
 			float xPos = ball->getPosition().getx();
 			float yPos = ball->getPosition().gety();
-
 
 			sf::VertexArray lines(sf::LinesStrip, 2);
 			lines[0].position = sf::Vector2f(xPos,yPos);
@@ -176,13 +171,43 @@ void RenderManager::DrawDebugConvexShape()
 	window.draw(polygon);
 }
 
+void RenderManager::DrawGameWon()
+{
+	auto& textureManager = mGameRef.GetTextureManager();
+	auto& window = mGameRef.GetWindow();
+	auto& winSplash = textureManager.getWinSplashSprite();
+	window.draw(winSplash);
+}
+
+void RenderManager::DrawGameLost()
+{
+	auto& textureManager = mGameRef.GetTextureManager();
+	auto& window = mGameRef.GetWindow();
+	auto& lostSplash = textureManager.getLostSplashSprite();
+	window.draw(lostSplash);
+}
+
+void RenderManager::DrawShotsTaken()
+{
+	auto& textureManager = mGameRef.GetTextureManager();
+	auto& window = mGameRef.GetWindow();
+	std::string toPrint = (std::string)"Shots Taken: " + std::to_string(mGameRef.GetShotsTaken());
+	sf::Text text;
+	auto font = textureManager.GetFont("assets/fonts/brush.ttf");
+	text.setString(toPrint);
+	text.setFont(*font);
+	text.setFillColor(sf::Color::White);
+	text.setCharacterSize(32);
+	text.setPosition(20, 20);
+	window.draw(text);
+}
+
 void RenderManager::DrawDebugLineMouseToCueBall()
 {
 	auto& window = mGameRef.GetWindow();
 	auto& inputManager = mGameRef.GetInputManager();
 	Vec2 mouse = inputManager.getMousePos();
 	Vec2 cueBall = inputManager.getCueBallPos();
-
 
 	sf::VertexArray lines(sf::LinesStrip, 2);
 	lines[0].position = sf::Vector2f(cueBall.getx(), cueBall.gety());

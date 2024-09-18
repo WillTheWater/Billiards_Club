@@ -12,6 +12,9 @@ Game::Game()
     , mRenderManager{*this}
     , mInputManager{*this}
     , mGUI{*this}
+    , mShotsTaken{0}
+    , mGameWon{false}
+    , mGameLost{false}
 {
     mWindow.setFramerateLimit(120);
     mIcon.loadFromFile("assets/graphics/icon.png");
@@ -79,6 +82,81 @@ InputManager& Game::GetInputManager()
 GUI& Game::GetGUI()
 {
     return mGUI;
+}
+
+void Game::IncrementShotsTaken()
+{
+    mShotsTaken++;
+}
+
+int Game::GetShotsTaken()
+{
+    return mShotsTaken;
+}
+
+void Game::ResetShotsTaken()
+{
+    mShotsTaken = 0;
+}
+
+void Game::CheckWinConditionOnBallSunk()
+{
+    int BallsLeft = 0;
+    auto& balls = GetEntityManager().GetBallVector();
+    for (auto& ball : balls)
+    {
+        if (ball->isVisible())
+        {
+            BallsLeft++;
+        }
+    }
+    if (BallsLeft == 1 && balls[BallId_cueBall]->isVisible())
+    {
+        GameWon();
+    }
+    else if (BallsLeft == 0)
+    {
+        GameLost();
+    }
+    else if (BallsLeft > 1 && !balls[BallId::BallId_eight]->isVisible())
+    {
+        GameLost();
+    }
+}
+
+void Game::GameWon()
+{
+    mGameLost = false;
+    mGameWon = true;
+}
+
+void Game::GameLost()
+{
+    mGameLost = true;
+    mGameWon = false;
+}
+
+void Game::ResetGame()
+{
+    mEntityManager.RackBalls();
+    ResetShotsTaken();
+    mGameLost = false;
+    mGameWon = false;
+}
+
+bool Game::IsGameOver()
+{
+    return mGameLost || mGameWon;
+}
+
+bool Game::IsGameWon()
+{
+    return mGameWon;
+}
+
+bool Game::isGameLost()
+{
+    return mGameLost;
 }
 
 void Game::Tick()

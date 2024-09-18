@@ -33,6 +33,7 @@ public:
 	void CreateCollisionPolygons();
 	void CreatePockets();
 	void ResetCueBall();
+	void ResetVisibilityOnBalls();
 
 
 	//DEBUG
