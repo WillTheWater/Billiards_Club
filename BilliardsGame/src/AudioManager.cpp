@@ -1,9 +1,6 @@
 #include "AudioManager.h"
 #include <cassert>
 #include <iostream>
-#include <SFML/Audio/Sound.hpp>
-#include <SFML/Audio/SoundBuffer.hpp>
-
 
 
 static void Audio::AddBuffer(Audio::AudioType type, const std::string& path)

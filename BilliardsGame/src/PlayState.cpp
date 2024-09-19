@@ -60,6 +60,7 @@ void PlayState::Update(Game& game, float deltaTime)
 		if (!cueStick.animationStepsLeft())
 		{
 			inputManager.giveCueBallStrikeVelocity();
+			mGameRef.PlaySound(AudioType::CUE_HIT, 100.f, 1.f);
 			cueStick.toggleVisiblity(false);
 		}
 	}

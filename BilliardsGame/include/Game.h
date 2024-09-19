@@ -14,6 +14,7 @@
 #include "Button.h"
 #include "InputManager.h"
 #include "GUI.h"
+#include "SoundManager.h"
 
 class Game
 {
@@ -31,6 +32,9 @@ public:
 	RenderManager&				GetRenderManager();
 	InputManager&				GetInputManager();
 	GUI&						GetGUI();
+	void						PlaySound(AudioType sound, float volume = 100.0f, float pitch = 1.0f);
+	void						ToggleMute(bool mute);
+	bool						IsMuted();
 	void						IncrementShotsTaken();
 	int							GetShotsTaken();
 	void						ResetShotsTaken();
@@ -57,6 +61,7 @@ private:
 	InputManager				mInputManager;
 	StateStack					mStateStack;
 	GUI							mGUI;
+	SoundManager				mSoundManager;
 	int							mShotsTaken;
 	bool						mGameWon;
 	bool						mGameLost;

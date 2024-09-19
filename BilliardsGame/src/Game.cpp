@@ -84,6 +84,21 @@ GUI& Game::GetGUI()
     return mGUI;
 }
 
+void Game::PlaySound(AudioType sound, float volume, float pitch)
+{
+    mSoundManager.playSound(sound, volume, pitch);
+}
+
+void Game::ToggleMute(bool mute)
+{
+    mSoundManager.toggleMute(mute);
+}
+
+bool Game::IsMuted()
+{
+    return mSoundManager.isMuted();
+}
+
 void Game::IncrementShotsTaken()
 {
     mShotsTaken++;

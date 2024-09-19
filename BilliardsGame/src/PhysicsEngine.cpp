@@ -242,7 +242,7 @@ void PhysicsEngine::Handle_BvB()
 			float randomNumber = Random::getRandomFloat(90, 110);
 			float randomPitch = randomNumber / 100;
 			float randomVolume = Random::getRandomFloat(80, 100);
-			Audio::PlaySound(mSound, Audio::BALL_WITH_BALL_COLLISION, randomVolume, randomPitch);
+			mGameRef.PlaySound(AudioType::BALL_WITH_BALL_COLLISION, randomVolume, randomPitch);
 		}
 	}
 	// Uncomment to print the total velocity in the system
@@ -417,7 +417,7 @@ void PhysicsEngine::HandleBallInPocket()
 			float combinedRadius = PoolTable::pocketradius;
 			if (distance < combinedRadius)
 			{
-				Audio::PlaySound(mSound, Audio::POCKET, 50, 1);
+				mGameRef.PlaySound(AudioType::POCKET, 50, 1);
 				ball->setVisiblity(false);
 			}
 

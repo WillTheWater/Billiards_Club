@@ -21,6 +21,7 @@
     <ClCompile Include="src\TextureManager.cpp" />
     <ClCompile Include="src\Vec2.cpp" />
     <ClCompile Include="src\TestState.cpp" />
+    <ClCompile Include="src\SoundManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\AudioManager.h" />
@@ -43,6 +44,7 @@
     <ClInclude Include="include\RenderManager.h" />
     <ClInclude Include="include\TestState.h" />
     <ClInclude Include="include\InputManager.h" />
+    <ClInclude Include="include\SoundManager.h" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="Notes\ToDo.txt" />

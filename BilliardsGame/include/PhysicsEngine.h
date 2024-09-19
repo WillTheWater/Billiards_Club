@@ -53,7 +53,6 @@ private:
 	float dotProduct(const sf::Vector2f& a, const sf::Vector2f& b);
 	float length(const sf::Vector2f& v);
 	sf::Vector2f normalize(const sf::Vector2f& v);
-	sf::Sound mSound;
 	int soundDelayCounter; 
 	bool mSoundPlayed;
 

@@ -7,7 +7,7 @@ class Button
 {
 public:
 	Button() = delete;
-	Button(TextureManager& textureManager);
+	Button(Game& game);
 	bool						HandleEvent(const sf::Event& event);
 	void						Draw(sf::RenderWindow& window);
 	void						SetTexture(const std::string& texturePath);
@@ -37,6 +37,5 @@ private:
 	void						OnButtonUp();
 	void						OnButtonDown();
 	void						OnButtonHover();
-	sf::Sound					mSound;
-	TextureManager&				mTextureManager;
+	Game&						mGameRef;
 };

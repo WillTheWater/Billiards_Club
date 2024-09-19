@@ -2,8 +2,8 @@
 #include <iostream>
 #include "Game.h"
 
-Button::Button(TextureManager& textureManager)
-	:mTextureManager{textureManager}
+Button::Button(Game& game)
+	:mGameRef{game}
 {
 	mButtonSprite.setColor(mDefaultColor);
 	IsButtonDown = false;
@@ -29,7 +29,7 @@ bool Button::HandleEvent(const sf::Event& event)
 			if (mButtonSprite.getGlobalBounds().contains((float)event.mouseButton.x, (float)event.mouseButton.y))
 			{
 				std::cout << "Button Clicked\n";
-				Audio::PlaySound(mSound, Audio::BUTTON_DOWN, 40, 1);
+				mGameRef.PlaySound(AudioType::BUTTON_DOWN, 40, 1);
 				IsButtonDown = true;
 				OnButtonDown();
 			}
@@ -42,7 +42,7 @@ bool Button::HandleEvent(const sf::Event& event)
 			if (IsButtonDown && mButtonSprite.getGlobalBounds().contains((float)event.mouseButton.x, (float)event.mouseButton.y))
 			{
 				std::cout << "Button Released\n";
-				Audio::PlaySound(mSound, Audio::BUTTON_UP, 40, 1);
+				mGameRef.PlaySound(AudioType::BUTTON_UP, 40, 1);
 				OnButtonDown();
 				WasClicked();
 				handled = true;
@@ -54,7 +54,7 @@ bool Button::HandleEvent(const sf::Event& event)
 	{
 		if (!sf::Mouse::isButtonPressed(sf::Mouse::Left))
 		{
-			if (mButtonSprite.getGlobalBounds().contains((float)event.mouseMove.x, (float)event.mouseMove.y))
+			if (mButtonSprite.getGlobalBounds().contains((float)event.mouseMove.x, event.mouseMove.y))
 			{
 				OnButtonHover();
 			}
@@ -74,7 +74,7 @@ void Button::Draw(sf::RenderWindow& window)
 
 void Button::SetTexture(const std::string& texturePath)
 {
-	auto mButtonTexture = mTextureManager.GetTexture(texturePath);
+	auto mButtonTexture = mGameRef.GetTextureManager().GetTexture(texturePath);
 	mButtonSprite.setTexture(*mButtonTexture);
 }
 
@@ -90,7 +90,7 @@ void Button::SetText(const std::string& buttonText)
 
 void Button::SetFont(const std::string& fontPath)
 {
-	auto mButtonFont = mTextureManager.GetFont(fontPath);
+	auto mButtonFont = mGameRef.GetTextureManager().GetFont(fontPath);
 	mButtonText.setFont(*mButtonFont);
 }
 

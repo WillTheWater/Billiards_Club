@@ -27,6 +27,5 @@ private:
 	std::unique_ptr<Button>		mExitButton;
 	std::unique_ptr<Button>		mAudioButton;
 	std::unique_ptr<Button>		mRestartButton;
-	bool						mAudioOn;
 };
 

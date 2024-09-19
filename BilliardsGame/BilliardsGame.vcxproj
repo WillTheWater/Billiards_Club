@@ -178,8 +178,10 @@
     <ClInclude Include="include\RenderManager.h" />
     <ClInclude Include="include\TestState.h" />
     <ClInclude Include="include\InputManager.h" />
+    <ClInclude Include="include\SoundManager.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\SoundManager.cpp" />
     <ClCompile Include="src\AudioManager.cpp" />
     <ClCompile Include="src\CueStick.cpp" />
     <ClCompile Include="src\InputManager.cpp" />

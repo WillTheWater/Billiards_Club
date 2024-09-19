@@ -2,9 +2,11 @@
 
 GUI::GUI(Game& game)
 	: mGameRef{game}
-	, mAudioOn{true}
+	,mStartButton{nullptr}
+	,mExitButton{nullptr}
+	,mAudioButton{nullptr}
+	,mRestartButton{nullptr}
 {
-	Audio::IsMuted = true;
 }
 
 void GUI::MainMenuSetup(Game& game)
@@ -21,10 +23,10 @@ void GUI::MainMenuSetup(Game& game)
 	mBackground.setPosition(sf::Vector2f{ game.GetWindowSize().x / 2.f,game.GetWindowSize().y / 2.f });
 
 	// ================== GUI ==================
-	mStartButton = std::make_unique<Button>(game.GetTextureManager());
-	mExitButton = std::make_unique<Button>(game.GetTextureManager());
-	mAudioButton = std::make_unique<Button>(game.GetTextureManager());
-	mRestartButton = std::make_unique<Button>(game.GetTextureManager());
+	mStartButton = std::make_unique<Button>(game);
+	mExitButton = std::make_unique<Button>(game);
+	mAudioButton = std::make_unique<Button>(game);
+	mRestartButton = std::make_unique<Button>(game);
 
 
 	mStartButton->SetTexture("assets/graphics/button.png");
@@ -47,8 +49,8 @@ void GUI::MainMenuSetup(Game& game)
 
 void GUI::DrawMainMenu(Game& game)
 {
-	if (!mAudioOn) { mAudioButton->SetTextureRect(2036, 624, 200, 200); }
-	else { mAudioButton->SetTextureRect(1827, 624, 200, 200); }
+	if (mGameRef.IsMuted()) { mAudioButton->SetTextureRect(2036, 624, 200, 200); }
+	else if (!mGameRef.IsMuted()) { mAudioButton->SetTextureRect(1827, 624, 200, 200); }
 	game.GetWindow().draw(mFloor);
 	game.GetWindow().draw(mBackground);
 	mStartButton->Draw(game.GetWindow());
@@ -77,16 +79,15 @@ void GUI::MainMenuInput(Game& game)
 		}
 		if (mAudioButton->HandleEvent(event))
 		{
-			mAudioOn = !mAudioOn;
-			if (mAudioOn) { Audio::ToggleMute(); std::cout << "Audio is turned on\n"; }
-			if (!mAudioOn) { Audio::ToggleMute(); std::cout << "Audio is turned off\n"; }
+			if (mGameRef.IsMuted()) { mGameRef.ToggleMute(false); std::cout << "Audio is turned on\n"; }
+			else { mGameRef.ToggleMute(true); std::cout << "Audio is turned off\n"; }
 		}
 	}
 }
 
 void GUI::PlaySetup(Game& game)
 {
-	mAudioButton = std::make_unique<Button>(game.GetTextureManager());
+	mAudioButton = std::make_unique<Button>(game);
 
 	mExitButton->SetupButton("assets/fonts/brush.ttf", "Quit", 60, sf::Color::White, sf::Vector2f{ 800, 825 });
 
@@ -96,8 +97,8 @@ void GUI::PlaySetup(Game& game)
 
 void GUI::DrawPlay(Game& game)
 {
-	if (!mAudioOn) { mAudioButton->SetTextureRect(2036, 624, 200, 200); }
-	else { mAudioButton->SetTextureRect(1827, 624, 200, 200); }
+	if (mGameRef.IsMuted()) { mAudioButton->SetTextureRect(2036, 624, 200, 200); }
+	else if(!mGameRef.IsMuted()) { mAudioButton->SetTextureRect(1827, 624, 200, 200); }
 	mExitButton->Draw(game.GetWindow());
 	game.GetWindow().draw(mExitButton->GetButtonText());
 	mAudioButton->Draw(game.GetWindow());
@@ -127,9 +128,8 @@ void GUI::PlayInput(sf::Event event)
 	}
 	if (mAudioButton->HandleEvent(event))
 	{
-		mAudioOn = !mAudioOn;
-		if (mAudioOn) { Audio::ToggleMute(); std::cout << "Audio is turned on\n"; }
-		if (!mAudioOn) { Audio::ToggleMute(); std::cout << "Audio is turned off\n"; }
+		if (mGameRef.IsMuted()) { mGameRef.ToggleMute(false); std::cout << "Audio is turned on\n"; }
+		else { mGameRef.ToggleMute(true); std::cout << "Audio is turned off\n"; }
 	}
 	if (mGameRef.IsGameOver())
 	{
