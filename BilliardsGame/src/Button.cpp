@@ -54,7 +54,7 @@ bool Button::HandleEvent(const sf::Event& event)
 	{
 		if (!sf::Mouse::isButtonPressed(sf::Mouse::Left))
 		{
-			if (mButtonSprite.getGlobalBounds().contains((float)event.mouseMove.x, event.mouseMove.y))
+			if (mButtonSprite.getGlobalBounds().contains((float)event.mouseMove.x, (float)event.mouseMove.y))
 			{
 				OnButtonHover();
 			}
