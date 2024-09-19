@@ -3,6 +3,8 @@
 #include <SFML/Audio.hpp>
 #include <SFML/Audio/SoundBuffer.hpp>
 
+// DEPRECATED AND NO LONGER IN USE
+
 namespace Audio
 {
 	enum AudioType
